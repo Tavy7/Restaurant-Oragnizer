@@ -21,6 +21,7 @@ import ro.unibuc.myapplication.Models.DateNavBarModel;
 import ro.unibuc.myapplication.R;
 
 public class CalendarFragment extends Fragment implements OnItemClickListener{
+    public static final String DayDate = "dayDate";
 
     public CalendarFragment(){
         super(R.layout.fragment_calendar);
@@ -45,13 +46,14 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
         DateNavAdapter dateNavAdapter = new DateNavAdapter(this, navBarModel);
         dateRecyclerView.setAdapter(dateNavAdapter);
 
-        // Initialize fragment
+        // Initialize secondary fragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.SchFragmentContainer, ScheduleFragment.class, null)
                 .commit();
     }
 
+    // Get last 3 days and next 7 dates
     protected ArrayList<DateNavBarModel> getCalendarNavBarArray() {
         Calendar calendar = Calendar.getInstance();
         // We go back 3 days from today
@@ -80,7 +82,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
         Toast.makeText(getContext(), item.getDayDate(), Toast.LENGTH_LONG).show();
 
         Bundle bundle = new Bundle();
-        bundle.putString("Day", String.valueOf(item.getDayDate()));
+        bundle.putString(DayDate, String.valueOf(item.getDayDate()));
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -91,7 +93,6 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
                 .addToBackStack(null);
 
         fragmentTransaction.commit();
-
     }
 }
 

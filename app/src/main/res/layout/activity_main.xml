@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/CalendarFragmentContainer"
+        android:id="@+id/MainFragment"
         android:layout_width="422dp"
         android:layout_height="684dp"
         app:layout_constraintEnd_toEndOf="parent"
