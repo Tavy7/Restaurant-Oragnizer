@@ -2,6 +2,7 @@ package ro.unibuc.myapplication.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,5 +18,11 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            String date = bundle.getString("Day");
+            ((TextView) view.findViewById(R.id.ScheduleText)).setText(date);
+        }
     }
 }

@@ -2,6 +2,7 @@ package ro.unibuc.myapplication.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +42,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
 
         // Get the data
         ArrayList<DateNavBarModel> navBarModel = getCalendarNavBarArray();
-        DateNavAdapter dateNavAdapter = new DateNavAdapter(view.getContext(), navBarModel);
+        DateNavAdapter dateNavAdapter = new DateNavAdapter(this, navBarModel);
         dateRecyclerView.setAdapter(dateNavAdapter);
 
         // Initialize fragment
@@ -76,6 +77,8 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
 
     @Override
     public void onItemClick(DateNavBarModel item){
+        Toast.makeText(getContext(), item.getDayDate(), Toast.LENGTH_LONG).show();
+
         Bundle bundle = new Bundle();
         bundle.putString("Day", String.valueOf(item.getDayDate()));
 
@@ -88,6 +91,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
                 .addToBackStack(null);
 
         fragmentTransaction.commit();
+
     }
 }
 

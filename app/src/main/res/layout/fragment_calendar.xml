@@ -19,8 +19,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/DateNavBar"
-        android:layout_width="399dp"
-        android:layout_height="36dp"
+        android:layout_width="384dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toBottomOf="@+id/NavBarBg"
         app:layout_constraintEnd_toEndOf="@+id/NavBarBg"
         app:layout_constraintStart_toStartOf="@+id/NavBarBg"
         app:layout_constraintTop_toTopOf="@+id/NavBarBg" />

@@ -1,27 +1,28 @@
 package ro.unibuc.myapplication.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.DateNavBarModel;
 import ro.unibuc.myapplication.R;
 
 // Basically write declarations of two classes and all code appears by magic.
 
 public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHolder> {
-    ArrayList<DateNavBarModel> models;
-    Context context;
+    private ArrayList<DateNavBarModel> models;
+    public static OnItemClickListener itemClickListener;
 
-    public DateNavAdapter(Context context, ArrayList<DateNavBarModel> models){
-        this.context = context;
+    public DateNavAdapter(OnItemClickListener listener, ArrayList<DateNavBarModel> models){
+        this.itemClickListener = listener;
         this.models = models;
     }
 
@@ -35,8 +36,9 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(models.get(position).getDayDate());
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        //holder.textView.setText(models.get(position).getDayDate());
+        ViewHolder.bind(models.get(position));
     }
 
     @Override
@@ -44,13 +46,27 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
         return models.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // Initialize variable
-        TextView textView;
+        private static TextView textView;
+        private static ConstraintLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.text_view);
+            // DayTextView is an element of date nav bar recycler view
+            textView = itemView.findViewById(R.id.DayTextView);
+            this.layout = itemView.findViewById(R.id.DayContainer);
+        }
+
+        public static void bind(DateNavBarModel item){
+            textView.setText(item.getDayDate());
+
+            layout.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    itemClickListener.onItemClick(item);
+                }
+            });
         }
     }
 }
