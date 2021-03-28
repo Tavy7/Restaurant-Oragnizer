@@ -1,4 +1,4 @@
-package ro.unibuc.myapplication;
+package ro.unibuc.myapplication.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import ro.unibuc.myapplication.Models.DateNavBarModel;
+import ro.unibuc.myapplication.R;
 
 // Basically write declarations of two classes and all code appears by magic.
-// TODO: Write constructor and onCreateViewHolder
+
 public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHolder> {
     ArrayList<DateNavBarModel> models;
     Context context;

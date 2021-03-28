@@ -1,4 +1,4 @@
-package ro.unibuc.myapplication;
+package ro.unibuc.myapplication.Models;
 
 import java.util.Date;
 

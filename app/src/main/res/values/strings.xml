@@ -6,4 +6,6 @@
     <string name="todo">TODO</string>
     <string name="arrow_to_navigate_left">Arrow to navigate left</string>
     <string name="arrow_to_navigate_to_right">Arrow to navigate to right</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
