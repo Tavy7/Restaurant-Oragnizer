@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import ro.unibuc.myapplication.Adapters.DateNavAdapter;
+import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.Models.DateNavBarModel;
 import ro.unibuc.myapplication.R;
 
@@ -30,6 +31,8 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ((MainActivity)getActivity()).setTitle(R.string.calendar);
 
         // Create recycler view
         RecyclerView dateRecyclerView = (RecyclerView)view.findViewById(R.id.DateNavBar);

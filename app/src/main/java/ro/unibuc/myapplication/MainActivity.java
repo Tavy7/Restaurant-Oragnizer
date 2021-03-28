@@ -3,6 +3,7 @@ package ro.unibuc.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Account", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences = getSharedPreferences("AppPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                finish();
+
             }
         });
     }

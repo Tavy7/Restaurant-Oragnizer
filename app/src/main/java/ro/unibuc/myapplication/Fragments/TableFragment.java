@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.R;
 
 public class TableFragment extends Fragment {
@@ -17,5 +18,6 @@ public class TableFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainActivity)getActivity()).setTitle(R.string.tables);
     }
 }
