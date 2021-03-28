@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="calendar">Calendar</string>
+    <string name="tables">Tables</string>
+    <string name="account">Account</string>
+    <string name="todo">TODO</string>
+    <string name="arrow_to_navigate_left">Arrow to navigate left</string>
+    <string name="arrow_to_navigate_to_right">Arrow to navigate to right</string>
+</resources>
