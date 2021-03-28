@@ -7,24 +7,24 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ScheduleModel implements Parcelable {
+public class Schedule implements Parcelable {
     private Date date;
     private Time shift_start;
     private Time shift_end;
     protected ArrayList<Employee> employees_on_shift = new ArrayList<>();
 
-    protected ScheduleModel(Parcel in) {
+    protected Schedule(Parcel in) {
     }
 
-    public static final Creator<ScheduleModel> CREATOR = new Creator<ScheduleModel>() {
+    public static final Creator<Schedule> CREATOR = new Creator<Schedule>() {
         @Override
-        public ScheduleModel createFromParcel(Parcel in) {
-            return new ScheduleModel(in);
+        public Schedule createFromParcel(Parcel in) {
+            return new Schedule(in);
         }
 
         @Override
-        public ScheduleModel[] newArray(int size) {
-            return new ScheduleModel[size];
+        public Schedule[] newArray(int size) {
+            return new Schedule[size];
         }
     };
 
