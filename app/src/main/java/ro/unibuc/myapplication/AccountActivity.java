@@ -21,7 +21,7 @@ public class AccountActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         String name = sharedPreferences.getString(SPKEY_NAME, null);
 
-        if (name == null){
+        if (name != null){
             // If user is logged, change to main activity
             Intent intent = new Intent(AccountActivity.this, MainActivity.class);
             startActivity(intent);
