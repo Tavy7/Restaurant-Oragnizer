@@ -3,31 +3,36 @@ package ro.unibuc.myapplication.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class User implements Parcelable {
-    protected int id;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "User")
+public class User {
+    @PrimaryKey
+    @ColumnInfo(name = "User ID", index = true)
+    protected int uid;
+    @ColumnInfo(name="Name")
     protected String name;
 
-    protected User(Parcel in) {
+    public User(int uid, String name) {
+        this.uid = uid;
+        this.name = name;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getUid() {
+        return uid;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

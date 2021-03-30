@@ -6,12 +6,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.CalendarFragment;
 import ro.unibuc.myapplication.Fragments.TableFragment;
+import ro.unibuc.myapplication.Models.Item;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        insertItems();
         initializeNavBar();
 
         if (savedInstanceState == null){
@@ -77,5 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void insertItems(){
+        Item item1 = new Item(1, "item10210", 6.80f, "desc", 0);
+        Item item2 = new Item(2, "3434", 3.80f, "desc", 0);
+
+
+        RestaurantDatabase db = RestaurantDatabase.getInstance(this);
+        db.itemDao().insertItem(item1);
+        db.itemDao().insertItem(item2);
     }
 }
