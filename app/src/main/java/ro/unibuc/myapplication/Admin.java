@@ -17,7 +17,7 @@ public class Admin extends Application {
 
     private static Admin adminInstance = null;
 
-    Admin getAdminInstance(){
+    public static Admin getAdminInstance(){
         if (adminInstance == null){
             adminInstance = new Admin();
         }
@@ -28,8 +28,5 @@ public class Admin extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        adminInstance = this;
     }
-
 }

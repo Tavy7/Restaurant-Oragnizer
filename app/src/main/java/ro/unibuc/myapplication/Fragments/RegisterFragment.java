@@ -56,8 +56,8 @@ public class RegisterFragment extends Fragment {
 
                 }else {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(SPKEY_NAME, username.getText().toString());
-                    editor.putString(SPKEY_PASS, password.getText().toString());
+                    editor.putString(SPKEY_NAME, userVal);
+                    editor.putString(SPKEY_PASS, passVal);
                     editor.apply();
 
                     Toast.makeText(getContext(), "User registred!", Toast.LENGTH_SHORT).show();

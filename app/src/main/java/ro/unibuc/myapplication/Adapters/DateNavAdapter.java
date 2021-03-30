@@ -31,7 +31,7 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create view
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_item, parent, false);
+                .inflate(R.layout.row_item_calendar_nav, parent, false);
         return new ViewHolder(view);
     }
 

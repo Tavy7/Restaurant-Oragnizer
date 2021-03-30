@@ -1,6 +1,7 @@
 package ro.unibuc.myapplication.Dao;
 
 import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.sql.Time;
 import java.util.Date;
@@ -35,5 +36,4 @@ public class DaoTypeConverter {
             return time.getTime();
         }
     }
-
 }

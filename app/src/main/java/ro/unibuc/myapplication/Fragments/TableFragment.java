@@ -27,7 +27,8 @@ public class TableFragment extends Fragment {
         ((MainActivity)getActivity()).setTitle(R.string.tables);
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
-        List<Item> itemList = db.itemDao().getAllItems();
+        List<Item> itemList = db.
+                itemDao().getAllItems();
         for (Item i : itemList) {
             Log.i("persons", i.getName() + " " + i.getDescription());
         }

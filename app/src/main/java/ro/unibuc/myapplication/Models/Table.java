@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Table {
     @PrimaryKey
     public int QRCodeValue;
-
+    // Todo schimbat lista din obiecte in indecsi ca sa intre in database
     @Embedded
     protected ArrayList<Item> Menu;
 

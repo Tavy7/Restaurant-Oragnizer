@@ -64,7 +64,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
         ArrayList<DateNavBarModel> navBarModel = new ArrayList<>();
 
         // Add every date 10 days from now
-        for (Integer i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++){
             String date = String.valueOf(calendar.get(Calendar.DATE));
 
             if (i == 2) date = "Yesterday";
