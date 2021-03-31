@@ -56,18 +56,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             price = itemView.findViewById(R.id.itemPrice);
             container = itemView.findViewById(R.id.itemContainer);
         }
-
-        public TextView getTitle() {
-            return title;
-        }
-
-        public TextView getDescription() {
-            return description;
-        }
-
-        public TextView getPrice() {
-            return price;
-        }
+//      Useless
+//        public TextView getTitle() {
+//            return title;
+//        }
+//
+//        public TextView getDescription() {
+//            return description;
+//        }
+//
+//        public TextView getPrice() {
+//            return price;
+//        }
 
         public static void bind(Item item){
             title.setText(item.getName());
@@ -80,7 +80,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                     itemClickListener.onItemClick(item);
                 }
             });
-
         }
     }
 }

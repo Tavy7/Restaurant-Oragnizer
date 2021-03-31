@@ -42,4 +42,7 @@
     <string name="Item_price">Item price</string>
     <string name="item_discount">Item discount</string>
     <string name="delete_item">Delete item</string>
+    <string name="add_table">Add table</string>
+    <string name="add_table_id">add_table_id</string>
+    <string name="occupied">Is Occupied</string>
 </resources>

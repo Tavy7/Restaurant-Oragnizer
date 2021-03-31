@@ -5,30 +5,33 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ro.unibuc.myapplication.Models.Table;
 
 @Dao
-public abstract class TableDAO {
+public interface TableDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract void insertTable(Table table);
+     void insertTable(Table table);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract void insertAll(Table... tables);
+     void insertAll(Table... tables);
+
+    @Update
+    void updateTable(Table table);
 
     @Query("SELECT * FROM TableT where QRCodeValue = :qrVal")
-    public abstract  Table getTable(int qrVal);
+    Table getTable(int qrVal);
 
     @Delete
-    abstract void deleteTable(Table table);
+    void deleteTable(Table table);
 
     @Delete
-    public abstract void deleteAllTables(ArrayList<Table> tables);
+    void deleteAllTables(List<Table> tables);
 
     @Query("SELECT * FROM TableT ORDER BY QRCodeValue ASC")
-    public abstract  List<Table> getAllTables();
+    List<Table> getAllTables();
 
 }

@@ -9,7 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import ro.unibuc.myapplication.Fragments.CRUDs.ItemCRUD;
+import ro.unibuc.myapplication.Fragments.CRUDs.ViewItemsFragment;
+import ro.unibuc.myapplication.Fragments.CRUDs.ViewTablesFragment;
 import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.R;
 
@@ -43,12 +44,12 @@ public class AdminFragment extends Fragment {
         itemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemCRUD itemCRUDFragment = new ItemCRUD();
+                ViewItemsFragment viewItemsFragmentFragment = new ViewItemsFragment();
 
-                FragmentTransaction fragmentTransaction = ((MainActivity)getActivity()).
+                FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, itemCRUDFragment)
+                fragmentTransaction.replace(R.id.MainFragment, viewItemsFragmentFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -74,7 +75,14 @@ public class AdminFragment extends Fragment {
         tableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // go to table CRUD fragment
+                ViewTablesFragment viewTablesFragmentFragment = new ViewTablesFragment();
+
+                FragmentTransaction fragmentTransaction = requireActivity().
+                        getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.MainFragment, viewTablesFragmentFragment)
+                        .addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 

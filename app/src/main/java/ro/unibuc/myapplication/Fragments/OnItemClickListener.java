@@ -2,6 +2,7 @@ package ro.unibuc.myapplication.Fragments;
 
 import ro.unibuc.myapplication.Models.DateNavBarModel;
 import ro.unibuc.myapplication.Models.Item;
+import ro.unibuc.myapplication.Models.Table;
 
 
 // Methods are deafault because otherwise classes that implemet this interface
@@ -13,4 +14,6 @@ public interface OnItemClickListener{
     default void onItemClick(DateNavBarModel item){;};
     // For item CRUD
     default void onItemClick(Item item){;};
+    // For table CRUD
+    default void onItemClick(Table table) {;};
 }
