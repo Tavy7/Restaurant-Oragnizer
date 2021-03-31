@@ -1,22 +1,21 @@
 package ro.unibuc.myapplication.Models;
 
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
 @Entity(tableName = "TableT")
 public class Table {
     @PrimaryKey
     public int QRCodeValue;
-    // Todo schimbat lista din obiecte in indecsi ca sa intre in database
-    @Embedded
-    protected ArrayList<Item> Menu;
-
-    public Table(int QRCodeValue, ArrayList<Item> Menu) {
+    @TypeConverters(DaoTypeConverter.class)
+    List<Item> Menu;
+    public Table(int QRCodeValue) {
         this.QRCodeValue = QRCodeValue;
-        this.Menu = Menu;
     }
 
     // Getters and setters
@@ -28,11 +27,12 @@ public class Table {
         this.QRCodeValue = QRCodeValue;
     }
 
-    public ArrayList<Item> getMenu() {
+    public List<Item> getMenu() {
         return Menu;
     }
 
-    public void setMenu(ArrayList<Item> menu) {
+    public void setMenu(List<Item> menu) {
         Menu = menu;
     }
 }
+

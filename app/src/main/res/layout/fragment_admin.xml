@@ -8,69 +8,70 @@
 
     <LinearLayout
         android:id="@+id/AdminContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="415dp"
+        android:layout_height="700dp"
         android:orientation="vertical"
+        android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingLeft="20dp">
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/AdminCustomerBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Customers"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminEmpBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Employees"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminItemBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Items"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminOrdersBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Orders"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminSchBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Schedules"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminTableBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Tables"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/AdminUsersBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingTop="20dp"
             android:text="Users"
-            android:textSize="24sp"
-            android:paddingTop="20dp"/>
+            android:textSize="24sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,8 +6,6 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import java.sql.Time;
-
 import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
@@ -22,7 +20,7 @@ import ro.unibuc.myapplication.Models.User;
                         Order.class,
                         Schedule.class,
                         Table.class,
-                        User.class}, version = 2, exportSchema = false)
+                        User.class}, version = 4, exportSchema = false)
 
 public abstract class RestaurantDatabase extends RoomDatabase {
     public abstract CustomerDAO customerDAO();
@@ -32,7 +30,6 @@ public abstract class RestaurantDatabase extends RoomDatabase {
     public abstract ScheduleDAO scheduleDAO();
     public abstract TableDAO tableDAO();
     public abstract UserDAO userDAO();
-
 
     //Create instance
     private static RestaurantDatabase restaurantDatabase = null;

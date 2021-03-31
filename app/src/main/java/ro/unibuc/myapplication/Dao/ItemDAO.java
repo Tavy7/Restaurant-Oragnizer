@@ -5,8 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ro.unibuc.myapplication.Models.Item;
@@ -14,19 +14,22 @@ import ro.unibuc.myapplication.Models.Item;
 @Dao
 public interface ItemDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertItem(Item item);
+    long insertItem(Item item);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Item... items);
+    long[] insertAll(Item... items);
+
+    @Update
+    void updateItem(Item item);
 
     @Delete
     void deleteItem(Item item);
 
     @Delete
-    void deleteAllItems(ArrayList<Item> items);
+    void deleteAllItems(List<Item> items);
 
     @Query("UPDATE Item SET discount = :sDiscount WHERE iid = :sId")
-    void updateItem(Integer sId, Integer sDiscount);
+    void updateItemDiscount(Integer sId, Integer sDiscount);
 
     @Query("SELECT * FROM Item ORDER BY iid ASC")
     List<Item> getAllItems();

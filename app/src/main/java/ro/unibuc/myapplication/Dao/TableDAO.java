@@ -12,19 +12,23 @@ import java.util.List;
 import ro.unibuc.myapplication.Models.Table;
 
 @Dao
-public interface TableDAO {
+public abstract class TableDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTable(Table table);
+    abstract void insertTable(Table table);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Table... tables);
+    abstract void insertAll(Table... tables);
+
+    @Query("SELECT * FROM TableT where QRCodeValue = :qrVal")
+    public abstract  Table getTable(int qrVal);
 
     @Delete
-    void deleteTable(Table table);
+    abstract void deleteTable(Table table);
 
     @Delete
-    void deleteAllTables(ArrayList<Table> tables);
+    public abstract void deleteAllTables(ArrayList<Table> tables);
 
     @Query("SELECT * FROM TableT ORDER BY QRCodeValue ASC")
-    List<Table> getAllTables();
+    public abstract  List<Table> getAllTables();
+
 }

@@ -1,28 +1,30 @@
 package ro.unibuc.myapplication.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Item")
-public class Item {
-    @PrimaryKey
-    protected int iid;
+public class Item implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    protected Integer iid;
     @ColumnInfo(name = "Item name")
     protected String name;
     @ColumnInfo(name = "Price")
     protected float price;
     @ColumnInfo(name = "Item Info")
     protected String description;
-
-    //todo bitmap picture;
-
     // Discount e in procent
     @ColumnInfo(name = "Discount")
     protected int discount = 0;
+    //todo bitmap picture;
 
-    public Item(int iid, String name, float price, String description, int discount) {
-        this.iid = iid;
+
+    public Item(String name, float price, String description, int discount) {
+        //this.iid = iid;
         this.name = name;
         this.price = price;
         this.description = description;
@@ -32,12 +34,47 @@ public class Item {
         }
     }
 
+    protected Item(Parcel in) {
+        iid = in.readInt();
+        name = in.readString();
+        price = in.readFloat();
+        description = in.readString();
+        discount = in.readInt();
+    }
+
+    // Parcel
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(iid);
+        parcel.writeString(name);
+        parcel.writeFloat(price);
+        parcel.writeString(description);
+        parcel.writeInt(discount);
+    }
+
     // Getters and setters
-    public int getIid() {
+    public Integer getIid() {
         return iid;
     }
 
-    public void setIid(int iid) {
+    public void setIid(Integer iid) {
         this.iid = iid;
     }
 

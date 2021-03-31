@@ -33,4 +33,13 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="add_item">Add Item</string>
+    <string name="Item_name">Item name</string>
+    <string name="Item_description">Item description</string>
+    <string name="Item_price">Item price</string>
+    <string name="item_discount">Item discount</string>
+    <string name="delete_item">Delete item</string>
 </resources>

@@ -37,7 +37,6 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        //holder.textView.setText(models.get(position).getDayDate());
         ViewHolder.bind(models.get(position));
     }
 

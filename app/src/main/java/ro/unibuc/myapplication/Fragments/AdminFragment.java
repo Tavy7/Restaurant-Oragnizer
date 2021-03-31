@@ -7,7 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import ro.unibuc.myapplication.Fragments.CRUDs.ItemCRUD;
 import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.R;
 
@@ -30,7 +32,7 @@ public class AdminFragment extends Fragment {
         });
 
         final TextView employeeBtn = view.findViewById(R.id.AdminEmpBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        employeeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to emp CRUD fragment
@@ -38,15 +40,22 @@ public class AdminFragment extends Fragment {
         });
 
         final TextView itemBtn = view.findViewById(R.id.AdminItemBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        itemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // go to item CRUD fragment
+                ItemCRUD itemCRUDFragment = new ItemCRUD();
+
+                FragmentTransaction fragmentTransaction = ((MainActivity)getActivity()).
+                        getSupportFragmentManager().beginTransaction();
+
+                fragmentTransaction.replace(R.id.MainFragment, itemCRUDFragment)
+                        .addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         final TextView orderBtn = view.findViewById(R.id.AdminOrdersBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to btn CRUD fragment
@@ -54,7 +63,7 @@ public class AdminFragment extends Fragment {
         });
 
         final TextView scheduleBtn = view.findViewById(R.id.AdminSchBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        scheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to schedule CRUD fragment
@@ -62,7 +71,7 @@ public class AdminFragment extends Fragment {
         });
 
         final TextView tableBtn = view.findViewById(R.id.AdminTableBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        tableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to table CRUD fragment
@@ -70,7 +79,7 @@ public class AdminFragment extends Fragment {
         });
 
         final TextView userBtn = view.findViewById(R.id.AdminUsersBtn);
-        customerBtn.setOnClickListener(new View.OnClickListener() {
+        userBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to user CRUD fragment

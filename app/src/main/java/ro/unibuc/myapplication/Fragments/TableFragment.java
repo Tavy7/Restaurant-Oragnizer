@@ -27,8 +27,8 @@ public class TableFragment extends Fragment {
         ((MainActivity)getActivity()).setTitle(R.string.tables);
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
-        List<Item> itemList = db.
-                itemDao().getAllItems();
+
+        List<Item> itemList = db.itemDao().getAllItems();
         for (Item i : itemList) {
             Log.i("persons", i.getName() + " " + i.getDescription());
         }
@@ -36,7 +36,9 @@ public class TableFragment extends Fragment {
         TextView item1 = (TextView)view.findViewById(R.id.item20);
         TextView item2 = (TextView)view.findViewById(R.id.item21);
 
-        item1.setText(itemList.get(0).getName());
-        item2.setText(itemList.get(1).getName());
+        if (itemList.size() > 0) {
+            item1.setText(itemList.get(0).getName());
+            item2.setText(itemList.get(1).getName());
+        }
     }
 }
