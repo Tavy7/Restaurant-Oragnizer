@@ -15,13 +15,13 @@ import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
 
-public class TableCRUD extends Fragment {
+public class CRUD_Table extends Fragment {
     protected EditText addTableId;
     protected Switch isOccupiedSwitch;
     protected Button addTableBtn;
     protected Button deleteTableBtn;
 
-    TableCRUD(){ super(R.layout.fragment_add_table); }
+    CRUD_Table(){ super(R.layout.fragment_add_table); }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class TableCRUD extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Table table = bundle.getParcelable(ViewTablesFragment.getBundleKey());
+            Table table = bundle.getParcelable(FragmentViewTables.getBundleKey());
             buttonUpdateItem(table);
         }
         else {
@@ -99,6 +99,14 @@ public class TableCRUD extends Fragment {
                 Table newTable = verifyDataInserted(view);
 
                 if (newTable == null) {
+                    return;
+                }
+
+                int oldId = table.getQRCodeValue();
+                int newId = newTable.getQRCodeValue();
+
+                if (oldId != newId){
+                    Toast.makeText(getContext(), "TableID cannot be changed.", Toast.LENGTH_SHORT);
                     return;
                 }
 

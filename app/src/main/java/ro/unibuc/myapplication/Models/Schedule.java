@@ -4,40 +4,32 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
 @Entity(tableName = "Schedule")
 public class Schedule implements Parcelable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     protected int sid;
 
-    @ColumnInfo(name = "Sch date")
-    @TypeConverters(DaoTypeConverter.class)
-    protected Date date;
+    @ColumnInfo(name = "Sch Date")
+    protected String date;
 
     @ColumnInfo(name =  "Start hour")
-    @TypeConverters(DaoTypeConverter.class)
-    protected Time shift_start;
+    protected String shift_start;
 
     @ColumnInfo(name = "End hour")
+    protected String shift_end;
+
     @TypeConverters(DaoTypeConverter.class)
-    protected Time shift_end;
+    protected List<Employee> employees_on_shift;
 
-    @Embedded
-    protected ArrayList<Employee> employees_on_shift = new ArrayList<>();
-
-    public Schedule(int sid, Date date, Time shift_start, Time shift_end, ArrayList<Employee> employees_on_shift) {
-        this.sid = sid;
+    public Schedule(String date, String shift_start, String shift_end, List<Employee> employees_on_shift) {
         this.date = date;
         this.shift_start = shift_start;
         this.shift_end = shift_end;
@@ -78,35 +70,35 @@ public class Schedule implements Parcelable {
         this.sid = sid;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getShift_start() {
+    public String getShift_start() {
         return shift_start;
     }
 
-    public void setShift_start(Time shift_start) {
+    public void setShift_start(String shift_start) {
         this.shift_start = shift_start;
     }
 
-    public Time getShift_end() {
+    public String getShift_end() {
         return shift_end;
     }
 
-    public void setShift_end(Time shift_end) {
+    public void setShift_end(String shift_end) {
         this.shift_end = shift_end;
     }
 
-    public ArrayList<Employee> getEmployees_on_shift() {
+    public List<Employee> getEmployees_on_shift() {
         return employees_on_shift;
     }
 
-    public void setEmployees_on_shift(ArrayList<Employee> employees_on_shift) {
+    public void setEmployees_on_shift(List<Employee> employees_on_shift) {
         this.employees_on_shift = employees_on_shift;
     }
 }

@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,13 @@ import ro.unibuc.myapplication.Models.Customer;
 @Dao
 public interface CustomerDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCustomer(Customer customer);
+    long insertCustomer(Customer customer);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Customer... customers);
+    long[] insertAll(Customer... customers);
+
+    @Update
+    void updateCustomer(Customer customer);
 
     @Delete
     void deleteCustomer(Customer customer);

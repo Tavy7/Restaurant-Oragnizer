@@ -14,7 +14,7 @@ import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.R;
 
-public class ItemCRUD extends Fragment {
+public class CRUD_Item extends Fragment {
     protected EditText itemName;
     protected EditText itemDesc;
     protected EditText itemPrice;
@@ -23,7 +23,7 @@ public class ItemCRUD extends Fragment {
     protected Button deleteItem;
 
 
-    ItemCRUD(){
+    CRUD_Item(){
         super(R.layout.fragment_add_item);
     }
 
@@ -42,7 +42,7 @@ public class ItemCRUD extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Item item = bundle.getParcelable(ViewItemsFragment.getBundleKey());
+            Item item = bundle.getParcelable(FragmentViewItems.getBundleKey());
             buttonUpdateItem(item);
         }
         else {

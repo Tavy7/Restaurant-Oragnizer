@@ -1,7 +1,10 @@
 package ro.unibuc.myapplication.Fragments;
 
+import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.DateNavBarModel;
+import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
+import ro.unibuc.myapplication.Models.Schedule;
 import ro.unibuc.myapplication.Models.Table;
 
 
@@ -16,4 +19,10 @@ public interface OnItemClickListener{
     default void onItemClick(Item item){;};
     // For table CRUD
     default void onItemClick(Table table) {;};
+    // For emp CRUD
+    default void onItemClick(Employee employee) {;};
+    // For customer CRUD
+    default void onItemClick(Customer customer) {;};
+    // For schedule CRUD
+    default void onItemClick(Schedule schedule) {;};
 }

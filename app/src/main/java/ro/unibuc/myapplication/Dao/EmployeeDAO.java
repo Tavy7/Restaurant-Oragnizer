@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,13 @@ import ro.unibuc.myapplication.Models.Employee;
 @Dao
 public interface EmployeeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertEmployee(Employee employee);
+    long insertEmployee(Employee employee);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Employee... employees);
+    long[] insertAll(Employee... employees);
+
+    @Update
+    void updateEmployee(Employee employee);
 
     @Delete
     void deleteEmployee(Employee employee);

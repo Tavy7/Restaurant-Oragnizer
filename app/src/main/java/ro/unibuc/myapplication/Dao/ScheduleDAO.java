@@ -5,10 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ro.unibuc.myapplication.Models.Schedule;
@@ -16,16 +14,19 @@ import ro.unibuc.myapplication.Models.Schedule;
 @Dao
 public interface ScheduleDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSchedule(Schedule schedule);
+    long insertSchedule(Schedule schedule);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Schedule... schedules);
+    long[] insertAll(Schedule... schedules);
+
+    @Update
+    void updateSchedule(Schedule sch);
 
     @Delete
     void deleteSchedule(Schedule schedule);
 
     @Delete
-    void deleteAllSchedules(ArrayList<Schedule> schedules);
+    void deleteAllSchedules(List<Schedule> schedules);
 
     // Update schedule date
     @Query("UPDATE Schedule SET `Sch date` = :date WHERE sid = :sId")

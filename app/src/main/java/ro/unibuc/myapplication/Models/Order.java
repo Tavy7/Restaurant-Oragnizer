@@ -1,13 +1,19 @@
 package ro.unibuc.myapplication.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -29,13 +35,13 @@ import static androidx.room.ForeignKey.CASCADE;
                     @Index("Table id")},
         tableName = "OrderT")
 
-public class Order {
-    @PrimaryKey
+public class Order implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "Order id")
     protected int oid;
 
-    @Embedded
-    protected ArrayList<Item> items;
+    @TypeConverters(DaoTypeConverter.class)
+    protected List<Item> items;
 
     @ColumnInfo(name = "Table id")
     protected int tableQRValue;
@@ -46,12 +52,19 @@ public class Order {
     @ColumnInfo(name = "User ID")
     protected int accountId;
 
-    public Order(int oid, ArrayList<Item> items, int tableQRValue, float totalPrice, int accountId) {
-        this.oid = oid;
+    @TypeConverters(DaoTypeConverter.class)
+    protected Date orderDate;
+
+    public Order(List<Item> items, int tableQRValue, float totalPrice, int accountId, Date orderDate) {
         this.items = items;
         this.tableQRValue = tableQRValue;
         this.totalPrice = totalPrice;
         this.accountId = accountId;
+
+        this.orderDate = new Date();
+        if (orderDate != null) {
+            this.orderDate = orderDate;
+        }
     }
 
     // Function that calculates the total price
@@ -72,6 +85,40 @@ public class Order {
         return total;
     }
 
+    protected Order(Parcel in) {
+        oid = in.readInt();
+        items = in.createTypedArrayList(Item.CREATOR);
+        tableQRValue = in.readInt();
+        totalPrice = in.readFloat();
+        accountId = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(oid);
+        dest.writeTypedList(items);
+        dest.writeInt(tableQRValue);
+        dest.writeFloat(totalPrice);
+        dest.writeInt(accountId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+
     // Getters and setters
 
     public int getOid() {
@@ -82,11 +129,11 @@ public class Order {
         this.oid = oid;
     }
 
-    public ArrayList<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
@@ -112,5 +159,13 @@ public class Order {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 }

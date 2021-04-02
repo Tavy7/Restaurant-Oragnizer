@@ -11,7 +11,8 @@
         android:layout_width="415dp"
         android:layout_height="700dp"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,56 +23,84 @@
             android:id="@+id/AdminCustomerBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Customers"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="25dp"/>
 
         <TextView
             android:id="@+id/AdminEmpBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Employees"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/AdminItemBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Items"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/AdminOrdersBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Orders"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/AdminSchBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Schedules"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/AdminTableBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Tables"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/AdminUsersBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="15dp"
             android:text="Users"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:background="@drawable/border"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

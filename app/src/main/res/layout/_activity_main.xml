@@ -47,8 +47,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/MainFragment"
-        android:layout_width="422dp"
-        android:layout_height="684dp"
+        android:layout_width="393dp"
+        android:layout_height="686dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NavBar"

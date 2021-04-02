@@ -45,4 +45,14 @@
     <string name="add_table">Add table</string>
     <string name="add_table_id">add_table_id</string>
     <string name="occupied">Is Occupied</string>
+    <string name="add_employee">Add employee</string>
+    <string name="add_employee_role">Employee Role</string>
+    <string name="emp_role">Employee role</string>
+    <string name="add_emp_name">Employee name</string>
+    <string name="add_customer_name">Customer name</string>
+    <string name="add_customer_cc">Credit card</string>
+    <string name="email">Email</string>
+    <string name="schedule_date">Schedule date</string>
+    <string name="schedule_start">Start hour</string>
+    <string name="schedule_end">End hours</string>
 </resources>

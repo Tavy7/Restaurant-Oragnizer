@@ -22,15 +22,15 @@ import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
 
-public class ViewTablesFragment extends Fragment implements OnItemClickListener {
+public class FragmentViewTables extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "1233212";
 
-    public ViewTablesFragment() { super(R.layout.fragment_tables_view); };
+    public FragmentViewTables() { super(R.layout.fragment_view_tables); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).setTitle("Table CRUD");
+        ((MainActivity)requireActivity()).setTitle("Table CRUD");
 
         // Create recycler view
         RecyclerView tableRecyclerView = (RecyclerView)view.findViewById(R.id.table_crud_recycler);
@@ -52,7 +52,7 @@ public class ViewTablesFragment extends Fragment implements OnItemClickListener 
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                TableCRUD tableCRUD = new TableCRUD();
+                CRUD_Table tableCRUD = new CRUD_Table();
 
                 FragmentTransaction fragmentTransaction = ((MainActivity)view.getContext()).
                         getSupportFragmentManager().beginTransaction();
@@ -70,7 +70,7 @@ public class ViewTablesFragment extends Fragment implements OnItemClickListener 
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, table);
 
-        TableCRUD tableCRUD = new TableCRUD();
+        CRUD_Table tableCRUD = new CRUD_Table();
         tableCRUD.setArguments(bundle);
 
         FragmentTransaction fragmentTransaction = requireActivity().

@@ -14,10 +14,10 @@ import ro.unibuc.myapplication.Models.Customer;
 @Dao
 public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCustomer(Customer customer);
+    long insertCustomer(Customer customer);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Customer... customers);
+    long[] insertAll(Customer... customers);
 
     @Delete
     void deleteCustomer(Customer customer);
