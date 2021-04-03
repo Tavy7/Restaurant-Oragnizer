@@ -10,13 +10,13 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
 import java.util.List;
 
 import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+//Todo change foreign keys with dao type converter 
 @Entity(foreignKeys = {
         @ForeignKey(
                 entity = Table.class,
@@ -25,13 +25,14 @@ import static androidx.room.ForeignKey.CASCADE;
                 onDelete = CASCADE
         ),
         @ForeignKey(
-                entity = User.class,
+                entity = Employee.class,
                 parentColumns = "User ID",
                 childColumns = "User ID",
                 onDelete = CASCADE
         )
     },
-        indices = { @Index("User ID"),
+        indices = { @Index ("Order id"),
+                    @Index("User ID"),
                     @Index("Table id")},
         tableName = "OrderT")
 
@@ -52,37 +53,15 @@ public class Order implements Parcelable {
     @ColumnInfo(name = "User ID")
     protected int accountId;
 
-    @TypeConverters(DaoTypeConverter.class)
-    protected Date orderDate;
+    @ColumnInfo(name = "Order date")
+    protected String orderDate;
 
-    public Order(List<Item> items, int tableQRValue, float totalPrice, int accountId, Date orderDate) {
+    public Order(List<Item> items, int tableQRValue, float totalPrice, int accountId, String orderDate) {
         this.items = items;
         this.tableQRValue = tableQRValue;
         this.totalPrice = totalPrice;
         this.accountId = accountId;
-
-        this.orderDate = new Date();
-        if (orderDate != null) {
-            this.orderDate = orderDate;
-        }
-    }
-
-    // Function that calculates the total price
-    // of the items from array list items.
-    public float findTotal(){
-        float total = 0;
-        for (Item item : items){
-            float price = item.price;
-
-            // If price has a discount
-            if (item.discount != 0){
-                // Then we update the price
-                price -= item.discount * price / 100;
-            }
-            total += price;
-        }
-
-        return total;
+        this.orderDate = orderDate;
     }
 
     protected Order(Parcel in) {
@@ -161,11 +140,11 @@ public class Order implements Parcelable {
         this.accountId = accountId;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 }

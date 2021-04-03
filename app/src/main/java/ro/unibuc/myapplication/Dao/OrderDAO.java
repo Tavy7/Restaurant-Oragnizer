@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,14 @@ import ro.unibuc.myapplication.Models.Order;
 @Dao
 public interface OrderDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertOrder(Order order);
+    long insertOrder(Order order);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Order... orders);
+    long[] insertAll(Order... orders);
+
+    // Update
+    @Update
+    void updateOrder(Order order);
 
     @Delete
     void deleteOrder(Order order);

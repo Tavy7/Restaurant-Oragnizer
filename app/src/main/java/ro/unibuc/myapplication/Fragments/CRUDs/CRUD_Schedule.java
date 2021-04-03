@@ -63,7 +63,6 @@ public class CRUD_Schedule extends Fragment {
             buttonUpdateItem(schedule);
         }
         else {
-            Toast.makeText(view.getContext(), "bnee", Toast.LENGTH_SHORT).show();
             // If we add new schedule we get a list of all emp
             employeeSelectionAdapter = new EmployeeSelectionAdapter(
                     db.employeeDAO().getAllEmployees());
@@ -72,6 +71,7 @@ public class CRUD_Schedule extends Fragment {
             buttonInsertNewItem();
         }
     }
+
     // Returns the object if the data is ok
     // else returns null
     protected Schedule verifyDataInserted(View view){

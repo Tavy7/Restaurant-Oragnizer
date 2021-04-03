@@ -56,13 +56,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder> 
 
         public static void bind(Table table){
             tableNumber.setText("Table no" + String.valueOf(table.getQRCodeValue()));
-            boolean occ = table.isOccupied();
-            String occupied = "Free";
-            if (occ){
-                occupied = "Occupied";
-            }
-
-            tableStatus.setText(occupied);
+            tableStatus.setText(table.isOcupiedString());
 
             container.setOnClickListener(new View.OnClickListener(){
                 @Override

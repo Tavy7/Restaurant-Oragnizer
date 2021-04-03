@@ -13,7 +13,6 @@ import java.util.List;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.Models.Order;
-import ro.unibuc.myapplication.Models.Table;
 
 // Todo baga type converter pt liste
 // https://stackoverflow.com/questions/44582397/android-room-persistent-library-typeconverter-error-of-error-cannot-figure-ou
@@ -54,7 +53,7 @@ public class DaoTypeConverter {
     @TypeConverter
     public static List<Item> stringToMenu(String json) {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Table>>() {}.getType();
+        Type type = new TypeToken<List<Item>>() {}.getType();
         List<Item> menu = gson.fromJson(json, type);
 
         return menu;
@@ -73,7 +72,7 @@ public class DaoTypeConverter {
     @TypeConverter
     public static List<Order> stringToOrder(String json) {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Table>>() {}.getType();
+        Type type = new TypeToken<List<Order>>() {}.getType();
         List<Order> orderList = gson.fromJson(json, type);
 
         return orderList;

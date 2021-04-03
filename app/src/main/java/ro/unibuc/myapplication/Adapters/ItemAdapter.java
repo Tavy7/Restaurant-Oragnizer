@@ -60,7 +60,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public static void bind(Item item){
             title.setText(item.getName());
             description.setText(item.getDescription());
-            price.setText(Float.toString(item.getPrice()));
+            price.setText(String.valueOf(item.getPrice()));
 
             container.setOnClickListener(new View.OnClickListener(){
                 @Override

@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -12,7 +14,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
-@Entity(tableName = "TableT")
+@Entity(tableName = "TableT",
+indices = @Index("QRCodeValue"))
 public class Table implements Parcelable {
     @PrimaryKey
     public int QRCodeValue;
@@ -20,6 +23,8 @@ public class Table implements Parcelable {
     List<Item> Menu;
     @ColumnInfo(name = "Is Occupied")
     boolean isOccupied;
+    @Ignore
+    boolean isSelected;
 
     public Table(int QRCodeValue, List<Item> Menu, boolean isOccupied) {
         this.QRCodeValue = QRCodeValue;
@@ -82,6 +87,22 @@ public class Table implements Parcelable {
 
     public void setOccupied(boolean occupied) {
         isOccupied = occupied;
+    }
+
+    public String isOcupiedString(){
+        if (isOccupied()){
+            return "Occupied";
+        }
+
+        return "Free";
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
 

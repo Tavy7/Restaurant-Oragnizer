@@ -23,13 +23,13 @@
 
     <TextView
         android:id="@+id/itemPrice"
-        android:layout_width="113dp"
-        android:layout_height="34dp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="76dp"
+        android:layout_marginStart="31dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="24dp"
         android:layout_toEndOf="@+id/itemTitle"
         android:text="@string/price"
         android:textSize="24sp" />

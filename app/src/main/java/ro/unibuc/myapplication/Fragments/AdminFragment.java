@@ -27,6 +27,7 @@ public class AdminFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)requireActivity()).setTitle("Admin Panel");
+        // Here we have CRUD for all models
 
         final TextView customerBtn = view.findViewById(R.id.AdminCustomerBtn);
         customerBtn.setOnClickListener(new View.OnClickListener() {

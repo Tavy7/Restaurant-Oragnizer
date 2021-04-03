@@ -5,9 +5,12 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Item")
+@Entity(tableName = "Item",
+indices = {@Index("iid")})
 public class Item implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     protected Integer iid;
@@ -21,7 +24,8 @@ public class Item implements Parcelable {
     @ColumnInfo(name = "Discount")
     protected int discount = 0;
     //todo bitmap picture;
-
+    @Ignore
+    boolean isSelected;
 
     public Item(String name, float price, String description, int discount) {
         //this.iid = iid;
@@ -108,5 +112,13 @@ public class Item implements Parcelable {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

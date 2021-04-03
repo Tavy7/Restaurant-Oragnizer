@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -12,7 +13,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
-@Entity(tableName = "Schedule")
+@Entity(tableName = "Schedule",
+indices = @Index("sid"))
 public class Schedule implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     protected int sid;

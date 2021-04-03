@@ -55,4 +55,7 @@
     <string name="schedule_date">Schedule date</string>
     <string name="schedule_start">Start hour</string>
     <string name="schedule_end">End hours</string>
+    <string name="add_employees_to_sch">Add employees</string>
+    <string name="select_table_text">Select Table or Scan QR</string>
+    <string name="add_items">Add items</string>
 </resources>
