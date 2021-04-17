@@ -1,7 +1,5 @@
 package ro.unibuc.myapplication.Models;
 
-import java.util.Date;
-
 public class DateNavBarModel {
     String dayDate;
 

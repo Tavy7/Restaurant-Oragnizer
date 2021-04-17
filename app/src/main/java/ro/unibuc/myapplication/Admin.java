@@ -4,7 +4,6 @@ import android.app.Application;
 
 import java.util.ArrayList;
 
-import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Schedule;
 import ro.unibuc.myapplication.Models.Table;

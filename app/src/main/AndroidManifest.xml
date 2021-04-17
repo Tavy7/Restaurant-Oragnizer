@@ -7,7 +7,7 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
-        android:name=".Admin"
+        android:name="ro.unibuc.myapplication.Admin"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,15 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".SettingsActivity"
+            android:name="ro.unibuc.myapplication.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".AccountActivity">
+        <activity android:name="ro.unibuc.myapplication.AccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyApplication"></activity>
 
         <uses-library
             android:name="com.google.android.wearable"
@@ -35,11 +40,6 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.MyApplication"></activity>
     </application>
 
 </manifest>

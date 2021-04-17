@@ -1,9 +1,12 @@
 package ro.unibuc.myapplication.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
+import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.MainActivity;
 import ro.unibuc.myapplication.Models.Item;
@@ -40,5 +44,15 @@ public class TableFragment extends Fragment {
             item1.setText(itemList.get(0).getName());
             item2.setText(itemList.get(1).getName());
         }
+
+        Button button = requireActivity().findViewById(R.id.logout);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
+                sp.edit().clear().commit();
+                Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
