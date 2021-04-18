@@ -17,7 +17,7 @@ import java.util.List;
 import ro.unibuc.myapplication.Adapters.ItemAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.OnItemClickListener;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.R;
 
@@ -31,7 +31,7 @@ public class FragmentViewItems extends Fragment implements OnItemClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)requireActivity()).setTitle("Item CRUD");
+        ((EmployeeActivity)requireActivity()).setTitle("Item CRUD");
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
 
         // Create recycler view
@@ -56,10 +56,10 @@ public class FragmentViewItems extends Fragment implements OnItemClickListener {
                 // Initialize fragment
                 CRUD_Item addItemFragment = new CRUD_Item();
 
-                FragmentTransaction fragmentTransaction = ((MainActivity)view.getContext()).
+                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, addItemFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, addItemFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -78,7 +78,7 @@ public class FragmentViewItems extends Fragment implements OnItemClickListener {
         FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.MainFragment, itemCRUD)
+        fragmentTransaction.replace(R.id.EmployeeMainFragment, itemCRUD)
                 .addToBackStack(null);
         fragmentTransaction.commit();
     }

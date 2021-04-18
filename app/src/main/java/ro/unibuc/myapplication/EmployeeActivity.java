@@ -13,18 +13,18 @@ import ro.unibuc.myapplication.Fragments.AdminFragment;
 import ro.unibuc.myapplication.Fragments.CalendarFragment;
 import ro.unibuc.myapplication.Fragments.TableFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class EmployeeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout._activity_main);
+        setContentView(R.layout.activity_employee);
         initializeNavBar();
 
         if (savedInstanceState == null){
             // Start app with calendar fragment
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.MainFragment, CalendarFragment.class, null)
+                    .add(R.id.EmployeeMainFragment, CalendarFragment.class, null)
                     .commit();
         }
     }
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Change fragment
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.MainFragment, calendarFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, calendarFragment)
                         .addToBackStack(null).commit();
 
             }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Change fragment
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.MainFragment, tableFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, tableFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Change fragment
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.MainFragment, tableFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, tableFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }

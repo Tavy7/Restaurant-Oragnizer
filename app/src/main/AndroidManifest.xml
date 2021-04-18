@@ -3,8 +3,10 @@
     package="ro.unibuc.myapplication">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="ro.unibuc.myapplication.Admin"
@@ -14,21 +16,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity
-            android:name="ro.unibuc.myapplication.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+
         <activity android:name="ro.unibuc.myapplication.AccountActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".EmployeeActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MyApplication"></activity>
+            android:theme="@style/Theme.MyApplication" />
+
+        <activity
+            android:name=".UserActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyApplication" />
+
+
+        <activity
+            android:name="ro.unibuc.myapplication.SettingsActivity"
+            android:label="@string/title_activity_settings" />
 
         <uses-library
             android:name="com.google.android.wearable"

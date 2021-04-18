@@ -17,7 +17,7 @@ import java.util.List;
 import ro.unibuc.myapplication.Adapters.CustomerAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.OnItemClickListener;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.R;
 
@@ -29,7 +29,7 @@ public class FragmentViewCustomer extends Fragment implements OnItemClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)requireActivity()).setTitle("Customer CRUD");
+        ((EmployeeActivity)requireActivity()).setTitle("Customer CRUD");
 
         // Create recycler view
         RecyclerView customerRecyclerView = (RecyclerView)view.findViewById(R.id.customer_crud_recycler);
@@ -55,10 +55,10 @@ public class FragmentViewCustomer extends Fragment implements OnItemClickListene
                 // Initialize fragment
                 CRUD_Customer customerCrudFragment = new CRUD_Customer();
 
-                FragmentTransaction fragmentTransaction = ((MainActivity)view.getContext()).
+                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, customerCrudFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, customerCrudFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -77,7 +77,7 @@ public class FragmentViewCustomer extends Fragment implements OnItemClickListene
         FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.MainFragment, customerCRUD)
+        fragmentTransaction.replace(R.id.EmployeeMainFragment, customerCRUD)
                 .addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".EmployeeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/NavBar"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/MainFragment"
+        android:id="@+id/EmployeeMainFragment"
         android:layout_width="393dp"
         android:layout_height="686dp"
         app:layout_constraintEnd_toEndOf="parent"

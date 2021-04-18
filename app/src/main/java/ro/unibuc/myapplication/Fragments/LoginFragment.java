@@ -3,7 +3,6 @@ package ro.unibuc.myapplication.Fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import ro.unibuc.myapplication.AccountActivity;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
 public class LoginFragment extends Fragment {
@@ -39,7 +38,7 @@ public class LoginFragment extends Fragment {
     TextView registerText;
     Button googleLoginBtn;
 
-    private GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 1;
 
     private static final String SPKEY_NAME = "username";
@@ -55,7 +54,6 @@ public class LoginFragment extends Fragment {
         super.onStart();
 
         FirebaseUser user = mAuth.getCurrentUser();
-
         if (user != null){
             gotoMainActivity();
         }
@@ -126,8 +124,11 @@ public class LoginFragment extends Fragment {
 
     private void gotoMainActivity(){
         // Goto main activity
-        Intent intent = new Intent(getContext(), MainActivity.class);
+        Intent intent = new Intent(getContext(), EmployeeActivity.class);
         startActivity(intent);
+
+        // End account activity
+        ((AccountActivity)(requireActivity())).finish();
     }
 
     private void createRequest(){
@@ -158,9 +159,7 @@ public class LoginFragment extends Fragment {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(requireContext(), "err", Toast.LENGTH_SHORT).show();
-                Log.e("err", String.valueOf(e.getStatusCode()));
-                Log.e("err", String.valueOf(e.getMessage()));
+                Toast.makeText(requireContext(), "Authentification error.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -181,10 +180,14 @@ public class LoginFragment extends Fragment {
                             gotoMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Login error!", Toast.LENGTH_SHORT).show();
                            // updateUI(null);
                         }
                     }
                 });
+    }
+
+    public static GoogleSignInClient getmGoogleSignInClient() {
+        return mGoogleSignInClient;
     }
 }

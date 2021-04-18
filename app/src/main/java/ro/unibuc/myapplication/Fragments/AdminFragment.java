@@ -15,7 +15,7 @@ import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewItems;
 import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewOrders;
 import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewSchedules;
 import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewTables;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
 public class AdminFragment extends Fragment {
@@ -26,7 +26,7 @@ public class AdminFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)requireActivity()).setTitle("Admin Panel");
+        ((EmployeeActivity)requireActivity()).setTitle("Admin Panel");
         // Here we have CRUD for all models
 
         final TextView customerBtn = view.findViewById(R.id.AdminCustomerBtn);
@@ -39,7 +39,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, viewCustomer)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewCustomer)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -55,7 +55,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, viewEmployeeFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewEmployeeFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -71,7 +71,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, viewItemsFragmentFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewItemsFragmentFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -87,7 +87,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, ordersFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, ordersFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -102,7 +102,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, schedulesFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, schedulesFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -117,7 +117,7 @@ public class AdminFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = requireActivity().
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, viewTablesFragmentFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewTablesFragmentFragment)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }

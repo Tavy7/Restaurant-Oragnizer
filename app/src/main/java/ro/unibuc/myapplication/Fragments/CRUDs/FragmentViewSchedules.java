@@ -17,7 +17,7 @@ import java.util.List;
 import ro.unibuc.myapplication.Adapters.ScheduleAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.OnItemClickListener;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Schedule;
 import ro.unibuc.myapplication.R;
 
@@ -29,7 +29,7 @@ public class FragmentViewSchedules extends Fragment implements OnItemClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)requireActivity()).setTitle("Schedule CRUD");
+        ((EmployeeActivity)requireActivity()).setTitle("Schedule CRUD");
 
         // Create recycler view
         RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.scheduleRecycler);
@@ -54,10 +54,10 @@ public class FragmentViewSchedules extends Fragment implements OnItemClickListen
                 // Initialize fragment
                 CRUD_Schedule scheduleCRUD = new CRUD_Schedule();
 
-                FragmentTransaction fragmentTransaction = ((MainActivity)view.getContext()).
+                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.MainFragment, scheduleCRUD)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, scheduleCRUD)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -76,7 +76,7 @@ public class FragmentViewSchedules extends Fragment implements OnItemClickListen
         FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.MainFragment, scheduleCRUD)
+        fragmentTransaction.replace(R.id.EmployeeMainFragment, scheduleCRUD)
                 .addToBackStack(null);
         fragmentTransaction.commit();
     }

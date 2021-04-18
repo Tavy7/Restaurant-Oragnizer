@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import ro.unibuc.myapplication.AccountActivity;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
 public class RegisterFragment extends Fragment {
@@ -62,7 +62,7 @@ public class RegisterFragment extends Fragment {
 
                     Toast.makeText(getContext(), "User registred!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    Intent intent = new Intent(getContext(), EmployeeActivity.class);
                     startActivity(intent);
                 }
             }

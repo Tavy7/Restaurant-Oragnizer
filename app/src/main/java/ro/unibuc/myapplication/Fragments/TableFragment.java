@@ -12,11 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.MainActivity;
+import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.R;
 
@@ -28,7 +30,7 @@ public class TableFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).setTitle(R.string.tables);
+        ((EmployeeActivity)getActivity()).setTitle(R.string.tables);
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
 
@@ -52,6 +54,9 @@ public class TableFragment extends Fragment {
                 SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
                 sp.edit().clear().commit();
                 Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                LoginFragment.getmGoogleSignInClient().signOut();
+                requireActivity().finish();
             }
         });
     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,8 +26,13 @@ public class AccountActivity extends AppCompatActivity {
         return sharedPreferences;
     }
 
-    private void gotoMainActivity(){
-        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+    private void gotoEmpActivity(){
+        Intent intent = new Intent(AccountActivity.this, EmployeeActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoUserActivity(){
+        Intent intent = new Intent(AccountActivity.this, UserActivity.class);
         startActivity(intent);
     }
 
@@ -40,11 +44,8 @@ public class AccountActivity extends AppCompatActivity {
         // Get google account
         googleAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (googleAccount != null){
-            gotoMainActivity();
-        }
-
-        if (googleAccount == null){
-            Toast.makeText(this, "heu", Toast.LENGTH_SHORT).show();
+            gotoUserActivity();
+            finish();
         }
 
         sharedPreferences = getSharedPreferencesInstance(getApplicationContext());
@@ -53,7 +54,8 @@ public class AccountActivity extends AppCompatActivity {
 
         if (name != null){
             // If user is logged, change to main activity
-            gotoMainActivity();
+            gotoEmpActivity();
+            finish();
         }
         else {
             // else goto login
