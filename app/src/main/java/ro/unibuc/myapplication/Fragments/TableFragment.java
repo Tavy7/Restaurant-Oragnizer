@@ -1,26 +1,32 @@
 package ro.unibuc.myapplication.Fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.Adapters.TableHomeViewAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Models.Item;
+import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
 
 public class TableFragment extends Fragment {
+    RecyclerView tableRecycler;
+    private static final int ROW_COUNT = 3;
+
     public TableFragment(){
         super(R.layout.fragment_table);
     }
@@ -28,22 +34,19 @@ public class TableFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         requireActivity().setTitle(R.string.tables);
+        Context context = requireContext();
 
-        RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
+        tableRecycler = view.findViewById(R.id.tableHomeRecycler);
+        GridLayoutManager manager = new GridLayoutManager(context, ROW_COUNT);
+        tableRecycler.setLayoutManager(manager);
 
-
-        TextView item1 = (TextView)view.findViewById(R.id.item20);
-        TextView item2 = (TextView)view.findViewById(R.id.item21);
-
-        List<Item> itemList = db.itemDao().getAllItems();
-        if (itemList.size() > 0) {
-            item1.setText(itemList.get(0).getName());
-           // item2.setText(itemList.get(1).getName());
-        }
+        List<Table> tableList = RestaurantDatabase.getInstance(context).tableDAO().getAllTables();
+        TableHomeViewAdapter adapter = new TableHomeViewAdapter(tableList);
+        tableRecycler.setAdapter(adapter);
 
 
-        //
         Button button = requireActivity().findViewById(R.id.logout);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

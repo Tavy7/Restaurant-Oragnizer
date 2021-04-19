@@ -23,7 +23,7 @@ public class CRUD_Item extends Fragment {
     protected Button deleteItem;
 
 
-    CRUD_Item(){
+    public CRUD_Item(){
         super(R.layout.fragment_add_item);
     }
 

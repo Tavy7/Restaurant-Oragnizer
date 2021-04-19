@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android2="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/tableImage"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="22dp"
+        app:srcCompat="@drawable/circle" />
+
+    <TextView
+        android:id="@+id/tableHomeTitle"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableImage"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="-27dp"
+        android:layout_marginEnd="68dp"
+        android:text="@string/title" />
+
+    <TextView
+        android:id="@+id/tableEmp"
+        android:layout_width="97dp"
+        android:layout_height="34dp"
+        android:layout_below="@+id/tableHomeTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/occupied"
+        android:visibility="gone"
+        android:textSize="15sp" />
+
+
+</RelativeLayout>

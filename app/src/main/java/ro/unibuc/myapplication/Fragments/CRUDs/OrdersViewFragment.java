@@ -7,7 +7,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +17,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Adapters.OrderAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
 
@@ -52,14 +53,11 @@ public class OrdersViewFragment extends Fragment implements OnItemClickListener 
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                CRUD_Order orderCRUD = new CRUD_Order();
+                NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.EmployeeMainFragment);
+                NavController navCo = navHostFragment.getNavController();
 
-                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, orderCRUD)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navCo.navigate(R.id.CRUD_Order);
             }
         });
     }
@@ -70,15 +68,11 @@ public class OrdersViewFragment extends Fragment implements OnItemClickListener 
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, order);
 
-        CRUD_Order orderCRUD = new CRUD_Order();
-        orderCRUD.setArguments(bundle);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.EmployeeMainFragment);
+        NavController navCo = navHostFragment.getNavController();
 
-        FragmentTransaction fragmentTransaction = requireActivity().
-                getSupportFragmentManager().beginTransaction();
-
-        fragmentTransaction.replace(R.id.EmployeeMainFragment, orderCRUD)
-                .addToBackStack(null);
-        fragmentTransaction.commit();
+        navCo.navigate(R.id.CRUD_Order, bundle);
     }
 
     public static String getBundleKey() {

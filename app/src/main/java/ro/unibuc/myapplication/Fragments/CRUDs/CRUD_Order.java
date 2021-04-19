@@ -47,8 +47,8 @@ public class CRUD_Order extends Fragment {
         selectTable.setHasFixedSize(true);
         selectTable.setLayoutManager(manager);
 
-        selectItems.setHasFixedSize(true);
         manager = new LinearLayoutManager(requireContext());
+        selectItems.setHasFixedSize(true);
         selectItems.setLayoutManager(manager);
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());

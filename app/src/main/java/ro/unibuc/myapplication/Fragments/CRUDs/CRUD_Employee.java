@@ -20,7 +20,7 @@ public class CRUD_Employee extends Fragment {
     protected Button addEmp;
     protected Button deleteEmp;
 
-    CRUD_Employee(){ super(R.layout.fragment_add_employee); };
+    public CRUD_Employee(){ super(R.layout.fragment_add_employee); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

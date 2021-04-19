@@ -24,7 +24,7 @@ public class CRUD_Customer extends Fragment {
     protected Button addCustomer;
     protected Button deleteCustomer;
 
-    CRUD_Customer(){ super(R.layout.fragment_add_customer); };
+    public CRUD_Customer(){ super(R.layout.fragment_add_customer); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

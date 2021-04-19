@@ -30,8 +30,11 @@ public interface EmployeeDAO {
     void deleteAllEmployees(ArrayList<Employee> employees);
 
     @Query("UPDATE Employee SET `Employee role` = :role WHERE `User ID` = :eId")
-    void updateEmployee(Integer eId, String role);
+    void updateEmployee(int eId, String role);
 
     @Query("SELECT * FROM Employee ORDER BY `User ID` ASC")
     List<Employee> getAllEmployees();
+
+    @Query("SELECT * FROM Employee WHERE `User ID` = :eId")
+    Employee getEmployeeById(int eId);
 }

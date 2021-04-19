@@ -25,6 +25,10 @@ public class Table implements Parcelable {
     boolean isOccupied;
     @Ignore
     boolean isSelected;
+    @Ignore
+    int servingEmployeeId = 0;
+    @Ignore
+    int orderId = 0;
 
     public Table(int QRCodeValue, List<Item> Menu, boolean isOccupied) {
         this.QRCodeValue = QRCodeValue;
@@ -103,6 +107,22 @@ public class Table implements Parcelable {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getServingEmployeeId() {
+        return servingEmployeeId;
+    }
+
+    public void setServingEmployeeId(int servingEmployeeId) {
+        this.servingEmployeeId = servingEmployeeId;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 }
 

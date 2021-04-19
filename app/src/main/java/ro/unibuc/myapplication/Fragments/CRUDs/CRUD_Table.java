@@ -21,7 +21,7 @@ public class CRUD_Table extends Fragment {
     protected Button addTableBtn;
     protected Button deleteTableBtn;
 
-    CRUD_Table(){ super(R.layout.fragment_add_table); }
+    public CRUD_Table(){ super(R.layout.fragment_add_table); }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

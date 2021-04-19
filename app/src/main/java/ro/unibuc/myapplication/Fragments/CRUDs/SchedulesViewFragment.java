@@ -7,7 +7,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +17,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Adapters.ScheduleAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.Schedule;
 import ro.unibuc.myapplication.R;
 
@@ -52,14 +53,11 @@ public class SchedulesViewFragment extends Fragment implements OnItemClickListen
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                CRUD_Schedule scheduleCRUD = new CRUD_Schedule();
+                NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.EmployeeMainFragment);
+                NavController navCo = navHostFragment.getNavController();
 
-                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, scheduleCRUD)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navCo.navigate(R.id.CRUD_Schedule);
             }
         });
     }
@@ -70,15 +68,12 @@ public class SchedulesViewFragment extends Fragment implements OnItemClickListen
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, schedule);
 
-        CRUD_Schedule scheduleCRUD = new CRUD_Schedule();
-        scheduleCRUD.setArguments(bundle);
 
-        FragmentTransaction fragmentTransaction = requireActivity().
-                getSupportFragmentManager().beginTransaction();
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.EmployeeMainFragment);
+        NavController navCo = navHostFragment.getNavController();
 
-        fragmentTransaction.replace(R.id.EmployeeMainFragment, scheduleCRUD)
-                .addToBackStack(null);
-        fragmentTransaction.commit();
+        navCo.navigate(R.id.CRUD_Schedule, bundle);
     }
 
     public static String getBundleKey() {

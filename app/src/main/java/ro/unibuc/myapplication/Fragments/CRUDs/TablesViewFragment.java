@@ -7,7 +7,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +18,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Adapters.TableAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
 
@@ -52,14 +53,11 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                CRUD_Table tableCRUD = new CRUD_Table();
+                NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                        .findFragmentById(R.id.EmployeeMainFragment);
+                NavController navCo = navHostFragment.getNavController();
 
-                FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, tableCRUD)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navCo.navigate(R.id.CRUD_Table);
             }
         });
     }
@@ -70,15 +68,11 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, table);
 
-        CRUD_Table tableCRUD = new CRUD_Table();
-        tableCRUD.setArguments(bundle);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.EmployeeMainFragment);
+        NavController navCo = navHostFragment.getNavController();
 
-        FragmentTransaction fragmentTransaction = requireActivity().
-                getSupportFragmentManager().beginTransaction();
-
-        fragmentTransaction.replace(R.id.EmployeeMainFragment, tableCRUD)
-                .addToBackStack(null);
-        fragmentTransaction.commit();
+        navCo.navigate(R.id.CRUD_Table, bundle);
     }
 
     public static String getBundleKey() {
