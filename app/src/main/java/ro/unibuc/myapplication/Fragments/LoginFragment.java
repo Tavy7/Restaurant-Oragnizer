@@ -12,8 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -55,7 +54,7 @@ public class LoginFragment extends Fragment {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null){
-            gotoMainActivity();
+            //requireActivity().getFragmentManager().popBackStack();
         }
     }
 
@@ -102,11 +101,13 @@ public class LoginFragment extends Fragment {
         registerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RegisterFragment fragment = new RegisterFragment();
-                fragmentTransaction.replace(R.id.LoginFragment, fragment)
-                        .addToBackStack(null).commit();
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                RegisterFragment fragment = new RegisterFragment();
+//                fragmentTransaction.replace(R.id.loginFragment, fragment)
+//                        .addToBackStack(null).commit();
+
+                Navigation.findNavController(v).navigate(R.id.registerFragment);
             }
         });
 
@@ -123,12 +124,19 @@ public class LoginFragment extends Fragment {
     }
 
     private void gotoMainActivity(){
-        // Goto main activity
-        Intent intent = new Intent(getContext(), EmployeeActivity.class);
-        startActivity(intent);
-
         // End account activity
-        ((AccountActivity)(requireActivity())).finish();
+        try{
+            AccountActivity aa = ((AccountActivity)(requireActivity()));
+
+            // Goto main activity
+            Intent intent = new Intent(getContext(), EmployeeActivity.class);
+            startActivity(intent);
+
+            aa.finish();
+        }
+        catch (java.lang.ClassCastException e){
+            // Context is from another activity
+        }
     }
 
     private void createRequest(){

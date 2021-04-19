@@ -21,10 +21,10 @@ import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.R;
 
-public class FragmentViewItems extends Fragment implements OnItemClickListener {
+public class ItemsViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "213321";
 
-    public FragmentViewItems() {
+    public ItemsViewFragment() {
         super(R.layout.fragment_view_items);
     }
 

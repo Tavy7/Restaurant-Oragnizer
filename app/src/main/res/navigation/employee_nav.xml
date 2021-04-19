@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+
+    app:startDestination="@id/tableFragment">
+
+    <fragment
+        android:id="@+id/CRUD_Table"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Table"
+        android:label="CRUD_Table"
+        tools:layout="@layout/fragment_add_table" />
+
+    <fragment
+        android:id="@+id/adminFragment"
+        android:name="ro.unibuc.myapplication.Fragments.AdminFragment"
+        android:label="AdminFragment"
+        tools:layout="@layout/fragment_admin" >
+        <action
+            android:id="@+id/action_adminFragment_to_tableFragment"
+            app:destination="@id/tableFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewSchedules"
+            app:destination="@id/fragmentViewSchedules" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewTables"
+            app:destination="@id/fragmentViewTables" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewEmployee"
+            app:destination="@id/fragmentViewEmployee" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewItems"
+            app:destination="@id/fragmentViewItems" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewCustomer"
+            app:destination="@id/fragmentViewCustomer" />
+        <action
+            android:id="@+id/action_adminFragment_to_fragmentViewOrders"
+            app:destination="@id/fragmentViewOrders" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/QRScanFragment"
+        android:name="ro.unibuc.myapplication.Fragments.QRScanFragment"
+        android:label="QRScanFragment"
+        tools:layout="@layout/fragmnet_camera_qr_scan" >
+        <action
+            android:id="@+id/action_QRScanFragment_to_CRUD_Order"
+            app:destination="@id/CRUD_Order" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tableFragment"
+        android:name="ro.unibuc.myapplication.Fragments.TableFragment"
+        android:label="TableFragment"
+        tools:layout="@layout/fragment_table" >
+        <action
+            android:id="@+id/action_tableFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="ro.unibuc.myapplication.Fragments.ScheduleFragment"
+        android:label="ScheduleFragment"
+        tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/CRUD_Customer"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Customer"
+        android:label="CRUD_Customer"
+        tools:layout="@layout/fragment_add_customer" />
+
+    <fragment
+        android:id="@+id/CRUD_Employee"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Employee"
+        android:label="CRUD_Employee"
+        tools:layout="@layout/fragment_add_employee" />
+
+    <fragment
+        android:id="@+id/CRUD_Item"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Item"
+        android:label="CRUD_Item"
+        tools:layout="@layout/fragment_add_item" />
+
+    <fragment
+        android:id="@+id/CRUD_Order"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Order"
+        android:label="CRUD_Order"
+        tools:layout="@layout/fragment_add_order" >
+        <action
+            android:id="@+id/action_CRUD_Order_to_QRScanFragment"
+            app:destination="@id/QRScanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CRUD_Schedule"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Schedule"
+        android:label="CRUD_Schedule"
+        tools:layout="@layout/fragment_add_schedule" />
+
+    <fragment
+        android:id="@+id/fragmentViewTables"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.TablesViewFragment"
+        android:label="FragmentViewTables"
+        tools:layout="@layout/fragment_view_tables" >
+        <action
+            android:id="@+id/action_fragmentViewTables_to_CRUD_Table"
+            app:destination="@id/CRUD_Table" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentViewSchedules"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.SchedulesViewFragment"
+        android:label="FragmentViewSchedules"
+        tools:layout="@layout/fragment_view_schedules" >
+        <action
+            android:id="@+id/action_fragmentViewSchedules_to_CRUD_Schedule"
+            app:destination="@id/CRUD_Schedule" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentViewOrders"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment"
+        android:label="FragmentViewOrders"
+        tools:layout="@layout/fragment_view_orders" >
+        <action
+            android:id="@+id/action_fragmentViewOrders_to_CRUD_Order"
+            app:destination="@id/CRUD_Order" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentViewEmployee"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.EmployeesViewFragment"
+        android:label="FragmentViewEmployee"
+        tools:layout="@layout/fragment_view_employees" >
+        <action
+            android:id="@+id/action_fragmentViewEmployee_to_CRUD_Employee"
+            app:destination="@id/CRUD_Employee" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentViewCustomer"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CustomersViewFragment"
+        android:label="FragmentViewCustomer"
+        tools:layout="@layout/fragmnet_view_customers" >
+        <action
+            android:id="@+id/action_fragmentViewCustomer_to_CRUD_Customer"
+            app:destination="@id/CRUD_Customer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentViewItems"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.ItemsViewFragment"
+        android:label="FragmentViewItems"
+        tools:layout="@layout/fragment_view_items" >
+        <action
+            android:id="@+id/action_fragmentViewItems_to_CRUD_Item"
+            app:destination="@id/CRUD_Item" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="ro.unibuc.myapplication.Fragments.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+</navigation>

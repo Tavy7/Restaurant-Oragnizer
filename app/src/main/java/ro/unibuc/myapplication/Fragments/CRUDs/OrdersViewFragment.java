@@ -14,51 +14,50 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ro.unibuc.myapplication.Adapters.CustomerAdapter;
+import ro.unibuc.myapplication.Adapters.OrderAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.EmployeeActivity;
-import ro.unibuc.myapplication.Models.Customer;
+import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
 
-public class FragmentViewCustomer extends Fragment implements OnItemClickListener {
-    protected static final String bundleKey = "cdxijna";
-
-    public FragmentViewCustomer(){ super(R.layout.fragmnet_view_customers); };
+public class OrdersViewFragment extends Fragment implements OnItemClickListener {
+    protected static final String bundleKey = "432ket2a";
+    public OrdersViewFragment() { super(R.layout.fragment_view_orders);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((EmployeeActivity)requireActivity()).setTitle("Customer CRUD");
+        ((EmployeeActivity)requireActivity()).setTitle("Order CRUD");
 
         // Create recycler view
-        RecyclerView customerRecyclerView = (RecyclerView)view.findViewById(R.id.customer_crud_recycler);
+        RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.ordersRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false
         );
 
         // Set layout
-        customerRecyclerView.setLayoutManager(layoutManager);
-        customerRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        itemRecyclerView.setLayoutManager(layoutManager);
+        itemRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Get the data
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
-        List<Customer> empList = db.customerDAO().getAllCustomers();
+        List<Order> orderList = db.orderDAO().getAllOrders();
+        OrderAdapter orderAdapter = new OrderAdapter(orderList, this);
+        itemRecyclerView.setAdapter(orderAdapter);
 
-        CustomerAdapter customerAdapter = new CustomerAdapter(empList, this);
-        customerRecyclerView.setAdapter(customerAdapter);
-
-        final Button addEmpBtn = view.findViewById(R.id.addCustomerBtn);
-        addEmpBtn.setOnClickListener(new View.OnClickListener() {
+        final Button addItemBtn = view.findViewById(R.id.addOrderBtn);
+        addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                CRUD_Customer customerCrudFragment = new CRUD_Customer();
+                CRUD_Order orderCRUD = new CRUD_Order();
 
                 FragmentTransaction fragmentTransaction = ((EmployeeActivity)view.getContext()).
                         getSupportFragmentManager().beginTransaction();
 
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, customerCrudFragment)
+                fragmentTransaction.replace(R.id.EmployeeMainFragment, orderCRUD)
                         .addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -66,18 +65,18 @@ public class FragmentViewCustomer extends Fragment implements OnItemClickListene
     }
 
     @Override
-    public void onItemClick(Customer customer) {
+    public void onItemClick(Order order) {
         // Save item that user clicked on and pass to next fragment
         Bundle bundle = new Bundle();
-        bundle.putParcelable(bundleKey, customer);
+        bundle.putParcelable(bundleKey, order);
 
-        CRUD_Customer customerCRUD = new CRUD_Customer();
-        customerCRUD.setArguments(bundle);
+        CRUD_Order orderCRUD = new CRUD_Order();
+        orderCRUD.setArguments(bundle);
 
         FragmentTransaction fragmentTransaction = requireActivity().
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.EmployeeMainFragment, customerCRUD)
+        fragmentTransaction.replace(R.id.EmployeeMainFragment, orderCRUD)
                 .addToBackStack(null);
         fragmentTransaction.commit();
     }

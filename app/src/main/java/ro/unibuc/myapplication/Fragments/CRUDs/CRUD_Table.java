@@ -36,7 +36,7 @@ public class CRUD_Table extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Table table = bundle.getParcelable(FragmentViewTables.getBundleKey());
+            Table table = bundle.getParcelable(TablesViewFragment.getBundleKey());
             buttonUpdateItem(table);
         }
         else {

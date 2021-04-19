@@ -63,7 +63,7 @@ public class CRUD_Order extends Fragment {
 
         Bundle bundle = this.getArguments();
         if(bundle != null){
-            Order order = bundle.getParcelable(FragmentViewOrders.getBundleKey());
+            Order order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
             assert order != null;
             buttonUpdateItem(order);
         }

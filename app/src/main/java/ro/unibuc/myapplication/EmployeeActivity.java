@@ -1,95 +1,64 @@
 package ro.unibuc.myapplication;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
-import ro.unibuc.myapplication.Fragments.AdminFragment;
-import ro.unibuc.myapplication.Fragments.CalendarFragment;
-import ro.unibuc.myapplication.Fragments.TableFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
-public class EmployeeActivity extends AppCompatActivity {
+public class EmployeeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    NavController navController;
+    BottomNavigationView nav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee);
-        initializeNavBar();
 
         if (savedInstanceState == null){
-            // Start app with calendar fragment
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.EmployeeMainFragment, CalendarFragment.class, null)
-                    .commit();
+            // Initialize bottom navigation bar
+            nav = findViewById(R.id.empNavBar);
+            nav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+
+            // Initialize navController
+            NavHostFragment navHostFragment =
+                    (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.EmployeeMainFragment);
+            navController = navHostFragment.getNavController();
+
+            // Start app with calendar fragment ( old home ) -- using frame manager
+//            getSupportFragmentManager().beginTransaction()
+//                    .setReorderingAllowed(true)
+//                    .add(R.id.EmployeeMainFragment, CalendarFragment.class, null)
+//                    .commit();
         }
     }
 
-    // Function that adds functionality to main navigation bar
-    protected void initializeNavBar(){
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
 
-        // Initialize calendar button
-        final Button calendar = (Button)findViewById(R.id.CalendarBtn);
-        // Add listener to change fragment on click
-        calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Initialize fragment
-                CalendarFragment calendarFragment = new CalendarFragment();
+        switch (itemId){
+            case R.id.tableFragment:
+                navController.navigate(R.id.tableFragment);
+                item.setChecked(true);
+                break;
 
-                // Change fragment
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, calendarFragment)
-                        .addToBackStack(null).commit();
+            case R.id.calendarFragment:
+                navController.navigate(R.id.calendarFragment);
+                item.setChecked(true);
+                break;
 
-            }
-        });
+            case R.id.adminFragment:
+                navController.navigate(R.id.adminFragment);
+                item.setChecked(true);
+                break;
+        }
 
-        final Button tables = (Button)findViewById(R.id.TablesBtn);
-        // Add listener to change fragment on click
-        tables.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Initialize fragment
-                TableFragment tableFragment = new TableFragment();
-
-                // Change fragment
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, tableFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        final Button account = (Button)findViewById(R.id.AccountBtn);
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-//                startActivity(intent);
-
-                // Initialize fragment
-                AdminFragment tableFragment = new AdminFragment();
-
-                // Change fragment
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, tableFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-    }
-
-    private void deleteSharedPreferences(){
-        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
-        SharedPreferences sharedPreferences = getSharedPreferences("AppPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        finish();
+        return false;
     }
 }

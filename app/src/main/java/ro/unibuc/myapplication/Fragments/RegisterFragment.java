@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
@@ -34,7 +33,7 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Change title
-        ((AccountActivity)getActivity()).setTitle(R.string.register);
+        requireActivity().setTitle(R.string.register);
 
         sharedPreferences = this.getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
@@ -64,6 +63,8 @@ public class RegisterFragment extends Fragment {
 
                     Intent intent = new Intent(getContext(), EmployeeActivity.class);
                     startActivity(intent);
+
+                    requireActivity().finish();
                 }
             }
         });

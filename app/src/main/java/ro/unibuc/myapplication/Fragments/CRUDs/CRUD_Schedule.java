@@ -54,7 +54,7 @@ public class CRUD_Schedule extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             // If we update we try to get list from the item
-            Schedule schedule = bundle.getParcelable(FragmentViewSchedules.getBundleKey());
+            Schedule schedule = bundle.getParcelable(SchedulesViewFragment.getBundleKey());
             assert schedule != null;
             employeeSelectionAdapter = new EmployeeSelectionAdapter(schedule.getEmployees_on_shift());
             empList.setAdapter(employeeSelectionAdapter);

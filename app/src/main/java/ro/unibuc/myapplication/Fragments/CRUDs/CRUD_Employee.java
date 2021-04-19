@@ -35,7 +35,7 @@ public class CRUD_Employee extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Employee employee = bundle.getParcelable(FragmentViewEmployee.getBundleKey());
+            Employee employee = bundle.getParcelable(EmployeesViewFragment.getBundleKey());
             buttonUpdateItem(employee);
         }
         else {

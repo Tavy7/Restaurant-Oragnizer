@@ -7,10 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
-import ro.unibuc.myapplication.Fragments.LoginFragment;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -19,6 +16,7 @@ public class AccountActivity extends AppCompatActivity {
     private static final String SPKEY_NAME = "username";
     private GoogleSignInAccount googleAccount;
 
+    // Returns shared prefs singleton instance
     public static synchronized SharedPreferences getSharedPreferencesInstance(Context context) {
         if (sharedPreferences == null)
             sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
@@ -42,11 +40,11 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         // Get google account
-        googleAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (googleAccount != null){
-            gotoUserActivity();
-            finish();
-        }
+//        googleAccount = GoogleSignIn.getLastSignedInAccount(this);
+//        if (googleAccount != null){
+//            gotoUserActivity();
+//            finish();
+//        }
 
         sharedPreferences = getSharedPreferencesInstance(getApplicationContext());
         // Get shared preferences
@@ -56,13 +54,6 @@ public class AccountActivity extends AppCompatActivity {
             // If user is logged, change to main activity
             gotoEmpActivity();
             finish();
-        }
-        else {
-            // else goto login
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.LoginFragment, LoginFragment.class, null)
-                    .commit();
         }
     }
 }

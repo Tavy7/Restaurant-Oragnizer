@@ -40,7 +40,7 @@ public class CRUD_Customer extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Customer customer = bundle.getParcelable(FragmentViewCustomer.getBundleKey());
+            Customer customer = bundle.getParcelable(CustomersViewFragment.getBundleKey());
             buttonUpdateItem(customer);
         }
         else {

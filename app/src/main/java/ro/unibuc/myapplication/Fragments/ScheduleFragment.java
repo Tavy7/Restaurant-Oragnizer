@@ -19,6 +19,7 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((TextView) view.findViewById(R.id.ScheduleText)).setText("ets");
         Bundle bundle = this.getArguments();
         if (bundle != null){
             String date = bundle.getString(CalendarFragment.DayDate);

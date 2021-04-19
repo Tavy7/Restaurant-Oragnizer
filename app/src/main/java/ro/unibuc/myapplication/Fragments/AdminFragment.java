@@ -7,18 +7,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewCustomer;
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewEmployee;
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewItems;
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewOrders;
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewSchedules;
-import ro.unibuc.myapplication.Fragments.CRUDs.FragmentViewTables;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
 public class AdminFragment extends Fragment {
+    NavController navController;
+
     public AdminFragment(){
         super(R.layout.fragment_admin);
     }
@@ -27,21 +24,19 @@ public class AdminFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((EmployeeActivity)requireActivity()).setTitle("Admin Panel");
-        // Here we have CRUD for all models
 
+        // Initialize navController
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().
+                 getSupportFragmentManager().findFragmentById(R.id.EmployeeMainFragment);
+        navController = navHostFragment.getNavController();
+
+        // Here we have CRUD for all models
         final TextView customerBtn = view.findViewById(R.id.AdminCustomerBtn);
         customerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go to customer CRUD fragment
-                FragmentViewCustomer viewCustomer = new FragmentViewCustomer();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewCustomer)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewCustomer);
             }
         });
 
@@ -50,14 +45,7 @@ public class AdminFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // go to emp CRUD fragment
-                FragmentViewEmployee viewEmployeeFragment = new FragmentViewEmployee();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewEmployeeFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewEmployee);
             }
         });
 
@@ -66,14 +54,7 @@ public class AdminFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // go to item CRUD fragment
-                FragmentViewItems viewItemsFragmentFragment = new FragmentViewItems();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewItemsFragmentFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewItems);
             }
         });
 
@@ -82,14 +63,7 @@ public class AdminFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // go to order CRUD fragment
-                FragmentViewOrders ordersFragment = new FragmentViewOrders();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, ordersFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewOrders);
             }
         });
 
@@ -97,14 +71,7 @@ public class AdminFragment extends Fragment {
         scheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentViewSchedules schedulesFragment = new FragmentViewSchedules();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, schedulesFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewSchedules);
             }
         });
 
@@ -112,14 +79,7 @@ public class AdminFragment extends Fragment {
         tableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentViewTables viewTablesFragmentFragment = new FragmentViewTables();
-
-                FragmentTransaction fragmentTransaction = requireActivity().
-                        getSupportFragmentManager().beginTransaction();
-
-                fragmentTransaction.replace(R.id.EmployeeMainFragment, viewTablesFragmentFragment)
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
+                navController.navigate(R.id.fragmentViewTables);
             }
         });
     }

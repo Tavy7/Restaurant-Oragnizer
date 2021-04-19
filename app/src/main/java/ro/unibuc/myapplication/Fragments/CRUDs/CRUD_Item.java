@@ -42,7 +42,7 @@ public class CRUD_Item extends Fragment {
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            Item item = bundle.getParcelable(FragmentViewItems.getBundleKey());
+            Item item = bundle.getParcelable(ItemsViewFragment.getBundleKey());
             buttonUpdateItem(item);
         }
         else {
