@@ -32,4 +32,7 @@ public interface OrderDAO {
 
     @Query("SELECT * FROM OrderT ORDER BY `Order id` ASC")
     List<Order> getAllOrders();
+
+    @Query("SELECT * FROM OrderT WHERE `User ID` = :uId")
+    List<Order> getUsersOrders(int uId);
 }

@@ -23,6 +23,7 @@ import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Adapters.ItemSelectionAdapter;
 import ro.unibuc.myapplication.Adapters.TableSelectionAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.Models.Order;
@@ -195,14 +196,28 @@ public class CRUD_Order extends Fragment {
         // Search for employee username
         Employee emp = RestaurantDatabase.getInstance(requireContext()).
                 employeeDAO().getEmployeeByName(currentUserName);
-        int accountId = emp.getUid();
+
+        int id = 0;
+        if (emp != null){
+            Toast.makeText(requireContext(), String.valueOf(emp.getUid()), Toast.LENGTH_SHORT).show();
+            id = emp.getUid();
+        }
+
+        Customer customer = RestaurantDatabase.getInstance(requireContext()).
+                customerDAO().getCustomerByName(currentUserName);
+
+        id = 0;
+        if (customer != null){
+            Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
+            id = customer.getUid();
+        }
 
         Calendar calendar = Calendar.getInstance();
         String orderDate = calendar.getTime().toString();
         Toast.makeText(view.getContext(), String.valueOf(table.getQRCodeValue()),
                 Toast.LENGTH_SHORT).show();
 
-        Order order = new Order(boughtItems, table.getQRCodeValue(), accountId, orderDate);
+        Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate);
         order.setTotalPrice(findTotal(boughtItems));
 
         return order;
@@ -255,7 +270,20 @@ public class CRUD_Order extends Fragment {
                 Toast.makeText(view.getContext(),
                         "Order succesfully updated!", Toast.LENGTH_SHORT).show();
 
-                Navigation.findNavController(view).navigate(R.id.tableFragment);
+                try {
+                    Navigation.findNavController(view).navigate(R.id.tableFragment);
+                }
+                catch (java.lang.IllegalArgumentException e){
+                    //
+                }
+
+                try {
+                    Navigation.findNavController(view).navigate(R.id.orderHistoryCustomerFragment);
+                }
+
+                catch (java.lang.IllegalArgumentException e){
+                    //
+                }
             }
         });
 

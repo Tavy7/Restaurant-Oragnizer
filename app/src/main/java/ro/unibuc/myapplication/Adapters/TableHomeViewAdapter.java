@@ -44,6 +44,7 @@ public class TableHomeViewAdapter extends RecyclerView.Adapter<TableHomeViewAdap
         final Table table = tableList.get(position);
 
         holder.tableTitle.setText(String.valueOf(table.getQRCodeValue()));
+        holder.tableTitle.setVisibility(View.VISIBLE);
 
         Drawable circleBg = holder.tableImage.getBackground();
         String green = "#7CFC00";

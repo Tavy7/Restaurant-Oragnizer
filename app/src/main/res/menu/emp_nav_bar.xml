@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Tables"
+        android:title="@string/tables"
         android:id="@+id/tableFragment"
         android:enabled="true"
         android:icon="@drawable/tablesicon"/>
     <item
-        android:title="Schedules"
+        android:title="@string/schedules"
         android:id="@+id/calendarFragment"
         android:enabled="true"
         android:icon="@drawable/scheduleicon"/>
     <item
-        android:title="Admin"
+        android:title="@string/admin"
         android:id="@+id/adminFragment"
         android:enabled="true"
         android:icon="@drawable/usersettings"/>

@@ -5,31 +5,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:padding="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
+
 
     <ImageView
         android:id="@+id/tableImage"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="91dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
         android:layout_marginTop="22dp"
         app:srcCompat="@drawable/circle" />
-
-    <TextView
-        android:id="@+id/tableHomeTitle"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tableImage"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="-27dp"
-        android:layout_marginEnd="68dp"
-        android:text="@string/title" />
 
     <TextView
         android:id="@+id/tableEmp"
@@ -42,6 +31,19 @@
         android:text="@string/occupied"
         android:visibility="gone"
         android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tableHomeTitle"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="31dp"
+        android:layout_height="61dp"
+        android:layout_below="@+id/tableImage"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="-24dp"
+        android:layout_marginEnd="68dp"
+        android:gravity="center"
+        android:text="@string/title" />
 
 
 </RelativeLayout>

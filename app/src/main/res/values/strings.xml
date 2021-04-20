@@ -67,4 +67,11 @@
     <string name="customers">Customers</string>
     <string name="logout">Logout</string>
     <string name="no_number">No Number</string>
+    <string name="admin">Admin</string>
+    <string name="home">Home</string>
+    <string name="order_history">Order History</string>
+    <string name="hello_user">Hello user</string>
+    <string name="textview">TextView</string>
+    <string name="click_on_button_below_to_scan_table_qr_code_and_start_ordering">Click on button below to scan table QR code and start ordering!</string>
+    <string name="your_orders">Your orders</string>
 </resources>

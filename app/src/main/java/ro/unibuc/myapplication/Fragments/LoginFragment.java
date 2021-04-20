@@ -27,12 +27,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
+import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
 
 public class LoginFragment extends Fragment {
@@ -217,6 +220,19 @@ public class LoginFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
+
+                            // Store username in shared prefs
+                            SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
+                            SharedPreferences.Editor editor = sp.edit();
+                            Toast.makeText(requireContext(), user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                            editor.putString(AccountActivity.SPKEY_NAME, user.getDisplayName());
+                            editor.commit();
+
+                            Customer customer = new Customer(user.getDisplayName(), "",
+                                    new ArrayList<Order>(), user.getEmail());
+
+                            RestaurantDatabase.getInstance(requireContext()).customerDAO().insertCustomer(customer);
 
                             gotoMainActivity();
                         } else {

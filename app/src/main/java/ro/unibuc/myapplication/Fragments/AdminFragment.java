@@ -97,8 +97,8 @@ public class AdminFragment extends Fragment {
                 SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
                 sp.edit().clear().commit();
                 Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
                 LoginFragment.getmGoogleSignInClient().signOut();
+                FirebaseAuth.getInstance().signOut();
                 requireActivity().finish();
             }
         });

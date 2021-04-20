@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/home"
+        android:id="@+id/customerHome"
+        android:enabled="true"
+        android:icon="@drawable/homeicon"/>
+    <item
+        android:title="@string/order_history"
+        android:id="@+id/orderHistory"
+        android:enabled="true"
+        android:icon="@drawable/orderhistoryicon"/>
+    <item
+        android:title="@string/account"
+        android:id="@+id/accountSettings"
+        android:enabled="true"
+        android:icon="@drawable/usersettings"/>
+
+</menu>

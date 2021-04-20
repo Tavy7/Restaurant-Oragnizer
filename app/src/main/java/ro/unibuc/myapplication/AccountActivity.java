@@ -7,14 +7,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AccountActivity extends AppCompatActivity {
 
     private static SharedPreferences sharedPreferences = null;
     private static final String SHARED_PREF_NAME = "AppPref";
     public static final String SPKEY_NAME = "username";
-    private GoogleSignInAccount googleAccount;
 
     // Returns shared prefs singleton instance
     public static synchronized SharedPreferences getSharedPreferencesInstance(Context context) {
@@ -30,23 +30,23 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void gotoUserActivity(){
-        Intent intent = new Intent(AccountActivity.this, UserActivity.class);
+        Intent intent = new Intent(AccountActivity.this, CustomerActivity.class);
         startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_account);
 
+         //Get google account
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Get google account
-//        googleAccount = GoogleSignIn.getLastSignedInAccount(this);
-//        if (googleAccount != null){
-//            gotoUserActivity();
-//            finish();
-//        }
+        if (user != null){
+            gotoUserActivity();
+            finish();
+            return;
+        }
 
         // Get shared preferences
         sharedPreferences = getSharedPreferencesInstance(this);

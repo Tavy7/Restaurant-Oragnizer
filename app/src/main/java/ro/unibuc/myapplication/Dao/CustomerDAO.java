@@ -31,4 +31,7 @@ public interface CustomerDAO {
 
     @Query("SELECT * FROM Customer ORDER BY `User ID` ASC")
     List<Customer> getAllCustomers();
+
+    @Query("SELECT * FROM Customer WHERE `Name` = :cName")
+    Customer getCustomerByName(String cName);
 }

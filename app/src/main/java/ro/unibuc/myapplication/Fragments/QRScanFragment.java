@@ -1,6 +1,7 @@
 package ro.unibuc.myapplication.Fragments;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,11 @@ import com.google.zxing.Result;
 
 import java.util.ArrayList;
 
+import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment;
+import ro.unibuc.myapplication.Models.Customer;
+import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
@@ -62,12 +67,48 @@ public class QRScanFragment extends Fragment {
                                 }
                             }
                             else{
-                                order = new Order(new ArrayList<Item>(), QRValue, 0, null);
+                                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
+                                String username = sp.getString(AccountActivity.SPKEY_NAME, null);
+
+
+                                // Search for emp/customers TODO CHANGE IT
+                                Employee emp = RestaurantDatabase.getInstance(requireContext()).
+                                        employeeDAO().getEmployeeByName(username);
+
+                                int id = 0;
+                                if (emp != null){
+                                    Toast.makeText(requireContext(), String.valueOf(emp.getUid()), Toast.LENGTH_SHORT).show();
+                                    id = emp.getUid();
+                                }
+
+                                Customer customer = RestaurantDatabase.getInstance(requireContext()).
+                                        customerDAO().getCustomerByName(username);
+
+                                id = 0;
+                                if (customer != null){
+                                    Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
+                                    id = customer.getUid();
+                                }
+
+                                order = new Order(new ArrayList<Item>(), QRValue, id, null);
                             }
 
                             Bundle newBundle = new Bundle();
                             newBundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
-                            Navigation.findNavController(view).navigate(R.id.CRUD_Order, newBundle);
+
+                            try {
+                                Navigation.findNavController(view).navigate(R.id.CRUD_Order, newBundle);
+                            }
+                            catch (java.lang.IllegalArgumentException e){
+                                //
+                            }
+
+                            try {
+                                Navigation.findNavController(view).navigate(R.id.CRUD_Order2, newBundle);
+                            }
+                            catch (java.lang.IllegalArgumentException e){
+                                //
+                            }
 
                             codeScanner.releaseResources();
                             // Close fragment

@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/customer_nav">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customer_nav"
+    app:startDestination="@id/homeCustomerFragment">
 
+    <fragment
+        android:id="@+id/homeCustomerFragment"
+        android:name="ro.unibuc.myapplication.Fragments.CustomerViews.HomeCustomerFragment"
+        android:label="HomeCustomerFragment"
+        tools:layout="@layout/fragment_customer_home">
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_QRScanFragment2"
+            app:destination="@id/QRScanFragment2" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_accountSettingsCustomerFragment"
+            app:destination="@id/accountSettingsCustomerFragment" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_orderHistoryCustomerFragment"
+            app:destination="@id/orderHistoryCustomerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/QRScanFragment2"
+        android:name="ro.unibuc.myapplication.Fragments.QRScanFragment"
+        android:label="QRScanFragment"
+        tools:layout="@layout/fragmnet_camera_qr_scan">
+        <action
+            android:id="@+id/action_QRScanFragment2_to_CRUD_Order2"
+            app:destination="@id/CRUD_Order2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CRUD_Order2"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Order"
+        android:label="CRUD_Order"
+        tools:layout="@layout/fragment_add_order"/>
+    <fragment
+        android:id="@+id/accountSettingsCustomerFragment"
+        android:name="ro.unibuc.myapplication.Fragments.CustomerViews.AccountSettingsCustomerFragment"
+        android:label="AccountSettingsCustomerFragment"
+        tools:layout="@layout/fragment_customer_account_settings"/>
+    <fragment
+        android:id="@+id/orderHistoryCustomerFragment"
+        android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderHistoryCustomerFragment"
+        android:label="OrderHistoryCustomerFragment"
+        tools:layout="@layout/fragment_customer_order_history"/>
 </navigation>
