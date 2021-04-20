@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import ro.unibuc.myapplication.R;
 
 public class ScheduleFragment extends Fragment {
+    TextView scheduleText;
     public ScheduleFragment(){
         super(R.layout.fragment_schedule);
     }
@@ -19,11 +20,16 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((TextView) view.findViewById(R.id.ScheduleText)).setText("ets");
+        scheduleText = view.findViewById(R.id.ScheduleText);
+        scheduleText.setText("No schedules for this day.");
+
         Bundle bundle = this.getArguments();
+
         if (bundle != null){
             String date = bundle.getString(CalendarFragment.DayDate);
-            ((TextView) view.findViewById(R.id.ScheduleText)).setText(date);
+            scheduleText.setVisibility(View.GONE);
         }
+
+        // Parse date and search database for schedules in that specific day
     }
 }

@@ -81,7 +81,7 @@ public class DaoTypeConverter {
     @TypeConverter
     public static String ordersToString(List<Order> orderList) {
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Item>>() {}.getType();
+        Type type = new TypeToken<List<Order>>() {}.getType();
         String json = gson.toJson(orderList, type);
 
         return json;

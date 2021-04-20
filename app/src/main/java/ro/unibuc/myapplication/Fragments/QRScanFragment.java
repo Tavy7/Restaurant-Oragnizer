@@ -4,25 +4,31 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
+
+import ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment;
+import ro.unibuc.myapplication.Models.Item;
+import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
 
 public class QRScanFragment extends Fragment {
     CodeScanner codeScanner;
 
     private static final int PERMISSION_REQUEST_CAMERA = 0;
+    public static final String QR_CODE_BUNDLE = "qrcodebundle";
 
     public QRScanFragment() {
         super(R.layout.fragmnet_camera_qr_scan);
@@ -45,9 +51,23 @@ public class QRScanFragment extends Fragment {
                     public void run() {
                         try{
                             int QRValue = Integer.parseInt(result.getText());
-                            // Set qr value to button
-                            Button button = requireActivity().findViewById(R.id.qrcamera);
-                            button.setText(result.getText());
+
+                            Order order = null;
+                            Bundle bundle = getArguments();
+                            if (bundle != null) {
+                                order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
+
+                                if (order != null) {
+                                    order.setTableQRValue(QRValue);
+                                }
+                            }
+                            else{
+                                order = new Order(new ArrayList<Item>(), QRValue, 0, null);
+                            }
+
+                            Bundle newBundle = new Bundle();
+                            newBundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
+                            Navigation.findNavController(view).navigate(R.id.CRUD_Order, newBundle);
 
                             codeScanner.releaseResources();
                             // Close fragment

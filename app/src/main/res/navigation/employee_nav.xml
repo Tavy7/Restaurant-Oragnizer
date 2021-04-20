@@ -54,7 +54,7 @@
         android:id="@+id/tableFragment"
         android:name="ro.unibuc.myapplication.Fragments.TableFragment"
         android:label="TableFragment"
-        tools:layout="@layout/fragment_table" >
+        tools:layout="@layout/fragment_tables" >
         <action
             android:id="@+id/action_tableFragment_to_adminFragment"
             app:destination="@id/adminFragment" />

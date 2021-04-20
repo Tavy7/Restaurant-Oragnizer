@@ -24,7 +24,7 @@ import ro.unibuc.myapplication.R;
 
 public class OrdersViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "432ket2a";
-    public OrdersViewFragment() { super(R.layout.fragment_view_orders);
+    public OrdersViewFragment() { super(R.layout.fragment_view_items);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class OrdersViewFragment extends Fragment implements OnItemClickListener 
         ((EmployeeActivity)requireActivity()).setTitle("Order CRUD");
 
         // Create recycler view
-        RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.ordersRecycler);
+        RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.item_crud_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false
         );
@@ -48,7 +48,7 @@ public class OrdersViewFragment extends Fragment implements OnItemClickListener 
         OrderAdapter orderAdapter = new OrderAdapter(orderList, this);
         itemRecyclerView.setAdapter(orderAdapter);
 
-        final Button addItemBtn = view.findViewById(R.id.addOrderBtn);
+        final Button addItemBtn = view.findViewById(R.id.addItemBtn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

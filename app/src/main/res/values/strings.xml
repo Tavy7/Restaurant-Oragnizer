@@ -52,11 +52,19 @@
     <string name="add_customer_name">Customer name</string>
     <string name="add_customer_cc">Credit card</string>
     <string name="email">Email</string>
-    <string name="schedule_date">Schedule date</string>
+    <string name="schedule_date">Schedule date ( format dd/mm/yyyy )</string>
     <string name="schedule_start">Start hour</string>
     <string name="schedule_end">End hours</string>
     <string name="add_employees_to_sch">Add employees</string>
     <string name="select_table_text">Select Table or Scan QR</string>
     <string name="add_items">Add items</string>
     <string name="scan_table_qr">Scan Table QR</string>
+    <string name="take_table">Take table</string>
+    <string name="orders">Orders</string>
+    <string name="items">Items</string>
+    <string name="schedules">Schedules</string>
+    <string name="employees">Employees</string>
+    <string name="customers">Customers</string>
+    <string name="logout">Logout</string>
+    <string name="no_number">No Number</string>
 </resources>

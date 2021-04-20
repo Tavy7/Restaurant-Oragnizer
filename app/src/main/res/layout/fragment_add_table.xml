@@ -52,8 +52,9 @@
         android:layout_marginTop="28dp"
         android:text="@string/delete_item"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveTableBtn"
+        app:layout_constraintTop_toBottomOf="@+id/empTakeTable"
         android:visibility="gone"/>
 
     <TextView
@@ -67,5 +68,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/empTakeTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="162dp"
+        android:text="@string/take_table"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveTableBtn"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

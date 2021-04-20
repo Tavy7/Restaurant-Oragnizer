@@ -26,7 +26,7 @@ import ro.unibuc.myapplication.R;
 public class TablesViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "1233212";
 
-    public TablesViewFragment() { super(R.layout.fragment_view_tables); };
+    public TablesViewFragment() { super(R.layout.fragment_view_items); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
         ((EmployeeActivity)requireActivity()).setTitle("Table CRUD");
 
         // Create recycler view
-        RecyclerView tableRecyclerView = (RecyclerView)view.findViewById(R.id.table_crud_recycler);
+        RecyclerView tableRecyclerView = (RecyclerView)view.findViewById(R.id.item_crud_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false);
 
@@ -48,7 +48,7 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
         TableAdapter tableAdapter = new TableAdapter((ArrayList<Table>) tableList, this);
         tableRecyclerView.setAdapter(tableAdapter);
 
-        final Button addTableBtn = view.findViewById(R.id.addTableBtn);
+        final Button addTableBtn = view.findViewById(R.id.addItemBtn);
         addTableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

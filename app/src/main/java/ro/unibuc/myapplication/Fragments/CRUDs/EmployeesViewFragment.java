@@ -26,7 +26,7 @@ import ro.unibuc.myapplication.R;
 public class EmployeesViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "abcades";
 
-    public EmployeesViewFragment(){ super(R.layout.fragment_view_employees); };
+    public EmployeesViewFragment(){ super(R.layout.fragment_view_items); }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class EmployeesViewFragment extends Fragment implements OnItemClickListen
         ((EmployeeActivity)requireActivity()).setTitle("Employee CRUD");
 
         // Create recycler view
-        RecyclerView empRecyclerView = (RecyclerView)view.findViewById(R.id.emp_crud_recycler);
+        RecyclerView empRecyclerView = (RecyclerView)view.findViewById(R.id.item_crud_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false
         );
@@ -49,7 +49,7 @@ public class EmployeesViewFragment extends Fragment implements OnItemClickListen
         EmployeeAdapter empAdapter = new EmployeeAdapter((ArrayList<Employee>) empList, this);
         empRecyclerView.setAdapter(empAdapter);
 
-        final Button addEmpBtn = view.findViewById(R.id.addEmpBtn);
+        final Button addEmpBtn = view.findViewById(R.id.addItemBtn);
         addEmpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

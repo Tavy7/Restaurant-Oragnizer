@@ -4,14 +4,17 @@
     <item
         android:title="Tables"
         android:id="@+id/tableFragment"
-        android:enabled="true"/>
+        android:enabled="true"
+        android:icon="@drawable/tablesicon"/>
     <item
         android:title="Schedules"
         android:id="@+id/calendarFragment"
-        android:enabled="true"/>
+        android:enabled="true"
+        android:icon="@drawable/scheduleicon"/>
     <item
         android:title="Admin"
         android:id="@+id/adminFragment"
-        android:enabled="true"/>
+        android:enabled="true"
+        android:icon="@drawable/usersettings"/>
 
 </menu>

@@ -24,7 +24,7 @@ import ro.unibuc.myapplication.R;
 
 public class SchedulesViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "2ha1t5";
-    public SchedulesViewFragment() {super(R.layout.fragment_view_schedules);
+    public SchedulesViewFragment() {super(R.layout.fragment_view_items);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SchedulesViewFragment extends Fragment implements OnItemClickListen
         ((EmployeeActivity)requireActivity()).setTitle("Schedule CRUD");
 
         // Create recycler view
-        RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.scheduleRecycler);
+        RecyclerView itemRecyclerView = (RecyclerView)view.findViewById(R.id.item_crud_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false
         );
@@ -48,7 +48,7 @@ public class SchedulesViewFragment extends Fragment implements OnItemClickListen
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(itemList, this);
         itemRecyclerView.setAdapter(scheduleAdapter);
 
-        final Button addItemBtn = view.findViewById(R.id.addScheduleBtn);
+        final Button addItemBtn = view.findViewById(R.id.addItemBtn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

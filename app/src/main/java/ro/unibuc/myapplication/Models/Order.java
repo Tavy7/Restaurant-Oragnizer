@@ -56,10 +56,9 @@ public class Order implements Parcelable {
     @ColumnInfo(name = "Order date")
     protected String orderDate;
 
-    public Order(List<Item> items, int tableQRValue, float totalPrice, int accountId, String orderDate) {
+    public Order(List<Item> items, int tableQRValue, int accountId, String orderDate) {
         this.items = items;
         this.tableQRValue = tableQRValue;
-        this.totalPrice = totalPrice;
         this.accountId = accountId;
         this.orderDate = orderDate;
     }

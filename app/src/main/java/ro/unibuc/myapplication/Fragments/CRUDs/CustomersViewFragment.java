@@ -25,7 +25,7 @@ import ro.unibuc.myapplication.R;
 public class CustomersViewFragment extends Fragment implements OnItemClickListener {
     protected static final String bundleKey = "cdxijna";
 
-    public CustomersViewFragment(){ super(R.layout.fragmnet_view_customers); };
+    public CustomersViewFragment(){ super(R.layout.fragment_view_items); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class CustomersViewFragment extends Fragment implements OnItemClickListen
         ((EmployeeActivity)requireActivity()).setTitle("Customer CRUD");
 
         // Create recycler view
-        RecyclerView customerRecyclerView = (RecyclerView)view.findViewById(R.id.customer_crud_recycler);
+        RecyclerView customerRecyclerView = (RecyclerView)view.findViewById(R.id.item_crud_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 view.getContext(), LinearLayoutManager.VERTICAL, false
         );
@@ -49,7 +49,7 @@ public class CustomersViewFragment extends Fragment implements OnItemClickListen
         CustomerAdapter customerAdapter = new CustomerAdapter(empList, this);
         customerRecyclerView.setAdapter(customerAdapter);
 
-        final Button addEmpBtn = view.findViewById(R.id.addCustomerBtn);
+        final Button addEmpBtn = view.findViewById(R.id.addItemBtn);
         addEmpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

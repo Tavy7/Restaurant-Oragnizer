@@ -26,6 +26,9 @@ public class Item implements Parcelable {
     //todo bitmap picture;
     @Ignore
     boolean isSelected;
+    @Ignore
+    int quantity = 1;
+
 
     public Item(String name, float price, String description, int discount) {
         //this.iid = iid;

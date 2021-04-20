@@ -1,8 +1,11 @@
 package ro.unibuc.myapplication.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,12 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.R;
 
 public class AdminFragment extends Fragment {
     NavController navController;
-
+    Button logoutBtn;
     public AdminFragment(){
         super(R.layout.fragment_admin);
     }
@@ -80,6 +86,20 @@ public class AdminFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.fragmentViewTables);
+            }
+        });
+
+
+        logoutBtn = requireActivity().findViewById(R.id.logout);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
+                sp.edit().clear().commit();
+                Toast.makeText(requireContext(), "deleted", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                LoginFragment.getmGoogleSignInClient().signOut();
+                requireActivity().finish();
             }
         });
     }

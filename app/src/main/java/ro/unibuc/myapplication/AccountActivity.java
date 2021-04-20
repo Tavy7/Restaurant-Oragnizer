@@ -13,7 +13,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private static SharedPreferences sharedPreferences = null;
     private static final String SHARED_PREF_NAME = "AppPref";
-    private static final String SPKEY_NAME = "username";
+    public static final String SPKEY_NAME = "username";
     private GoogleSignInAccount googleAccount;
 
     // Returns shared prefs singleton instance
@@ -37,7 +37,9 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_account);
+
 
         // Get google account
 //        googleAccount = GoogleSignIn.getLastSignedInAccount(this);
@@ -46,10 +48,9 @@ public class AccountActivity extends AppCompatActivity {
 //            finish();
 //        }
 
-        sharedPreferences = getSharedPreferencesInstance(getApplicationContext());
         // Get shared preferences
+        sharedPreferences = getSharedPreferencesInstance(this);
         String name = sharedPreferences.getString(SPKEY_NAME, null);
-
         if (name != null){
             // If user is logged, change to main activity
             gotoEmpActivity();

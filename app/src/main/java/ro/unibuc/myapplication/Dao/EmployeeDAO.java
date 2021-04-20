@@ -37,4 +37,7 @@ public interface EmployeeDAO {
 
     @Query("SELECT * FROM Employee WHERE `User ID` = :eId")
     Employee getEmployeeById(int eId);
+
+    @Query("SELECT * FROM Employee WHERE `Name` = :eName")
+    Employee getEmployeeByName(String eName);
 }

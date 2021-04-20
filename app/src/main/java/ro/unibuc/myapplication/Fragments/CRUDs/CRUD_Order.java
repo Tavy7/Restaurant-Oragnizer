@@ -1,13 +1,17 @@
 package ro.unibuc.myapplication.Fragments.CRUDs;
 
+import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,21 +19,28 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Adapters.ItemSelectionAdapter;
 import ro.unibuc.myapplication.Adapters.TableSelectionAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
 
+import static ro.unibuc.myapplication.AccountActivity.getSharedPreferencesInstance;
+
 public class CRUD_Order extends Fragment {
+    protected TextView tableNum;
     protected RecyclerView selectTable;
     protected TableSelectionAdapter tableSelectionAdapter;
     protected RecyclerView selectItems;
     protected ItemSelectionAdapter itemSelectionAdapter;
     protected Button saveOrder;
     protected Button deleteOrder;
+    protected Button scanQRBtn;
+    protected Button changeViewBtn;
 
     public CRUD_Order() { super(R.layout.fragment_add_order);
     }
@@ -38,10 +49,29 @@ public class CRUD_Order extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        tableNum = view.findViewById(R.id.tableNumber);
         selectTable = view.findViewById(R.id.selectTableRecycler);
         selectItems = view.findViewById(R.id.selectItemsRecycler);
         saveOrder = view.findViewById(R.id.save_order_btn);
         deleteOrder = view.findViewById(R.id.delete_order_btn);
+        scanQRBtn = view.findViewById(R.id.scanQRButton);
+        changeViewBtn = view.findViewById(R.id.changeTABLEsELECTvIEW);
+
+        Bundle bundle = this.getArguments();
+
+        scanQRBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.QRScanFragment, bundle);
+            }
+        });
+
+        changeViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeView();
+            }
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(requireContext());
         selectTable.setHasFixedSize(true);
@@ -61,15 +91,35 @@ public class CRUD_Order extends Fragment {
         selectTable.setAdapter(tableSelectionAdapter);
         selectItems.setAdapter(itemSelectionAdapter);
 
-        Bundle bundle = this.getArguments();
-        if(bundle != null){
+        if(bundle != null) {
             Order order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
             assert order != null;
+
             buttonUpdateItem(order);
         }
         else{
             buttonInsertNewItem();
         }
+    }
+
+    private void changeView() {
+        // Function changes visibility of two componenets
+        // that have role to input table number
+        // selectTable is a recylcer view where user can click on table number
+        // tableNum displays id from scanQR
+
+        int visibility = selectTable.getVisibility();
+
+        // Set those two to the other comopnent's visibility
+        tableNum.setVisibility(visibility);
+        scanQRBtn.setVisibility(visibility);
+
+        // Change other component's visibility to its inverse
+        int visible = View.GONE;
+        if (visibility != View.VISIBLE)
+            visible = View.VISIBLE;
+
+        selectTable.setVisibility(visible);
     }
 
     // Returns the object if the data is ok
@@ -85,11 +135,40 @@ public class CRUD_Order extends Fragment {
             }
         }
 
+        if (tableNum.getText().equals(R.string.no_number)){
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("No table found")
+                    .setMessage("Please scan the QR code.")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton(android.R.string.ok, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            return null;
+        }
+
+        RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
+
+        int qrNumber = 0;
+        String text = tableNum.getText().toString();
+
+        for (int i = 0; i < text.length(); i++){
+            try{
+                qrNumber = (qrNumber * 10) +  Integer.parseInt(String.valueOf(text.charAt(i)));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // If table has not been selected from hidden menu, we try to get from the QR
+        if (table == null)
+            table = db.tableDAO().getTable(qrNumber);
+
         if (table == null){
             Toast.makeText(view.getContext(), "Table has to be selected to complete order.",
                     Toast.LENGTH_SHORT).show();
             return null;
-
         }
 
         List<Item> itemList = itemSelectionAdapter.getItemList();
@@ -108,15 +187,25 @@ public class CRUD_Order extends Fragment {
         }
 
         //Todo get account id that puts order
-        RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
-        int accountId = db.employeeDAO().getAllEmployees().get(0).getUid();
+
+        // Get logged username on share prefs
+        SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
+        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
+
+        // Search for employee username
+        Employee emp = RestaurantDatabase.getInstance(requireContext()).
+                employeeDAO().getEmployeeByName(currentUserName);
+        int accountId = emp.getUid();
 
         Calendar calendar = Calendar.getInstance();
         String orderDate = calendar.getTime().toString();
         Toast.makeText(view.getContext(), String.valueOf(table.getQRCodeValue()),
                 Toast.LENGTH_SHORT).show();
 
-        return new Order(boughtItems, table.getQRCodeValue(), findTotal(boughtItems), 1, orderDate);
+        Order order = new Order(boughtItems, table.getQRCodeValue(), accountId, orderDate);
+        order.setTotalPrice(findTotal(boughtItems));
+
+        return order;
     }
 
     protected void buttonInsertNewItem(){
@@ -130,11 +219,12 @@ public class CRUD_Order extends Fragment {
                     return;
                 }
 
+
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Returns new generated id
                 long newGeneratedId = db.orderDAO().insertOrder(order);
                 Toast.makeText(view.getContext(),
-                        "Schedule succesfully inserated!", Toast.LENGTH_SHORT).show();
+                        "Order succesfully inserated!", Toast.LENGTH_SHORT).show();
 
                 // Go back to list view
                 requireActivity().getSupportFragmentManager().popBackStack();
@@ -143,8 +233,10 @@ public class CRUD_Order extends Fragment {
     }
 
     protected void buttonUpdateItem(Order order){
+        String tableIdStr = "Table " + String.valueOf(order.getTableQRValue());
+        tableNum.setText(tableIdStr);
 
-        saveOrder.setText("Edit order");
+        saveOrder.setText("Send order");
         saveOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,12 +249,13 @@ public class CRUD_Order extends Fragment {
                 newOrder.setOid(order.getOid());
 
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
-                db.orderDAO().updateOrder(newOrder);
+                // Confilt strategy is REPLACE so is the same as update
+                db.orderDAO().insertOrder(newOrder);
 
                 Toast.makeText(view.getContext(),
                         "Order succesfully updated!", Toast.LENGTH_SHORT).show();
-                // Go back to list view
-                requireActivity().getSupportFragmentManager().popBackStack();
+
+                Navigation.findNavController(view).navigate(R.id.tableFragment);
             }
         });
 

@@ -27,8 +27,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.List;
+
 import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.R;
 
 public class LoginFragment extends Fragment {
@@ -37,6 +41,8 @@ public class LoginFragment extends Fragment {
     TextView registerText;
     Button googleLoginBtn;
 
+    private static final String ADMIN = "admin";
+    private static final String DEFAULT_EMP_PASSWORD = "123emp";
     private static GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 1;
 
@@ -53,9 +59,6 @@ public class LoginFragment extends Fragment {
         super.onStart();
 
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null){
-            //requireActivity().getFragmentManager().popBackStack();
-        }
     }
 
     @Override
@@ -71,22 +74,57 @@ public class LoginFragment extends Fragment {
 
         // If user clicks on login button
         SharedPreferences sharedPreferences = AccountActivity.getSharedPreferencesInstance(requireContext());
+
+        // Get a list of employees
+        List<Employee> employeeList = RestaurantDatabase.getInstance(requireContext()).
+                employeeDAO().getAllEmployees();
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             // Checks if input credentials are equal to
             // ones stored in shared preferences
             @Override
             public void onClick(View v) {
-                //Verify credentials
-                String name = sharedPreferences.getString(SPKEY_NAME, "-4");
-                String pass = sharedPreferences.getString(SPKEY_PASS, "-20");
-
                 String usernameVal = username.getText().toString();
                 String passwordVal = password.getText().toString();
 
+                StringBuilder adminPassB = new StringBuilder();
+                adminPassB.append(ADMIN);
+                String adminPass = adminPassB.reverse().toString();
+
+                if (usernameVal.equals(ADMIN) && passwordVal.equals(adminPass)){
+                    gotoMainActivity();
+                    return;
+                }
+
+                if (passwordVal.equals(DEFAULT_EMP_PASSWORD)){
+                    // If default emp pass is entered
+                    // check database if username belongs
+                    // to an employee
+                    boolean ok = false;
+                    for (Employee emp : employeeList){
+                        ok = emp.getName().equals(usernameVal);
+
+                        if (ok) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(SPKEY_NAME, usernameVal);
+                            editor.apply();
+                            // If username belogns to an employee
+                            // go to emp acitvity
+                            gotoMainActivity();
+                            return;
+                        }
+                    }
+                }
+
+
+                // Verify credentials
+                String name = sharedPreferences.getString(SPKEY_NAME, "-4");
+                String pass = sharedPreferences.getString(SPKEY_PASS, "-20");
+
                 // If input username equals db username
-                if (name != null && name.equals(usernameVal)){
-                    // If in pass eq db pass
-                    if (pass != null && pass.equals(passwordVal)){
+                if (usernameVal != null && usernameVal.equals(name)){
+                    if (pass.equals(passwordVal)){
+                        // Anonymous customer login
                         Toast.makeText(getContext(), "Login succesful!", Toast.LENGTH_SHORT).show();
                         gotoMainActivity();
                     }
@@ -100,17 +138,12 @@ public class LoginFragment extends Fragment {
         // If users click on register we switch to register fragment
         registerText.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                RegisterFragment fragment = new RegisterFragment();
-//                fragmentTransaction.replace(R.id.loginFragment, fragment)
-//                        .addToBackStack(null).commit();
-
+            public void onClick(View v){
                 Navigation.findNavController(v).navigate(R.id.registerFragment);
             }
         });
 
+        // Google login
         mAuth = FirebaseAuth.getInstance();
         createRequest();
         // If user click on google button
