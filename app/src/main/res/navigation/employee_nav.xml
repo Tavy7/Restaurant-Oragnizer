@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/adminFragment"
-        android:name="ro.unibuc.myapplication.Fragments.AdminFragment"
+        android:name="ro.unibuc.myapplication.Fragments.EmployeeViews.AdminFragment"
         android:label="AdminFragment"
         tools:layout="@layout/fragment_admin" >
         <action
@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/tableFragment"
-        android:name="ro.unibuc.myapplication.Fragments.TableFragment"
+        android:name="ro.unibuc.myapplication.Fragments.EmployeeViews.TableFragment"
         android:label="TableFragment"
         tools:layout="@layout/fragment_tables" >
         <action
@@ -65,7 +65,7 @@
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="ro.unibuc.myapplication.Fragments.ScheduleFragment"
+        android:name="ro.unibuc.myapplication.Fragments.EmployeeViews.ScheduleFragment"
         android:label="ScheduleFragment"
         tools:layout="@layout/fragment_schedule" />
     <fragment
@@ -164,7 +164,7 @@
 
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="ro.unibuc.myapplication.Fragments.CalendarFragment"
+        android:name="ro.unibuc.myapplication.Fragments.EmployeeViews.CalendarFragment"
         android:label="CalendarFragment"
         tools:layout="@layout/fragment_calendar" >
         <action

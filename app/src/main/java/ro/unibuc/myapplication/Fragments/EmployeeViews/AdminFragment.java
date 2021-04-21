@@ -1,4 +1,4 @@
-package ro.unibuc.myapplication.Fragments;
+package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.LoginFragment;
 import ro.unibuc.myapplication.R;
 
 public class AdminFragment extends Fragment {

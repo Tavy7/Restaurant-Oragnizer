@@ -1,4 +1,4 @@
-package ro.unibuc.myapplication.Fragments;
+package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
 import android.content.Context;
 import android.os.Bundle;

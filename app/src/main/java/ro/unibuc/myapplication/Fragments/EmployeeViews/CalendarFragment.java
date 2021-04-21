@@ -1,8 +1,7 @@
-package ro.unibuc.myapplication.Fragments;
+package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,11 +17,15 @@ import java.util.Calendar;
 
 import ro.unibuc.myapplication.Adapters.DateNavAdapter;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.DateNavBarModel;
 import ro.unibuc.myapplication.R;
 
-public class CalendarFragment extends Fragment implements OnItemClickListener{
+public class CalendarFragment extends Fragment implements OnItemClickListener {
     public static final String DayDate = "dayDate";
+    public static final String Today = "Today";
+    public static final String Yesterday = "Yesterday";
+    public static final String Tomorrow = "Tomorrow";
 
     public CalendarFragment(){
         super(R.layout.fragment_calendar);
@@ -31,6 +34,19 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            ScheduleFragment fragment = new ScheduleFragment();
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.SchFragmentContainer, fragment)
+                    .addToBackStack(null);
+
+            fragmentTransaction.commit();
+        }
 
         ((EmployeeActivity)getActivity()).setTitle(R.string.calendar);
 
@@ -50,10 +66,10 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
         dateRecyclerView.setAdapter(dateNavAdapter);
 
         // Initialize secondary fragment
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.SchFragmentContainer, ScheduleFragment.class, null)
-                .commit();
+//        getActivity().getSupportFragmentManager().beginTransaction()
+//                .setReorderingAllowed(true)
+//                .add(R.id.SchFragmentContainer, ScheduleFragment.class, null)
+//                .commit();
     }
 
     // Get last 3 days and next 7 dates
@@ -67,9 +83,9 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
         for (int i = 0; i < 10; i++){
             String date = String.valueOf(calendar.get(Calendar.DATE));
 
-            if (i == 2) date = "Yesterday";
-            if (i == 3) date = "Today";
-            if (i == 4) date = "Tomorrow";
+            if (i == 2) date = Yesterday;
+            if (i == 3) date = Today;
+            if (i == 4) date = Tomorrow;
 
             DateNavBarModel dateModel = new DateNavBarModel(date);
             navBarModel.add(dateModel);
@@ -82,8 +98,6 @@ public class CalendarFragment extends Fragment implements OnItemClickListener{
 
     @Override
     public void onItemClick(DateNavBarModel item){
-        Toast.makeText(getContext(), item.getDayDate(), Toast.LENGTH_LONG).show();
-
         Bundle bundle = new Bundle();
         bundle.putString(DayDate, String.valueOf(item.getDayDate()));
 
