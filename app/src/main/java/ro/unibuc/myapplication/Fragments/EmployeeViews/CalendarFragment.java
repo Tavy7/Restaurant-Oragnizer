@@ -65,11 +65,11 @@ public class CalendarFragment extends Fragment implements OnItemClickListener {
         DateNavAdapter dateNavAdapter = new DateNavAdapter(this, navBarModel);
         dateRecyclerView.setAdapter(dateNavAdapter);
 
-        // Initialize secondary fragment
-//        getActivity().getSupportFragmentManager().beginTransaction()
-//                .setReorderingAllowed(true)
-//                .add(R.id.SchFragmentContainer, ScheduleFragment.class, null)
-//                .commit();
+         //Initialize secondary fragment
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.SchFragmentContainer, ScheduleFragment.class, null)
+                .commit();
     }
 
     // Get last 3 days and next 7 dates

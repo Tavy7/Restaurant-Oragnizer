@@ -1,6 +1,5 @@
 package ro.unibuc.myapplication.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Models.Passwords;
 import ro.unibuc.myapplication.R;
 
 public class RegisterFragment extends Fragment {
@@ -35,7 +36,7 @@ public class RegisterFragment extends Fragment {
         // Change title
         requireActivity().setTitle(R.string.register);
 
-        sharedPreferences = this.getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = AccountActivity.getSharedPreferencesInstance(requireActivity());
 
         username = view.findViewById(R.id.loginUsername);
         password = view.findViewById(R.id.loginPassword);
@@ -56,7 +57,11 @@ public class RegisterFragment extends Fragment {
                 }else {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(SPKEY_NAME, userVal);
-                    editor.putString(SPKEY_PASS, passVal);
+
+                    Passwords hashPass = new Passwords(passVal, userVal);
+                    String hashedPassword = hashPass.calculateHash();
+
+                    editor.putString(SPKEY_PASS, hashedPassword);
                     editor.apply();
 
                     Toast.makeText(getContext(), "User registred!", Toast.LENGTH_SHORT).show();

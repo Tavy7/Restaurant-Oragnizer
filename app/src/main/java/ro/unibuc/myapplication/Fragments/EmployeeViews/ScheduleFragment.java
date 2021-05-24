@@ -36,25 +36,44 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
         calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
-        String date = "";
+        StringBuilder date = new StringBuilder();
         if (bundle != null){
-            date = parseDate(bundle.getString(CalendarFragment.DayDate));
+            String bundleDate = bundle.getString(CalendarFragment.DayDate);
+
             int currentDay = calendar.get(Calendar.DATE);
             CalendarFragment cf = new CalendarFragment();
 
             // Faulty for 1st, 31st ... TODO CHANGE IT
-            if (date.equals(cf.Today)){
-                date = String.valueOf(currentDay);
+            if (bundleDate.equals(cf.Today)){
+                date.append(String.valueOf(currentDay));
             }
 
-            if (date.equals(cf.Yesterday)){
-                date = String.valueOf(currentDay - 1);
+            if (bundleDate.equals(cf.Yesterday)){
+                date.append(String.valueOf(currentDay - 1));
             }
 
-            if (date.equals(cf.Tomorrow)){
-                date = String.valueOf(currentDay + 1);
+            if (bundleDate.equals(cf.Tomorrow)){
+                date.append(String.valueOf(currentDay + 1));
+            }
+
+            String dateStr = date.toString();
+
+            if(dateStr.length() == 0){
+                date.append(bundleDate);
             }
         }
+
+        String dateStr = date.toString();
+        StringBuilder dateBld = new StringBuilder();
+        if (dateStr.length() > 2){
+            dateBld.append(parseDate(dateStr));
+        }else {
+            dateBld.append(dateStr);
+        }
+
+        String parsedDate = dateBld.toString();
+
+        Toast.makeText(requireContext(), parsedDate, Toast.LENGTH_SHORT).show();
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
         List<Schedule> scheduleList = db.scheduleDAO().getAllSchedules();
@@ -62,9 +81,8 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
         List<Schedule> schedulesOnDate = new ArrayList<>();
         for (Schedule sch : scheduleList){
             String day = parseDate(sch.getDate());
-            Toast.makeText(requireContext(), day, Toast.LENGTH_SHORT).show();
 
-            if (day.equals(date)){
+            if (day.equals(parsedDate)){
                 schedulesOnDate.add(sch);
             }
         }
@@ -80,12 +98,6 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
 
     public String parseDate(String date){
         int month = calendar.get(Calendar.MONTH);
-        month = 4;
-
-        String monthStr = String.valueOf(date.charAt(3)) + String.valueOf(date.charAt(4));
-        if (month != Integer.parseInt(monthStr)){
-            return "";
-        }
 
         String day = String.valueOf(date.charAt(0)) + String.valueOf(date.charAt(1));
         return day;

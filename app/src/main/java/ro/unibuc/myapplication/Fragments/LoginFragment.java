@@ -36,6 +36,7 @@ import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Order;
+import ro.unibuc.myapplication.Models.Passwords;
 import ro.unibuc.myapplication.R;
 
 public class LoginFragment extends Fragment {
@@ -119,14 +120,17 @@ public class LoginFragment extends Fragment {
                     }
                 }
 
-
                 // Verify credentials
                 String name = sharedPreferences.getString(SPKEY_NAME, "-4");
-                String pass = sharedPreferences.getString(SPKEY_PASS, "-20");
 
                 // If input username equals db username
-                if (usernameVal != null && usernameVal.equals(name)){
-                    if (pass.equals(passwordVal)){
+                if (usernameVal.equals(name)){
+
+                    Passwords hashPass = new Passwords(name, passwordVal);
+                    String hashedPassword = hashPass.calculateHash();
+
+                    String pass = sharedPreferences.getString(SPKEY_PASS, "-20");
+                    if (pass.equals(hashedPassword)){
                         // Anonymous customer login
                         Toast.makeText(getContext(), "Login succesful!", Toast.LENGTH_SHORT).show();
                         gotoMainActivity();
@@ -238,7 +242,7 @@ public class LoginFragment extends Fragment {
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getContext(), "Login error!", Toast.LENGTH_SHORT).show();
-                           // updateUI(null);
+                            // updateUI(null);
                         }
                     }
                 });

@@ -50,11 +50,11 @@ public class AccountActivity extends AppCompatActivity {
 
         // Get shared preferences
         sharedPreferences = getSharedPreferencesInstance(this);
-        String name = sharedPreferences.getString(SPKEY_NAME, null);
-        if (name != null){
-            // If user is logged, change to main activity
-            gotoEmpActivity();
-            finish();
-        }
+//        String name = sharedPreferences.getString(SPKEY_NAME, null);
+//        if (name != null){
+//            // If user is logged, change to main activity
+//            gotoEmpActivity();
+//            finish();
+//        }
     }
 }
