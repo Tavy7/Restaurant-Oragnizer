@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,22 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
                 holder.view.setBackgroundColor(item.isSelected() ? Color.CYAN : Color.WHITE);
             }
         });
+
+        holder.plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int qnt = Integer.parseInt(holder.itemQnt.getText().toString());
+                holder.itemQnt.setText(String.valueOf(qnt + 1));
+            }
+        });
+
+        holder.minusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int qnt = Integer.parseInt(holder.itemQnt.getText().toString());
+                holder.itemQnt.setText(String.valueOf(qnt - 1));
+            }
+        });
     }
 
     @Override
@@ -62,12 +79,22 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
         private TextView description;
         private TextView price;
         private View view;
+        private TextView itemQnt;
+        private Button plusBtn;
+        private Button minusBtn;
 
         public ViewHolder(View view) {
             super(view);
             title = itemView.findViewById(R.id.itemTitle);
             description = itemView.findViewById(R.id.itemDescription);
             price = itemView.findViewById(R.id.itemPrice);
+
+            itemQnt = itemView.findViewById(R.id.itemQnt);
+            // Initialize item qnt with 1 everytime
+            itemQnt.setText("1");
+            plusBtn = itemView.findViewById(R.id.plusBtn);
+            minusBtn = itemView.findViewById(R.id.minusBtn);
+
             this.view = view;
         }
     }

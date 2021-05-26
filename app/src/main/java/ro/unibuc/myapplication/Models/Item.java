@@ -29,6 +29,13 @@ public class Item implements Parcelable {
     @Ignore
     int quantity = 1;
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public Item(String name, float price, String description, int discount) {
         //this.iid = iid;

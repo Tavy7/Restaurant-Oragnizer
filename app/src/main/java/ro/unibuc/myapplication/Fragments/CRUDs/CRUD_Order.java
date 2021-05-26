@@ -52,7 +52,7 @@ public class CRUD_Order extends Fragment {
 
         tableNum = view.findViewById(R.id.tableNumber);
         selectTable = view.findViewById(R.id.selectTableRecycler);
-        selectItems = view.findViewById(R.id.selectItemsRecycler);
+        selectItems = view.findViewById(R.id.orderItemsRecycler);
         saveOrder = view.findViewById(R.id.save_order_btn);
         deleteOrder = view.findViewById(R.id.delete_order_btn);
         scanQRBtn = view.findViewById(R.id.scanQRButton);
@@ -84,21 +84,26 @@ public class CRUD_Order extends Fragment {
 
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
         List<Table> tableList = db.tableDAO().getAllTables();
-        List<Item> itemList = db.itemDao().getAllItems();
-
         tableSelectionAdapter = new TableSelectionAdapter(tableList);
-        itemSelectionAdapter = new ItemSelectionAdapter(itemList);
-
         selectTable.setAdapter(tableSelectionAdapter);
-        selectItems.setAdapter(itemSelectionAdapter);
 
         if(bundle != null) {
             Order order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
             assert order != null;
+            List<Item> itemList = order.getItems();
+            if (itemList.size() == 0){
+                itemList = db.itemDao().getAllItems();
+            }
+            itemSelectionAdapter = new ItemSelectionAdapter(itemList);
+            selectItems.setAdapter(itemSelectionAdapter);
 
             buttonUpdateItem(order);
         }
         else{
+            List<Item> itemList = db.itemDao().getAllItems();
+            itemSelectionAdapter = new ItemSelectionAdapter(itemList);
+            selectItems.setAdapter(itemSelectionAdapter);
+
             buttonInsertNewItem();
         }
     }
@@ -166,10 +171,15 @@ public class CRUD_Order extends Fragment {
         if (table == null)
             table = db.tableDAO().getTable(qrNumber);
 
-        if (table == null){
+        if (table == null) {
             Toast.makeText(view.getContext(), "Table has to be selected to complete order.",
                     Toast.LENGTH_SHORT).show();
             return null;
+        }
+
+        // If table is not set to occupied, we set it now
+        if (!table.isOccupied()){
+            table.setOccupied(true);
         }
 
         List<Item> itemList = itemSelectionAdapter.getItemList();
@@ -187,9 +197,6 @@ public class CRUD_Order extends Fragment {
             return null;
         }
 
-        //Todo get account id that puts order
-
-        // Get logged username on share prefs
         SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
         String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
 
@@ -199,26 +206,24 @@ public class CRUD_Order extends Fragment {
 
         int id = 0;
         if (emp != null){
-            Toast.makeText(requireContext(), String.valueOf(emp.getUid()), Toast.LENGTH_SHORT).show();
             id = emp.getUid();
-        }
 
-        Customer customer = RestaurantDatabase.getInstance(requireContext()).
-                customerDAO().getCustomerByName(currentUserName);
+            Customer customer = RestaurantDatabase.getInstance(requireContext()).
+                    customerDAO().getCustomerByName(currentUserName);
 
-        id = 0;
-        if (customer != null){
-            Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
-            id = customer.getUid();
+            if (customer != null){
+                Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
+                id = customer.getUid();
+            }
         }
+        table.setServingEmployeeId(id);
 
         Calendar calendar = Calendar.getInstance();
         String orderDate = calendar.getTime().toString();
-        Toast.makeText(view.getContext(), String.valueOf(table.getQRCodeValue()),
-                Toast.LENGTH_SHORT).show();
 
-        Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate);
+        Order order = new Order(boughtItems, table.getQRCodeValue(), table.getServingEmployeeId(), orderDate);
         order.setTotalPrice(findTotal(boughtItems));
+        table.setOrderId(order.getOid());
 
         return order;
     }
@@ -233,7 +238,6 @@ public class CRUD_Order extends Fragment {
                 if (order == null) {
                     return;
                 }
-
 
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Returns new generated id
@@ -252,6 +256,7 @@ public class CRUD_Order extends Fragment {
         tableNum.setText(tableIdStr);
 
         saveOrder.setText("Send order");
+
         saveOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

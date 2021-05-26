@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,23 +26,33 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
-        android:text="@string/occupied"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
+        android:text="@string/occupied"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTableID"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/orderItemsRecycler"
+        android:layout_width="108dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/isTableOccupied"></androidx.recyclerview.widget.RecyclerView>
+
     <Button
         android:id="@+id/saveTableBtn"
         android:layout_width="204dp"
         android:layout_height="50dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
         android:text="@string/add_item"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isTableOccupied" />
+        app:layout_constraintTop_toBottomOf="@+id/orderItemsRecycler" />
 
     <Button
         android:id="@+id/deleteTableBtn"
@@ -51,11 +60,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="@string/delete_item"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/empTakeTable"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/empTakeTable" />
 
     <TextView
         android:id="@+id/textView10"
@@ -77,9 +86,9 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="162dp"
         android:text="@string/take_table"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveTableBtn"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/saveTableBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,13 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.Adapters.ItemSelectionAdapter;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
+import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
@@ -31,6 +36,7 @@ public class CRUD_Table extends Fragment {
     protected Button addTableBtn;
     protected Button deleteTableBtn;
     protected Button takeTableBtn;
+    protected RecyclerView itemsRecycler;
     View view;
 
     public CRUD_Table(){ super(R.layout.fragment_add_table); }
@@ -45,12 +51,24 @@ public class CRUD_Table extends Fragment {
         addTableBtn = view.findViewById(R.id.saveTableBtn);
         deleteTableBtn = view.findViewById(R.id.deleteTableBtn);
         takeTableBtn = view.findViewById(R.id.empTakeTable);
+        itemsRecycler = view.findViewById(R.id.orderItemsRecycler);
+
 
         // If bundle is not null that means the
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             Table table = bundle.getParcelable(TablesViewFragment.getBundleKey());
+
+            int orderId = table.getOrderId();
+            if (orderId != 0) {
+                RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
+                Order order = (Order) db.orderDAO().getOrderById(orderId);
+
+                List<Item> itemList = order.getItems();
+                ItemSelectionAdapter itemAdapter = new ItemSelectionAdapter(itemList);
+                itemsRecycler.setAdapter(itemAdapter);
+            }
             buttonUpdateItem(table);
         }
         else {
@@ -162,27 +180,49 @@ public class CRUD_Table extends Fragment {
         takeTableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get logged username on share prefs
-                SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
-                String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
+                try {
+                    int id = getCurrentUserId();
+                    // Update table
+                    table.setServingEmployeeId(id);
 
-                // Search for employee username
-                Employee emp = RestaurantDatabase.getInstance(requireContext()).
-                        employeeDAO().getEmployeeByName(currentUserName);
+                    Calendar calendar = Calendar.getInstance();
+                    String orderDate = calendar.getTime().toString();
 
-                // Update table
-                table.setServingEmployeeId(emp.getUid());
-
-                Calendar calendar = Calendar.getInstance();
-                String orderDate = calendar.getTime().toString();
-
-                Order order = new Order(new ArrayList<>(), table.getQRCodeValue(), emp.getUid(), orderDate);
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
-                // GOTO create order
-                Navigation.findNavController(view).navigate(R.id.CRUD_Order, bundle);
+                    Order order = new Order(new ArrayList<>(), table.getQRCodeValue(), id, orderDate);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
+                    // GOTO create order
+                    Navigation.findNavController(view).navigate(R.id.CRUD_Order, bundle);
+                }
+                catch (NullPointerException e){
+                    Toast.makeText(view.getContext(), "Employee not found!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    protected int getCurrentUserId(){
+        // Get logged username on share prefs
+        SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
+        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
+
+        // Search for employee username
+        Employee emp = RestaurantDatabase.getInstance(requireContext()).
+                employeeDAO().getEmployeeByName(currentUserName);
+
+        int id = 0;
+        if (emp != null){
+            id = emp.getUid();
+
+            Customer customer = RestaurantDatabase.getInstance(requireContext()).
+                    customerDAO().getCustomerByName(currentUserName);
+
+            if (customer != null){
+                Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
+                id = customer.getUid();
+            }
+        }
+
+        return id;
     }
 }

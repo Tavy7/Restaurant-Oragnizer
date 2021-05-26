@@ -2,7 +2,6 @@ package ro.unibuc.myapplication.Adapters;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,6 @@ public class TableHomeViewAdapter extends RecyclerView.Adapter<TableHomeViewAdap
         holder.tableTitle.setText(String.valueOf(table.getQRCodeValue()));
         holder.tableTitle.setVisibility(View.VISIBLE);
 
-        Drawable circleBg = holder.tableImage.getBackground();
         String green = "#7CFC00";
         holder.tableImage.setColorFilter(Color.parseColor(green), PorterDuff.Mode.SRC_ATOP);
 

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -55,6 +56,9 @@ public class Order implements Parcelable {
 
     @ColumnInfo(name = "Order date")
     protected String orderDate;
+
+    @Ignore()
+    protected boolean orderFinished = false;
 
     public Order(List<Item> items, int tableQRValue, int accountId, String orderDate) {
         this.items = items;
@@ -145,5 +149,13 @@ public class Order implements Parcelable {
 
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public boolean isOrderFinished() {
+        return orderFinished;
+    }
+
+    public void setOrderFinished(boolean orderFinished) {
+        this.orderFinished = orderFinished;
     }
 }

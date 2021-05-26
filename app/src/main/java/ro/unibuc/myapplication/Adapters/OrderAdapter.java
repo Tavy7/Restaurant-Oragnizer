@@ -56,6 +56,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 itemClickListener.onItemClick(order);
             }
         });
+
+        // TODO Search for username instead of id
+        holder.orderEmpName.setText(String.valueOf(order.getAccountId()));
     }
 
     @Override
@@ -67,12 +70,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         // Todo change with Orders from view
         protected TextView orderDetails;
         protected TextView orderItems;
+        protected TextView orderEmpName;
         protected View view;
 
         public ViewHolder(View view) {
             super(view);
             orderDetails = view.findViewById(R.id.orderDateAndTotal);
             orderItems = view.findViewById(R.id.orderItemList);
+            orderEmpName = view.findViewById(R.id.orderEmpName);
             this.view = view;
         }
     }

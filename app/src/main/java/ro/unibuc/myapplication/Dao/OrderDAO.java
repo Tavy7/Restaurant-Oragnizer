@@ -35,4 +35,7 @@ public interface OrderDAO {
 
     @Query("SELECT * FROM OrderT WHERE `User ID` = :uId")
     List<Order> getUsersOrders(int uId);
+
+    @Query("SELECT * FROM OrderT WHERE `Order id` = :oId")
+    List<Order> getOrderById(int oId);
 }

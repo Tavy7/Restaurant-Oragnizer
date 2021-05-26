@@ -3,6 +3,7 @@ package ro.unibuc.myapplication.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,7 +36,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
-        ViewHolder.bind(itemList.get(position));
+        Item item = itemList.get(position);
+
+        holder.title.setText(item.getName());
+        holder.description.setText(item.getDescription());
+        holder.price.setText(String.valueOf(item.getPrice()));
+        holder.itemQnt.setText(String.valueOf(item.getQuantity()));
+
+        holder.container.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                itemClickListener.onItemClick(item);
+            }
+        });
     }
 
     @Override
@@ -44,10 +57,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private static TextView title;
-        private static TextView description;
-        private static TextView price;
-        private static RelativeLayout container;
+        private TextView title;
+        private TextView description;
+        private TextView price;
+        private RelativeLayout container;
+        private TextView itemQnt;
+        private Button plusBtn;
+        private Button minusBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,19 +71,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             description = itemView.findViewById(R.id.itemDescription);
             price = itemView.findViewById(R.id.itemPrice);
             container = itemView.findViewById(R.id.itemContainer);
-        }
 
-        public static void bind(Item item){
-            title.setText(item.getName());
-            description.setText(item.getDescription());
-            price.setText(String.valueOf(item.getPrice()));
-
-            container.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    itemClickListener.onItemClick(item);
-                }
-            });
+            // This adapter is not used for creating a order
+            // so we hide de quantity controlls
+            itemQnt = itemView.findViewById(R.id.itemQnt);
+            plusBtn = itemView.findViewById(R.id.plusBtn);
+            plusBtn.setVisibility(View.INVISIBLE);
+            minusBtn = itemView.findViewById(R.id.minusBtn);
+            minusBtn.setVisibility(View.INVISIBLE);
         }
     }
 }
