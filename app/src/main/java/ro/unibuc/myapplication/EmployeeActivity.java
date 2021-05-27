@@ -12,8 +12,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class EmployeeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    NavController navController;
+    static NavController navController;
     BottomNavigationView nav;
+
+    public static NavController getNavController() {
+        return navController;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

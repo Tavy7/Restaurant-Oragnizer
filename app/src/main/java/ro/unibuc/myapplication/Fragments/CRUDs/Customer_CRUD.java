@@ -17,14 +17,14 @@ import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.R;
 
-public class CRUD_Customer extends Fragment {
+public class Customer_CRUD extends Fragment {
     protected EditText customerName;
     protected EditText customerEmail;
     protected EditText customerCreditCard;
     protected Button addCustomer;
     protected Button deleteCustomer;
 
-    public CRUD_Customer(){ super(R.layout.fragment_add_customer); };
+    public Customer_CRUD(){ super(R.layout.fragment_add_customer); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

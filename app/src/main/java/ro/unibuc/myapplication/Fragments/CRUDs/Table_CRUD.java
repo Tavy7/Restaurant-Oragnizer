@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
@@ -30,7 +28,7 @@ import ro.unibuc.myapplication.R;
 
 import static ro.unibuc.myapplication.AccountActivity.getSharedPreferencesInstance;
 
-public class CRUD_Table extends Fragment {
+public class Table_CRUD extends Fragment {
     protected EditText addTableId;
     protected Switch isOccupiedSwitch;
     protected Button addTableBtn;
@@ -39,7 +37,7 @@ public class CRUD_Table extends Fragment {
     protected RecyclerView itemsRecycler;
     View view;
 
-    public CRUD_Table(){ super(R.layout.fragment_add_table); }
+    public Table_CRUD(){ super(R.layout.fragment_add_table); }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -152,17 +150,12 @@ public class CRUD_Table extends Fragment {
             }
         });
 
-        if (table.isOccupied()) {
-            takeTableButton(table);
-        }
-
+        takeTableButton(table);
         deleteButton(table);
     }
 
     protected void deleteButton(Table table){
-        // Delete button is hidden by default in view
         deleteTableBtn.setText("Delete table");
-        deleteTableBtn.setVisibility(View.VISIBLE);
         deleteTableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,20 +168,17 @@ public class CRUD_Table extends Fragment {
     }
 
     protected void takeTableButton(Table table){
-        takeTableBtn.setVisibility(View.VISIBLE);
         // Delete button is hidden by default in view
         takeTableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    table.setOccupied(true);
                     int id = getCurrentUserId();
                     // Update table
                     table.setServingEmployeeId(id);
 
-                    Calendar calendar = Calendar.getInstance();
-                    String orderDate = calendar.getTime().toString();
-
-                    Order order = new Order(new ArrayList<>(), table.getQRCodeValue(), id, orderDate);
+                    Order order = new Order(table.getQRCodeValue(), id);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
                     // GOTO create order

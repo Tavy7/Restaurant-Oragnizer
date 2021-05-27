@@ -32,7 +32,7 @@ import ro.unibuc.myapplication.R;
 
 import static ro.unibuc.myapplication.AccountActivity.getSharedPreferencesInstance;
 
-public class CRUD_Order extends Fragment {
+public class Order_CRUD extends Fragment {
     protected TextView tableNum;
     protected RecyclerView selectTable;
     protected TableSelectionAdapter tableSelectionAdapter;
@@ -43,7 +43,7 @@ public class CRUD_Order extends Fragment {
     protected Button scanQRBtn;
     protected Button changeViewBtn;
 
-    public CRUD_Order() { super(R.layout.fragment_add_order);
+    public Order_CRUD() { super(R.layout.fragment_add_order);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class CRUD_Order extends Fragment {
             Order order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
             assert order != null;
             List<Item> itemList = order.getItems();
-            if (itemList.size() == 0){
+            if (itemList == null){
                 itemList = db.itemDao().getAllItems();
             }
             itemSelectionAdapter = new ItemSelectionAdapter(itemList);
@@ -177,11 +177,6 @@ public class CRUD_Order extends Fragment {
             return null;
         }
 
-        // If table is not set to occupied, we set it now
-        if (!table.isOccupied()){
-            table.setOccupied(true);
-        }
-
         List<Item> itemList = itemSelectionAdapter.getItemList();
         List<Item> boughtItems = new ArrayList<>();
 
@@ -201,31 +196,42 @@ public class CRUD_Order extends Fragment {
         String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
 
         // Search for employee username
-        Employee emp = RestaurantDatabase.getInstance(requireContext()).
-                employeeDAO().getEmployeeByName(currentUserName);
+        Employee emp = db.employeeDAO().getEmployeeByName(currentUserName);
 
         int id = 0;
         if (emp != null){
             id = emp.getUid();
 
-            Customer customer = RestaurantDatabase.getInstance(requireContext()).
-                    customerDAO().getCustomerByName(currentUserName);
-
+            Customer customer = db.customerDAO().getCustomerByName(currentUserName);
             if (customer != null){
                 Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
                 id = customer.getUid();
             }
         }
-        table.setServingEmployeeId(id);
+
+        if (id == 0){
+            Toast.makeText(requireContext(), "sorry not found", Toast.LENGTH_SHORT).show();
+            id = 1;
+        }
 
         Calendar calendar = Calendar.getInstance();
         String orderDate = calendar.getTime().toString();
 
-        Order order = new Order(boughtItems, table.getQRCodeValue(), table.getServingEmployeeId(), orderDate);
+        Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate);
         order.setTotalPrice(findTotal(boughtItems));
-        table.setOrderId(order.getOid());
 
         return order;
+    }
+
+    protected void updateTableInDatabase(RestaurantDatabase db, Order order){
+        int tableId = order.getTableQRValue();
+        Table table = db.tableDAO().getTable(tableId);
+
+        // Update table in database
+        table.setOccupied(true);
+        table.setOrderId(order.getOid());
+        table.setServingEmployeeId(order.getAccountId());
+        db.tableDAO().updateTable(table);
     }
 
     protected void buttonInsertNewItem(){
@@ -242,6 +248,7 @@ public class CRUD_Order extends Fragment {
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Returns new generated id
                 long newGeneratedId = db.orderDAO().insertOrder(order);
+                updateTableInDatabase(db, order);
                 Toast.makeText(view.getContext(),
                         "Order succesfully inserated!", Toast.LENGTH_SHORT).show();
 
@@ -271,6 +278,7 @@ public class CRUD_Order extends Fragment {
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Confilt strategy is REPLACE so is the same as update
                 db.orderDAO().insertOrder(newOrder);
+                updateTableInDatabase(db, newOrder);
 
                 Toast.makeText(view.getContext(),
                         "Order succesfully updated!", Toast.LENGTH_SHORT).show();

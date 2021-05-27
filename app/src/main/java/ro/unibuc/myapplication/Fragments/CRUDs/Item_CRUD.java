@@ -14,7 +14,7 @@ import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Models.Item;
 import ro.unibuc.myapplication.R;
 
-public class CRUD_Item extends Fragment {
+public class Item_CRUD extends Fragment {
     protected EditText itemName;
     protected EditText itemDesc;
     protected EditText itemPrice;
@@ -23,7 +23,7 @@ public class CRUD_Item extends Fragment {
     protected Button deleteItem;
 
 
-    public CRUD_Item(){
+    public Item_CRUD(){
         super(R.layout.fragment_add_item);
     }
 

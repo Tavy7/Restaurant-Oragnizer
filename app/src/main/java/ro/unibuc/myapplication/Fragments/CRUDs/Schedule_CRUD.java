@@ -26,7 +26,7 @@ import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Schedule;
 import ro.unibuc.myapplication.R;
 
-public class CRUD_Schedule extends Fragment {
+public class Schedule_CRUD extends Fragment {
     private static final String CHANNEL_ID = "-23";
     protected EditText schDate;
     protected EditText schStart;
@@ -37,7 +37,7 @@ public class CRUD_Schedule extends Fragment {
     protected EmployeeSelectionAdapter employeeSelectionAdapter;
     protected static int notificationId;
 
-    public CRUD_Schedule() {super(R.layout.fragment_add_schedule);
+    public Schedule_CRUD() {super(R.layout.fragment_add_schedule);
     }
 
     @Override

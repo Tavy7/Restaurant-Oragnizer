@@ -68,7 +68,6 @@ public class SchedulesViewFragment extends Fragment implements OnItemClickListen
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, schedule);
 
-
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
                 .findFragmentById(R.id.EmployeeMainFragment);
         NavController navCo = navHostFragment.getNavController();

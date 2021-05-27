@@ -14,13 +14,13 @@ import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.R;
 
-public class CRUD_Employee extends Fragment {
+public class Employee_CRUD extends Fragment {
     protected EditText employeeName;
     protected EditText employeeRole;
     protected Button addEmp;
     protected Button deleteEmp;
 
-    public CRUD_Employee(){ super(R.layout.fragment_add_employee); };
+    public Employee_CRUD(){ super(R.layout.fragment_add_employee); };
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

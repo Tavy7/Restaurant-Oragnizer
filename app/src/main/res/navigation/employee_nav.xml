@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/CRUD_Table"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Table"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Table_CRUD"
         android:label="CRUD_Table"
         tools:layout="@layout/fragment_add_table" />
 
@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_tableFragment_to_calendarFragment"
             app:destination="@id/calendarFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_occupiedTableFragment"
+            app:destination="@id/occupiedTableFragment" />
     </fragment>
 
     <fragment
@@ -70,25 +73,25 @@
         tools:layout="@layout/fragment_schedule" />
     <fragment
         android:id="@+id/CRUD_Customer"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Customer"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Customer_CRUD"
         android:label="CRUD_Customer"
         tools:layout="@layout/fragment_add_customer" />
 
     <fragment
         android:id="@+id/CRUD_Employee"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Employee"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Employee_CRUD"
         android:label="CRUD_Employee"
         tools:layout="@layout/fragment_add_employee" />
 
     <fragment
         android:id="@+id/CRUD_Item"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Item"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Item_CRUD"
         android:label="CRUD_Item"
         tools:layout="@layout/fragment_add_item" />
 
     <fragment
         android:id="@+id/CRUD_Order"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Order"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Order_CRUD"
         android:label="CRUD_Order"
         tools:layout="@layout/fragment_add_order" >
         <action
@@ -98,7 +101,7 @@
 
     <fragment
         android:id="@+id/CRUD_Schedule"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Schedule"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Schedule_CRUD"
         android:label="CRUD_Schedule"
         tools:layout="@layout/fragment_add_schedule" />
 
@@ -106,7 +109,7 @@
         android:id="@+id/fragmentViewTables"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.TablesViewFragment"
         android:label="FragmentViewTables"
-        tools:layout="@layout/fragment_view_tables" >
+        tools:layout="@layout/fragment_view_items" >
         <action
             android:id="@+id/action_fragmentViewTables_to_CRUD_Table"
             app:destination="@id/CRUD_Table" />
@@ -116,7 +119,7 @@
         android:id="@+id/fragmentViewSchedules"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.SchedulesViewFragment"
         android:label="FragmentViewSchedules"
-        tools:layout="@layout/fragment_view_schedules" >
+        tools:layout="@layout/fragment_view_items" >
         <action
             android:id="@+id/action_fragmentViewSchedules_to_CRUD_Schedule"
             app:destination="@id/CRUD_Schedule" />
@@ -126,7 +129,7 @@
         android:id="@+id/fragmentViewOrders"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment"
         android:label="FragmentViewOrders"
-        tools:layout="@layout/fragment_view_orders" >
+        tools:layout="@layout/fragment_view_items" >
         <action
             android:id="@+id/action_fragmentViewOrders_to_CRUD_Order"
             app:destination="@id/CRUD_Order" />
@@ -136,7 +139,7 @@
         android:id="@+id/fragmentViewEmployee"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.EmployeesViewFragment"
         android:label="FragmentViewEmployee"
-        tools:layout="@layout/fragment_view_employees" >
+        tools:layout="@layout/fragment_view_items" >
         <action
             android:id="@+id/action_fragmentViewEmployee_to_CRUD_Employee"
             app:destination="@id/CRUD_Employee" />
@@ -146,7 +149,7 @@
         android:id="@+id/fragmentViewCustomer"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.CustomersViewFragment"
         android:label="FragmentViewCustomer"
-        tools:layout="@layout/fragmnet_view_customers" >
+        tools:layout="@layout/fragment_view_items" >
         <action
             android:id="@+id/action_fragmentViewCustomer_to_CRUD_Customer"
             app:destination="@id/CRUD_Customer" />
@@ -171,4 +174,19 @@
             android:id="@+id/action_calendarFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/occupiedTableFragment"
+        android:name="ro.unibuc.myapplication.Fragments.OccupiedTableFragment"
+        android:label="OccupiedTableFragment"
+        tools:layout="@layout/occupied_table"
+        >
+        <action
+            android:id="@+id/action_occupiedTableFragment_to_orderReadFragment2"
+            app:destination="@id/orderReadFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderReadFragment2"
+        android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderReadFragment"
+        android:label="OrderReadFragment"
+        tools:layout="@layout/fragment_customer_order_history" />
 </navigation>

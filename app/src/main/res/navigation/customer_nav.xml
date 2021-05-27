@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/CRUD_Order2"
-        android:name="ro.unibuc.myapplication.Fragments.CRUDs.CRUD_Order"
+        android:name="ro.unibuc.myapplication.Fragments.CRUDs.Order_CRUD"
         android:label="CRUD_Order"
         tools:layout="@layout/fragment_add_order"/>
     <fragment
@@ -46,4 +46,13 @@
         android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderHistoryCustomerFragment"
         android:label="OrderHistoryCustomerFragment"
         tools:layout="@layout/fragment_customer_order_history"/>
+    <fragment
+        android:id="@+id/orderReadFragment"
+        android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderReadFragment"
+        android:label="OrderReadFragment"
+        tools:layout="@layout/fragment_read_order">
+        <action
+            android:id="@+id/action_orderReadFragment_to_orderHistoryCustomerFragment"
+            app:destination="@id/orderHistoryCustomerFragment" />
+    </fragment>
 </navigation>

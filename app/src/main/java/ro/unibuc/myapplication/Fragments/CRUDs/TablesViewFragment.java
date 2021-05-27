@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,10 +52,7 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
             @Override
             public void onClick(View view) {
                 // Initialize fragment
-                NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                        .findFragmentById(R.id.EmployeeMainFragment);
-                NavController navCo = navHostFragment.getNavController();
-
+                NavController navCo = EmployeeActivity.getNavController();
                 navCo.navigate(R.id.CRUD_Table);
             }
         });
@@ -68,10 +64,7 @@ public class TablesViewFragment extends Fragment implements OnItemClickListener 
         Bundle bundle = new Bundle();
         bundle.putParcelable(bundleKey, table);
 
-        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.EmployeeMainFragment);
-        NavController navCo = navHostFragment.getNavController();
-
+        NavController navCo = EmployeeActivity.getNavController();
         navCo.navigate(R.id.CRUD_Table, bundle);
     }
 

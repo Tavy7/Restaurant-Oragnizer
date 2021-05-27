@@ -67,6 +67,12 @@ public class Order implements Parcelable {
         this.orderDate = orderDate;
     }
 
+    @Ignore
+    public Order(int tableQRValue, int accountId){
+        this.tableQRValue = tableQRValue;
+        this.accountId = accountId;
+    }
+
     protected Order(Parcel in) {
         oid = in.readInt();
         items = in.createTypedArrayList(Item.CREATOR);

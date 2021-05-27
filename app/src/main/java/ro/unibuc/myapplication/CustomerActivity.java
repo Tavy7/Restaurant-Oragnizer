@@ -16,6 +16,10 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
     NavController navController;
     BottomNavigationView nav;
 
+    public NavController getNavController() {
+        return navController;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

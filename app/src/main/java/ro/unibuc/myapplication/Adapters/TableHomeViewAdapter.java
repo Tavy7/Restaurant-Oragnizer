@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -64,6 +63,7 @@ public class TableHomeViewAdapter extends RecyclerView.Adapter<TableHomeViewAdap
             }
         }
 
+        // Click on table
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,11 +71,13 @@ public class TableHomeViewAdapter extends RecyclerView.Adapter<TableHomeViewAdap
                 bundle.putParcelable(TablesViewFragment.getBundleKey(), table);
 
                 // Spaghetti to get Nav Controller to change fragment
-                NavHostFragment navHostFragment = (NavHostFragment) ((EmployeeActivity)holder.view.getContext()).getSupportFragmentManager()
-                        .findFragmentById(R.id.EmployeeMainFragment);
-                NavController navCo = navHostFragment.getNavController();
+                NavController navCo = EmployeeActivity.getNavController();
 
-                navCo.navigate(R.id.CRUD_Table, bundle);
+                if (table.isOccupied()) {
+                    navCo.navigate(R.id.occupiedTableFragment, bundle);
+                } else {
+                    navCo.navigate(R.id.CRUD_Table, bundle);
+                }
             }
         });
     }

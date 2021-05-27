@@ -38,7 +38,9 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder> 
 
         holder.tableNumber.setText("Table no" + String.valueOf(table.getQRCodeValue()));
         holder.tableStatus.setText(table.isOcupiedString());
-        holder.tableEmp.setText(String.valueOf(table.getServingEmployeeId()));
+        String text = String.valueOf(table.getServingEmployeeId()) + " "
+                + String.valueOf(table.getOrderId());
+        holder.tableEmp.setText(text);
 
         holder.container.setOnClickListener(new View.OnClickListener(){
             @Override
