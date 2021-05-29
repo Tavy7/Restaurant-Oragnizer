@@ -75,6 +75,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
                 empOnSchStr.append(empName + " " + empRole + "\n");
             }
+
             // Delete \n
             empOnSchStr.deleteCharAt(empOnSchStr.length() - 1);
             empOnSchStr.deleteCharAt(empOnSchStr.length() - 2);

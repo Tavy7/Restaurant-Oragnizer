@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,6 +66,11 @@ public class CalendarFragment extends Fragment implements OnItemClickListener {
         DateNavAdapter dateNavAdapter = new DateNavAdapter(this, navBarModel);
         dateRecyclerView.setAdapter(dateNavAdapter);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(dateRecyclerView.getContext(),
+                layoutManager.getOrientation());
+
+        dateRecyclerView.addItemDecoration(dividerItemDecoration);
+
          //Initialize secondary fragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
@@ -90,6 +96,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener {
             DateNavBarModel dateModel = new DateNavBarModel(date);
             navBarModel.add(dateModel);
 
+            // Increment date
             calendar.add(Calendar.DATE, 1);
         }
 
@@ -98,6 +105,7 @@ public class CalendarFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void onItemClick(DateNavBarModel item){
+        // On click on day, the fragment shows schedules from that day
         Bundle bundle = new Bundle();
         bundle.putString(DayDate, String.valueOf(item.getDayDate()));
 

@@ -37,7 +37,16 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        ViewHolder.bind(models.get(position));
+        DateNavBarModel model = models.get(position);
+        holder.dayTextView.setText(String.format("\t%s\t\t", model.getDayDate()));
+
+        holder.layout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                itemClickListener.onItemClick(model);
+            }
+        });
+
     }
 
     @Override
@@ -47,25 +56,14 @@ public class DateNavAdapter extends RecyclerView.Adapter<DateNavAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // Initialize variable
-        private static TextView textView;
-        private static ConstraintLayout layout;
+        private TextView dayTextView;
+        private ConstraintLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // DayTextView is an element of date nav bar recycler view
-            textView = itemView.findViewById(R.id.DayTextView);
+            this.dayTextView = itemView.findViewById(R.id.DayTextView);
             this.layout = itemView.findViewById(R.id.DayContainer);
-        }
-
-        public static void bind(DateNavBarModel item){
-            textView.setText(item.getDayDate());
-
-            layout.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    itemClickListener.onItemClick(item);
-                }
-            });
         }
     }
 }

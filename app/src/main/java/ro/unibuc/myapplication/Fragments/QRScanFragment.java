@@ -90,7 +90,7 @@ public class QRScanFragment extends Fragment {
                                     id = customer.getUid();
                                 }
 
-                                order = new Order(new ArrayList<Item>(), QRValue, id, null);
+                                order = new Order(new ArrayList<Item>(), QRValue, id, null, false);
                             }
 
                             Bundle newBundle = new Bundle();

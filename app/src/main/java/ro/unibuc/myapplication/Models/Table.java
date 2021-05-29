@@ -25,15 +25,17 @@ public class Table implements Parcelable {
     boolean isOccupied;
     @Ignore
     boolean isSelected;
-    @Ignore
+    @ColumnInfo(name = "Serving empId")
     int servingEmployeeId = 0;
-    @Ignore
+    @ColumnInfo(name = "OrderId")
     int orderId = 0;
 
-    public Table(int QRCodeValue, List<Item> Menu, boolean isOccupied) {
+    public Table(int QRCodeValue, List<Item> Menu, boolean isOccupied, int servingEmployeeId, int orderId) {
         this.QRCodeValue = QRCodeValue;
         this.Menu = Menu;
         this.isOccupied = isOccupied;
+        this.servingEmployeeId = servingEmployeeId;
+        this.orderId = orderId;
     }
 
     protected Table(Parcel in) {

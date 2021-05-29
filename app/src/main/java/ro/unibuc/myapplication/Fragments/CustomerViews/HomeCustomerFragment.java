@@ -30,7 +30,7 @@ public class HomeCustomerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Navigation.findNavController(view).navigate(R.id.QRScanFragment2);
-                Order order = new Order(new ArrayList<Item>(), 1, 0, null);
+                Order order = new Order(new ArrayList<Item>(), 1, 0, null, false);
                 Bundle newBundle = new Bundle();
                 newBundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
                 Navigation.findNavController(view).navigate(R.id.CRUD_Order2, newBundle);

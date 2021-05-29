@@ -45,7 +45,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Item i : order.getItems()){
-            stringBuilder.append(i.getName() + "\n");
+            stringBuilder.append(i.getName() + " x" + i.getQuantity() + "\n");
         }
 
         holder.orderItems.setText(stringBuilder.toString());
@@ -58,7 +58,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         });
 
         // TODO Search for username instead of id
-        holder.orderEmpName.setText(String.valueOf(order.getAccountId()));
+        holder.orderEmpName.setText(String.valueOf(order.getAccountId()) + " "
+            + String.valueOf(order.getTableQRValue()) + " "
+            + String.valueOf(order.getOid()));
     }
 
     @Override

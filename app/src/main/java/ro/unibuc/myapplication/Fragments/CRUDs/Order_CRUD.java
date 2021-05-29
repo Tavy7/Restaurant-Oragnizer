@@ -91,9 +91,10 @@ public class Order_CRUD extends Fragment {
             Order order = bundle.getParcelable(OrdersViewFragment.getBundleKey());
             assert order != null;
             List<Item> itemList = order.getItems();
-            if (itemList == null){
+            if (!order.isOrderFinished() || itemList == null){
                 itemList = db.itemDao().getAllItems();
             }
+
             itemSelectionAdapter = new ItemSelectionAdapter(itemList);
             selectItems.setAdapter(itemSelectionAdapter);
 
@@ -180,6 +181,8 @@ public class Order_CRUD extends Fragment {
         List<Item> itemList = itemSelectionAdapter.getItemList();
         List<Item> boughtItems = new ArrayList<>();
 
+
+
         for (Item itm : itemList){
             if (itm.isSelected()){
                 boughtItems.add(itm);
@@ -192,46 +195,28 @@ public class Order_CRUD extends Fragment {
             return null;
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
-        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
-
-        // Search for employee username
-        Employee emp = db.employeeDAO().getEmployeeByName(currentUserName);
-
-        int id = 0;
-        if (emp != null){
-            id = emp.getUid();
-
-            Customer customer = db.customerDAO().getCustomerByName(currentUserName);
-            if (customer != null){
-                Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
-                id = customer.getUid();
-            }
-        }
-
-        if (id == 0){
-            Toast.makeText(requireContext(), "sorry not found", Toast.LENGTH_SHORT).show();
-            id = 1;
-        }
-
+        int id = getCurrentUserId();
         Calendar calendar = Calendar.getInstance();
         String orderDate = calendar.getTime().toString();
 
-        Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate);
-        order.setTotalPrice(findTotal(boughtItems));
+        Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate, false);
+        order.setTotalPrice(order.findTotal(boughtItems));
 
         return order;
     }
 
-    protected void updateTableInDatabase(RestaurantDatabase db, Order order){
+    protected void updateTableInDatabase(Order order){
         int tableId = order.getTableQRValue();
+        RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
         Table table = db.tableDAO().getTable(tableId);
 
         // Update table in database
         table.setOccupied(true);
         table.setOrderId(order.getOid());
         table.setServingEmployeeId(order.getAccountId());
-        db.tableDAO().updateTable(table);
+
+        db.tableDAO().insertTable(table);
+        db.orderDAO().insertOrder(order);
     }
 
     protected void buttonInsertNewItem(){
@@ -245,10 +230,16 @@ public class Order_CRUD extends Fragment {
                     return;
                 }
 
+                int id = getCurrentUserId();
+                order.setAccountId(id);
+
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Returns new generated id
-                long newGeneratedId = db.orderDAO().insertOrder(order);
-                updateTableInDatabase(db, order);
+                int newGeneratedId = (int)(db.orderDAO().insertOrder(order));
+                Toast.makeText(requireContext(), String.valueOf(newGeneratedId), Toast.LENGTH_SHORT).show();
+                order.setOid(newGeneratedId);
+                updateTableInDatabase(order);
+
                 Toast.makeText(view.getContext(),
                         "Order succesfully inserated!", Toast.LENGTH_SHORT).show();
 
@@ -267,18 +258,29 @@ public class Order_CRUD extends Fragment {
         saveOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List<Item> itemList = order.getItems();
                 Order newOrder = verifyDataInserted(view);
 
                 if (newOrder == null) {
                     return;
                 }
-                // Item generated is new so it has no id
-                newOrder.setOid(order.getOid());
+
+                // Concatenate new items with old items
+                // maybe could check if two are the same
+                for(int i = 0; i < itemList.size(); i++){
+                    newOrder.appendItem(itemList.get(i));
+                }
+                // Update order total
+                // this is disgusting but i am tired
+                newOrder.setTotalPrice(newOrder.findTotal(newOrder.getItems()));
 
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Confilt strategy is REPLACE so is the same as update
-                db.orderDAO().insertOrder(newOrder);
-                updateTableInDatabase(db, newOrder);
+                int id = (int)(db.orderDAO().insertOrder(newOrder));
+                Toast.makeText(requireContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+                // Item generated is new so it has no id
+                newOrder.setOid(id);
+                updateTableInDatabase(newOrder);
 
                 Toast.makeText(view.getContext(),
                         "Order succesfully updated!", Toast.LENGTH_SHORT).show();
@@ -313,23 +315,26 @@ public class Order_CRUD extends Fragment {
         });
     }
 
+    protected int getCurrentUserId(){
+        // Get logged username on share prefs
+        SharedPreferences sharedPreferences = getSharedPreferencesInstance(requireContext());
+        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
 
-    // Function that calculates the total price
-    // of the items from array list items.
-    protected float findTotal(List<Item> itemList){
-        float total = 0;
-        for (Item item : itemList){
-            float price = item.getPrice();
+        // Search for employee username
+        Employee emp = RestaurantDatabase.getInstance(requireContext()).
+                employeeDAO().getEmployeeByName(currentUserName);
 
-            int discount = item.getDiscount();
-            // If price has a discount
-            if (discount != 0){
-                // Then we update the price
-                price -= discount * price / 100;
-            }
-            total += price;
+        int id = 0;
+        if (emp != null) {
+            id = emp.getUid();
+        }
+        Customer customer = RestaurantDatabase.getInstance(requireContext()).
+                customerDAO().getCustomerByName(currentUserName);
+
+        if (customer != null){
+            id = customer.getUid();
         }
 
-        return total;
+        return id;
     }
 }

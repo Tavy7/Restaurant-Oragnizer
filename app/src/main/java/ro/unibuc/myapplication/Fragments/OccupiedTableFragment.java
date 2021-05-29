@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment;
 import ro.unibuc.myapplication.Fragments.CRUDs.TablesViewFragment;
+import ro.unibuc.myapplication.Fragments.CustomerViews.OrderReadFragment;
 import ro.unibuc.myapplication.Models.Order;
 import ro.unibuc.myapplication.Models.Table;
 import ro.unibuc.myapplication.R;
@@ -81,14 +81,12 @@ public class OccupiedTableFragment extends Fragment {
                     Bundle bundle1 = new Bundle();
                     bundle1.putParcelable(BundleKey, order);
 
-                    // Initialize order fragment
-                    NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager()
-                            .findFragmentById(R.id.tableSOrderFragment);
-                    assert navHostFragment != null;
-                    NavController navCo = navHostFragment.getNavController();
 
-                    // Set fragment show order
-                    navCo.navigate(R.id.orderReadFragment, bundle1);
+                    //Initialize order fragment
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.tableSOrderFragment, OrderReadFragment.class, bundle1)
+                            .commit();
                 }
             }
         }

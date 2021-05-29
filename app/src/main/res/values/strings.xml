@@ -76,4 +76,5 @@
     <string name="your_orders">Your orders</string>
     <string name="channel_name">chanelname</string>
     <string name="no_order_available_for_this_table">No order available for this table</string>
+    <string name="no_schedules_on_this_date">No schedules on this date.</string>
 </resources>

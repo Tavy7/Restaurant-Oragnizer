@@ -42,6 +42,7 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
         holder.description.setText(item.getDescription());
         holder.price.setText(String.valueOf(item.getPrice()));
 
+        // Item box onclick
         holder.view.setBackgroundColor(item.isSelected() ? Color.CYAN : Color.WHITE);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +56,9 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
             @Override
             public void onClick(View view) {
                 int qnt = Integer.parseInt(holder.itemQnt.getText().toString());
-                holder.itemQnt.setText(String.valueOf(qnt + 1));
+                qnt += 1;
+                holder.itemQnt.setText(String.valueOf(qnt));
+                item.setQuantity(qnt);
             }
         });
 
@@ -63,7 +66,9 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
             @Override
             public void onClick(View view) {
                 int qnt = Integer.parseInt(holder.itemQnt.getText().toString());
-                holder.itemQnt.setText(String.valueOf(qnt - 1));
+                qnt -= 1;
+                holder.itemQnt.setText(String.valueOf(qnt));
+                item.setQuantity(qnt);
             }
         });
     }

@@ -20,7 +20,7 @@ import ro.unibuc.myapplication.Models.User;
                         Order.class,
                         Schedule.class,
                         Table.class,
-                        User.class}, version = 13, exportSchema = false)
+                        User.class}, version = 11, exportSchema = false)
 
 public abstract class RestaurantDatabase extends RoomDatabase {
     public abstract CustomerDAO customerDAO();

@@ -26,7 +26,7 @@ public class Item implements Parcelable {
     //todo bitmap picture;
     @Ignore
     boolean isSelected;
-    @Ignore
+    @ColumnInfo(name ="Quantity")
     int quantity = 1;
 
     public int getQuantity() {

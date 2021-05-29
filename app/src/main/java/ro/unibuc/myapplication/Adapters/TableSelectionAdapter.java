@@ -16,23 +16,13 @@ import ro.unibuc.myapplication.R;
 
 public class TableSelectionAdapter extends RecyclerView.Adapter<TableSelectionAdapter.ViewHolder> {
     protected List<Table> tableList;
-    private int lastSelectedPosition = -1;
 
     public TableSelectionAdapter(List<Table> tableList) {
         this.tableList = tableList;
-        lastSelectedPosition = -1;
     }
 
     public List<Table> getTableList() {
         return tableList;
-    }
-
-    public int getLastSelectedPosition() {
-        return lastSelectedPosition;
-    }
-
-    public Table getLastSelectedTable(){
-        return tableList.get(lastSelectedPosition);
     }
 
     @NonNull
@@ -54,16 +44,8 @@ public class TableSelectionAdapter extends RecyclerView.Adapter<TableSelectionAd
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Check if a table is already selected
-//                if(lastSelectedPosition > 0) {
-//                    tableList.get(lastSelectedPosition).setSelected(false);
-//                }
-
                 table.setSelected(!table.isSelected());
                 holder.view.setBackgroundColor(table.isSelected() ? Color.CYAN : Color.WHITE);
-
-                // Store the new selected item position
-//                lastSelectedPosition = position;
             }
         });
     }

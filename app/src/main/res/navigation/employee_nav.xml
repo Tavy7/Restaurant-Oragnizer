@@ -188,5 +188,9 @@
         android:id="@+id/orderReadFragment2"
         android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderReadFragment"
         android:label="OrderReadFragment"
-        tools:layout="@layout/fragment_customer_order_history" />
+        tools:layout="@layout/fragment_read_order">
+        <action
+            android:id="@+id/action_orderReadFragment2_to_CRUD_Order"
+            app:destination="@id/CRUD_Order" />
+    </fragment>
 </navigation>

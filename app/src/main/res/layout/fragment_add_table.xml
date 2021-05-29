@@ -36,8 +36,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderItemsRecycler"
-        android:layout_width="108dp"
-        android:layout_height="28dp"
+        android:layout_width="299dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

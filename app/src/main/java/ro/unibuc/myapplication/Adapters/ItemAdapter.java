@@ -43,12 +43,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.price.setText(String.valueOf(item.getPrice()));
         holder.itemQnt.setText(String.valueOf(item.getQuantity()));
 
-        holder.container.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                itemClickListener.onItemClick(item);
-            }
-        });
+        if (itemClickListener != null) {
+            holder.container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemClick(item);
+                }
+            });
+        }
     }
 
     @Override

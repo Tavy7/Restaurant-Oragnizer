@@ -20,7 +20,6 @@ public interface OrderDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertAll(Order... orders);
 
-    // Update
     @Update
     void updateOrder(Order order);
 
@@ -37,5 +36,5 @@ public interface OrderDAO {
     List<Order> getUsersOrders(int uId);
 
     @Query("SELECT * FROM OrderT WHERE `Order id` = :oId")
-    List<Order> getOrderById(int oId);
+    Order getOrderById(int oId);
 }

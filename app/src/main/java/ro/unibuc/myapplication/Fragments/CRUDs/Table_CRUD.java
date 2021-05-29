@@ -51,23 +51,25 @@ public class Table_CRUD extends Fragment {
         takeTableBtn = view.findViewById(R.id.empTakeTable);
         itemsRecycler = view.findViewById(R.id.orderItemsRecycler);
 
-
         // If bundle is not null that means the
         // fragment was called to update an item
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             Table table = bundle.getParcelable(TablesViewFragment.getBundleKey());
 
-            int orderId = table.getOrderId();
-            if (orderId != 0) {
-                RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
-                Order order = (Order) db.orderDAO().getOrderById(orderId);
+            if (table != null) {
+                // If table has an order attached then display it
+                int orderId = table.getOrderId();
+                if (orderId != 0) {
+                    RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
+                    Order order = (Order) db.orderDAO().getOrderById(orderId);
 
-                List<Item> itemList = order.getItems();
-                ItemSelectionAdapter itemAdapter = new ItemSelectionAdapter(itemList);
-                itemsRecycler.setAdapter(itemAdapter);
+                    List<Item> itemList = order.getItems();
+                    ItemSelectionAdapter itemAdapter = new ItemSelectionAdapter(itemList);
+                    itemsRecycler.setAdapter(itemAdapter);
+                }
+                buttonUpdateItem(table);
             }
-            buttonUpdateItem(table);
         }
         else {
             buttonInsertNewItem();
@@ -86,7 +88,7 @@ public class Table_CRUD extends Fragment {
 
         boolean isOcc = isOccupiedSwitch.isChecked();
 
-        return new Table(tableIdVal, db.itemDao().getAllItems(), isOcc);
+        return new Table(tableIdVal, db.itemDao().getAllItems(), isOcc, 0, 0);
     }
 
     protected void buttonInsertNewItem(){
@@ -168,7 +170,6 @@ public class Table_CRUD extends Fragment {
     }
 
     protected void takeTableButton(Table table){
-        // Delete button is hidden by default in view
         takeTableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -208,7 +209,6 @@ public class Table_CRUD extends Fragment {
                     customerDAO().getCustomerByName(currentUserName);
 
             if (customer != null){
-                Toast.makeText(requireContext(), String.valueOf(customer.getUid()), Toast.LENGTH_SHORT).show();
                 id = customer.getUid();
             }
         }

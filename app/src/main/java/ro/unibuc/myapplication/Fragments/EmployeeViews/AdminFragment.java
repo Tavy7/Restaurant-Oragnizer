@@ -1,5 +1,6 @@
 package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Fragments.LoginFragment;
 import ro.unibuc.myapplication.R;
@@ -92,8 +94,8 @@ public class AdminFragment extends Fragment {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
-//                sp.edit().clear().commit();
+                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(requireContext());
+                sp.edit().clear().commit();
                 LoginFragment.getmGoogleSignInClient().signOut();
                 FirebaseAuth.getInstance().signOut();
                 requireActivity().finish();

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.CustomerActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Models.Customer;
@@ -95,11 +96,14 @@ public class LoginFragment extends Fragment {
                 adminPassB.append(ADMIN);
                 String adminPass = adminPassB.reverse().toString();
 
+                // If user and pass are admin credentials
                 if (usernameVal.equals(ADMIN) && passwordVal.equals(adminPass)){
                     gotoMainActivity();
+                    requireActivity().finish();
                     return;
                 }
 
+                // If password is default emp pass
                 if (passwordVal.equals(DEFAULT_EMP_PASSWORD)){
                     // If default emp pass is entered
                     // check database if username belongs
@@ -115,6 +119,7 @@ public class LoginFragment extends Fragment {
                             // If username belogns to an employee
                             // go to emp acitvity
                             gotoMainActivity();
+                            requireActivity().finish();
                             return;
                         }
                     }
@@ -123,6 +128,7 @@ public class LoginFragment extends Fragment {
                 // Verify credentials
                 String name = sharedPreferences.getString(SPKEY_NAME, "-4");
 
+                Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
                 // If input username equals db username
                 if (usernameVal.equals(name)){
 
@@ -168,8 +174,19 @@ public class LoginFragment extends Fragment {
         try{
             AccountActivity aa = ((AccountActivity)(requireActivity()));
 
+            int userType = aa.getUserType();
+
+            Intent intent = null;
+            if (userType == 1){
+                // User is an employee
+                intent = new Intent(getContext(), EmployeeActivity.class);
+            }
+            else if (userType == 2 || userType == 0){
+                // User is customer or not found
+                intent = new Intent(getContext(), CustomerActivity.class);
+            }
+
             // Goto main activity
-            Intent intent = new Intent(getContext(), EmployeeActivity.class);
             startActivity(intent);
 
             aa.finish();

@@ -49,7 +49,7 @@ public class Order implements Parcelable {
     protected int tableQRValue;
 
     @ColumnInfo(name = "Total Price")
-    protected float totalPrice;
+    protected float totalPrice = 0;
 
     @ColumnInfo(name = "User ID")
     protected int accountId;
@@ -57,14 +57,19 @@ public class Order implements Parcelable {
     @ColumnInfo(name = "Order date")
     protected String orderDate;
 
-    @Ignore()
+    @ColumnInfo(name = "Order finished")
     protected boolean orderFinished = false;
 
-    public Order(List<Item> items, int tableQRValue, int accountId, String orderDate) {
+    public Order(List<Item> items, int tableQRValue, int accountId, String orderDate, boolean orderFinished) {
         this.items = items;
+        if (items.size() > 0){
+            this.totalPrice = findTotal(items);
+        }
+
         this.tableQRValue = tableQRValue;
         this.accountId = accountId;
         this.orderDate = orderDate;
+        this.orderFinished = orderFinished;
     }
 
     @Ignore
@@ -107,6 +112,26 @@ public class Order implements Parcelable {
         }
     };
 
+    // Function that calculates the total price
+    // of the items from array list items.
+    public float findTotal(List<Item> itemList){
+        float total = 0;
+        for (Item item : itemList){
+            float price = item.getPrice();
+
+            int discount = item.getDiscount();
+            // If price has a discount
+            if (discount != 0){
+                // Then we update the price
+                price -= discount * price / 100;
+            }
+            total += (price * item.getQuantity());
+        }
+
+        return total;
+    }
+
+
     // Getters and setters
 
     public int getOid() {
@@ -124,6 +149,8 @@ public class Order implements Parcelable {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+    public void appendItem(Item item) { this.items.add(item); }
 
     public int getTableQRValue() {
         return tableQRValue;

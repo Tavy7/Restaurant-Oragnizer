@@ -2,6 +2,7 @@ package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import ro.unibuc.myapplication.R;
 public class ScheduleFragment extends Fragment implements OnItemClickListener {
     RecyclerView recyclerView;
     Calendar calendar;
+    TextView noSchMessage;
     public ScheduleFragment(){
         super(R.layout.fragment_schedule);
     }
@@ -43,16 +45,15 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
             int currentDay = calendar.get(Calendar.DATE);
             CalendarFragment cf = new CalendarFragment();
 
-            // Faulty for 1st, 31st ... TODO CHANGE IT
-            if (bundleDate.equals(cf.Today)){
+            if (bundleDate.equals(CalendarFragment.Today)){
                 date.append(String.valueOf(currentDay));
             }
 
-            if (bundleDate.equals(cf.Yesterday)){
+            if (bundleDate.equals(CalendarFragment.Yesterday)){
                 date.append(String.valueOf(currentDay - 1));
             }
 
-            if (bundleDate.equals(cf.Tomorrow)){
+            if (bundleDate.equals(CalendarFragment.Tomorrow)){
                 date.append(String.valueOf(currentDay + 1));
             }
 
@@ -73,8 +74,7 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
 
         String parsedDate = dateBld.toString();
 
-        Toast.makeText(requireContext(), parsedDate, Toast.LENGTH_SHORT).show();
-
+        // Check which schedules from database are on this day and store them in list
         RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
         List<Schedule> scheduleList = db.scheduleDAO().getAllSchedules();
 
@@ -87,13 +87,17 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
             }
         }
 
-        // afiseaza schondate
+        // afiseaza schedule
         recyclerView = view.findViewById(R.id.scheduleOnDateView);
         LinearLayoutManager manager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(manager);
-
         ScheduleAdapter adapter = new ScheduleAdapter(schedulesOnDate, this);
         recyclerView.setAdapter(adapter);
+
+        if(schedulesOnDate.size() == 0){
+            noSchMessage = view.findViewById(R.id.noSchedulesMessage);
+            noSchMessage.setVisibility(View.VISIBLE);
+        }
     }
 
     public String parseDate(String date){
@@ -105,6 +109,6 @@ public class ScheduleFragment extends Fragment implements OnItemClickListener {
 
     @Override
     public void onItemClick(Schedule schedule) {
-        Toast.makeText(requireContext(), "todo", Toast.LENGTH_SHORT);
+        Toast.makeText(requireContext(), "todo", Toast.LENGTH_SHORT).show();
     }
 }

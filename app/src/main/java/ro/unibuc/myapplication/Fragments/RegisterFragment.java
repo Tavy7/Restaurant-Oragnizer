@@ -58,7 +58,7 @@ public class RegisterFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(SPKEY_NAME, userVal);
 
-                    Passwords hashPass = new Passwords(passVal, userVal);
+                    Passwords hashPass = new Passwords(userVal, passVal);
                     String hashedPassword = hashPass.calculateHash();
 
                     editor.putString(SPKEY_PASS, hashedPassword);
