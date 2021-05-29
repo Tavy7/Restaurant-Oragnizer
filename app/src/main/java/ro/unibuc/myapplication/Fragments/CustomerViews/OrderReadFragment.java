@@ -8,13 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import ro.unibuc.myapplication.Adapters.ItemAdapter;
+import ro.unibuc.myapplication.CustomerActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
 import ro.unibuc.myapplication.Fragments.CRUDs.OrdersViewFragment;
@@ -68,6 +68,11 @@ public class OrderReadFragment extends Fragment {
         ItemAdapter itemAdapter = new ItemAdapter(items, null);
         orderItems.setAdapter(itemAdapter);
 
+        if (order.isOrderFinished()){
+            sendOrderBtn.setVisibility(View.GONE);
+            addItemsToOrderBtn.setVisibility(View.GONE);
+        }
+
         addItemsToOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +80,12 @@ public class OrderReadFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(OrdersViewFragment.getBundleKey(), order);
 
-                NavController nav = EmployeeActivity.getNavController();
-                nav.navigate(R.id.CRUD_Order, bundle);
+                if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0){
+                    EmployeeActivity.getNavController().navigate(R.id.CRUD_Order, bundle);
+                }
+                else {
+                    CustomerActivity.getNavController().navigate(R.id.CRUD_Order2, bundle);
+                }
             }
         });
 
@@ -89,16 +98,20 @@ public class OrderReadFragment extends Fragment {
                 order.setOrderFinished(true);
                 int tableId = order.getTableQRValue();
 
-                if (tableId != 0){
+                if (tableId != 0) {
                     // Clear table
                     RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
                     Table table = db.tableDAO().getTable(tableId);
                     table.setOccupied(false);
                     // Leave the ids of order and account to table
-
+                    db.orderDAO().updateOrder(order);
                     db.tableDAO().updateTable(table);
                 }
-                EmployeeActivity.getNavController().popBackStack();
+                if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0) {
+                    EmployeeActivity.getNavController().popBackStack();
+                } else{
+                    CustomerActivity.getNavController().popBackStack();
+                }
             }
         });
     }

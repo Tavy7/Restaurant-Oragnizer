@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -15,23 +14,8 @@ import java.util.List;
 
 import ro.unibuc.myapplication.Dao.DaoTypeConverter;
 
-import static androidx.room.ForeignKey.CASCADE;
-
 //Todo change foreign keys with dao type converter 
-@Entity(foreignKeys = {
-        @ForeignKey(
-                entity = Table.class,
-                parentColumns = "QRCodeValue",
-                childColumns = "Table id",
-                onDelete = CASCADE
-        ),
-        @ForeignKey(
-                entity = Employee.class,
-                parentColumns = "User ID",
-                childColumns = "User ID",
-                onDelete = CASCADE
-        )
-    },
+@Entity(
         indices = { @Index ("Order id"),
                     @Index("User ID"),
                     @Index("Table id")},

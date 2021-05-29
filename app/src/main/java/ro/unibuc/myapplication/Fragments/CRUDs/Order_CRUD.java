@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +21,10 @@ import java.util.List;
 import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Adapters.ItemSelectionAdapter;
 import ro.unibuc.myapplication.Adapters.TableSelectionAdapter;
+import ro.unibuc.myapplication.CustomerActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Fragments.OccupiedTableFragment;
 import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Item;
@@ -42,6 +44,7 @@ public class Order_CRUD extends Fragment {
     protected Button deleteOrder;
     protected Button scanQRBtn;
     protected Button changeViewBtn;
+    AccountActivity aa;
 
     public Order_CRUD() { super(R.layout.fragment_add_order);
     }
@@ -58,12 +61,18 @@ public class Order_CRUD extends Fragment {
         scanQRBtn = view.findViewById(R.id.scanQRButton);
         changeViewBtn = view.findViewById(R.id.changeTABLEsELECTvIEW);
 
+        aa = new AccountActivity();
         Bundle bundle = this.getArguments();
 
         scanQRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.QRScanFragment, bundle);
+
+                if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0){
+                    EmployeeActivity.getNavController().navigate(R.id.QRScanFragment, bundle);
+                }
+                else
+                    CustomerActivity.getNavController().navigate(R.id.QRScanFragment2, bundle);
             }
         });
 
@@ -112,7 +121,7 @@ public class Order_CRUD extends Fragment {
     private void changeView() {
         // Function changes visibility of two componenets
         // that have role to input table number
-        // selectTable is a recylcer view where user can click on table number
+        // selectTable is a recycler view where user can click on table number
         // tableNum displays id from scanQR
 
         int visibility = selectTable.getVisibility();
@@ -208,15 +217,20 @@ public class Order_CRUD extends Fragment {
     protected void updateTableInDatabase(Order order){
         int tableId = order.getTableQRValue();
         RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
-        Table table = db.tableDAO().getTable(tableId);
+        db.runInTransaction(new Runnable() {
+            @Override
+            public void run() {
+                Table table = db.tableDAO().getTable(tableId);
 
-        // Update table in database
-        table.setOccupied(true);
-        table.setOrderId(order.getOid());
-        table.setServingEmployeeId(order.getAccountId());
+                // Update table in database
+                table.setOccupied(true);
+                table.setOrderId(order.getOid());
+                table.setServingEmployeeId(order.getAccountId());
 
-        db.tableDAO().insertTable(table);
-        db.orderDAO().insertOrder(order);
+                db.tableDAO().insertTable(table);
+            }
+        });
+        //db.orderDAO().insertOrder(order);
     }
 
     protected void buttonInsertNewItem(){
@@ -234,17 +248,30 @@ public class Order_CRUD extends Fragment {
                 order.setAccountId(id);
 
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
-                // Returns new generated id
-                int newGeneratedId = (int)(db.orderDAO().insertOrder(order));
-                Toast.makeText(requireContext(), String.valueOf(newGeneratedId), Toast.LENGTH_SHORT).show();
-                order.setOid(newGeneratedId);
-                updateTableInDatabase(order);
+                db.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Returns new generated id
+                        int newGeneratedId = (int)(db.orderDAO().insertOrder(order));
+                        order.setOid(newGeneratedId);
+                    }
+                });
 
                 Toast.makeText(view.getContext(),
                         "Order succesfully inserated!", Toast.LENGTH_SHORT).show();
 
-                // Go back to list view
-                requireActivity().getSupportFragmentManager().popBackStack();
+
+                updateTableInDatabase(order);
+
+                if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0){
+                    EmployeeActivity.getNavController().navigate(R.id.tableFragment);
+                }
+                else {
+                    CustomerActivity.getNav().getMenu().getItem(1).setChecked(true);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(OccupiedTableFragment.getBundleKey(), order);
+                    CustomerActivity.getNavController().navigate(R.id.orderReadFragment, bundle);
+                }
             }
         });
     }
@@ -267,37 +294,38 @@ public class Order_CRUD extends Fragment {
 
                 // Concatenate new items with old items
                 // maybe could check if two are the same
-                for(int i = 0; i < itemList.size(); i++){
-                    newOrder.appendItem(itemList.get(i));
+                if (itemList != null) {
+                    for (int i = 0; i < itemList.size(); i++) {
+                        newOrder.appendItem(itemList.get(i));
+                    }
                 }
                 // Update order total
                 // this is disgusting but i am tired
                 newOrder.setTotalPrice(newOrder.findTotal(newOrder.getItems()));
+                newOrder.setAccountId(getCurrentUserId());
 
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Confilt strategy is REPLACE so is the same as update
-                int id = (int)(db.orderDAO().insertOrder(newOrder));
+                int id = (int) (db.orderDAO().insertOrder(newOrder));
                 Toast.makeText(requireContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
                 // Item generated is new so it has no id
                 newOrder.setOid(id);
                 updateTableInDatabase(newOrder);
+                db.orderDAO().deleteOrder(order);
 
                 Toast.makeText(view.getContext(),
                         "Order succesfully updated!", Toast.LENGTH_SHORT).show();
 
-                try {
-                    Navigation.findNavController(view).navigate(R.id.tableFragment);
-                }
-                catch (java.lang.IllegalArgumentException e){
-                    //
-                }
 
-                try {
-                    Navigation.findNavController(view).navigate(R.id.orderHistoryCustomerFragment);
-                }
-
-                catch (java.lang.IllegalArgumentException e){
-                    //
+                // If this is EMP activity
+                if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0) {
+                    EmployeeActivity.getNavController().navigate(R.id.tableFragment);
+                } else {
+                    // Customer activity
+                    CustomerActivity.getNav().getMenu().getItem(1).setChecked(true);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(OccupiedTableFragment.getBundleKey(), newOrder);
+                    CustomerActivity.getNavController().navigate(R.id.orderReadFragment, bundle);
                 }
             }
         });
@@ -328,6 +356,7 @@ public class Order_CRUD extends Fragment {
         if (emp != null) {
             id = emp.getUid();
         }
+
         Customer customer = RestaurantDatabase.getInstance(requireContext()).
                 customerDAO().getCustomerByName(currentUserName);
 

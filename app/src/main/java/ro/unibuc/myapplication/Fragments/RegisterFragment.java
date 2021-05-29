@@ -12,8 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 import ro.unibuc.myapplication.AccountActivity;
+import ro.unibuc.myapplication.CustomerActivity;
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
 import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Passwords;
 import ro.unibuc.myapplication.R;
 
@@ -63,16 +68,46 @@ public class RegisterFragment extends Fragment {
 
                     editor.putString(SPKEY_PASS, hashedPassword);
                     editor.apply();
+                    editor.commit();
+
+                    // Only customers should register as employees should have
+                    // account generated from database
+                    Customer customer = new Customer(userVal, "", new ArrayList<>(), "");
+                    RestaurantDatabase.getInstance(requireContext())
+                            .customerDAO().insertCustomer(customer);
 
                     Toast.makeText(getContext(), "User registred!", Toast.LENGTH_SHORT).show();
+                    gotoMainActivity();
 
-                    Intent intent = new Intent(getContext(), EmployeeActivity.class);
-                    startActivity(intent);
-
-                    requireActivity().finish();
                 }
             }
         });
+    }
 
+    public void gotoMainActivity(){
+        // End account activity
+        try{
+            AccountActivity aa = ((AccountActivity)(requireActivity()));
+
+            int userType = aa.getUserType();
+
+            Intent intent = null;
+            if (userType == 1){
+                // User is an employee
+                intent = new Intent(getContext(), EmployeeActivity.class);
+            }
+            else if (userType == 2 || userType == 0){
+                // User is customer or not found
+                intent = new Intent(getContext(), CustomerActivity.class);
+            }
+
+            // Goto main activity
+            startActivity(intent);
+
+            aa.finish();
+        }
+        catch (java.lang.ClassCastException e){
+            // Context is from another activity
+        }
     }
 }

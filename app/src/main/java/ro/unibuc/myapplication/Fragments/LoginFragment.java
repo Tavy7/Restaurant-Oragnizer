@@ -98,6 +98,9 @@ public class LoginFragment extends Fragment {
 
                 // If user and pass are admin credentials
                 if (usernameVal.equals(ADMIN) && passwordVal.equals(adminPass)){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(SPKEY_NAME, usernameVal);
+                    editor.apply();
                     gotoMainActivity();
                     requireActivity().finish();
                     return;
@@ -169,7 +172,7 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void gotoMainActivity(){
+    public void gotoMainActivity(){
         // End account activity
         try{
             AccountActivity aa = ((AccountActivity)(requireActivity()));
@@ -237,7 +240,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Login succesful!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Google login succesful!", Toast.LENGTH_SHORT).show();
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
@@ -248,11 +251,11 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(requireContext(), user.getDisplayName(), Toast.LENGTH_SHORT).show();
 
                             editor.putString(AccountActivity.SPKEY_NAME, user.getDisplayName());
+                            editor.apply();
                             editor.commit();
 
                             Customer customer = new Customer(user.getDisplayName(), "",
                                     new ArrayList<Order>(), user.getEmail());
-
                             RestaurantDatabase.getInstance(requireContext()).customerDAO().insertCustomer(customer);
 
                             gotoMainActivity();

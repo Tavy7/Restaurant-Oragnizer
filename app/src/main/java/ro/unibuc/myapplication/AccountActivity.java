@@ -28,12 +28,26 @@ public class AccountActivity extends AppCompatActivity {
         return sharedPreferences;
     }
 
-    protected int function(String currentUserName) {
+    public static synchronized String getLoggedUsername(){
+        if (sharedPreferences == null){
+            return "no shared prefs instance";
+        }
+
+        return sharedPreferences.getString(AccountActivity.SPKEY_NAME, "");
+    }
+
+    public int getUserType(){
+        // Get logged username on share prefs
+        SharedPreferences sharedPreferences = getSharedPreferencesInstance(this);
+        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
+
+        if (currentUserName.equals("admin")){
+            return 1;
+        }
 
         // Search for employee username
         Employee emp = RestaurantDatabase.getInstance(this).
                 employeeDAO().getEmployeeByName(currentUserName);
-
         if (emp != null) {
             return 1;
         }
@@ -44,14 +58,6 @@ public class AccountActivity extends AppCompatActivity {
             return 2;
         }
         return 0;
-    }
-
-    public int getUserType(){
-        // Get logged username on share prefs
-        SharedPreferences sharedPreferences = getSharedPreferencesInstance(this);
-        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
-
-        return function(currentUserName);
     }
 
     private void gotoEmpActivity(){
@@ -82,9 +88,20 @@ public class AccountActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferencesInstance(this);
         String name = sharedPreferences.getString(SPKEY_NAME, null);
         if (name != null){
-            // If user is logged, change to main activity
-            //gotoEmpActivity();
-            //finish();
+            int userType = getUserType();
+
+            Intent intent = null;
+            if (userType == 1){
+                // User is an employee
+                intent = new Intent(this, EmployeeActivity.class);
+            }
+            else if (userType == 2 || userType == 0){
+                // User is customer or not found
+                intent = new Intent(this, CustomerActivity.class);
+            }
+
+            startActivity(intent);
+            finish();
         }
     }
 }

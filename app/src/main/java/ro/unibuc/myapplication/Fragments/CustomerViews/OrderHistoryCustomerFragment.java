@@ -16,7 +16,9 @@ import java.util.List;
 
 import ro.unibuc.myapplication.AccountActivity;
 import ro.unibuc.myapplication.Adapters.OrderAdapter;
+import ro.unibuc.myapplication.CustomerActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Fragments.OccupiedTableFragment;
 import ro.unibuc.myapplication.Fragments.OnItemClickListener;
 import ro.unibuc.myapplication.Models.Customer;
 import ro.unibuc.myapplication.Models.Order;
@@ -44,11 +46,11 @@ public class OrderHistoryCustomerFragment extends Fragment implements OnItemClic
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
 
         // GET USER
-        String username = AccountActivity.getSharedPreferencesInstance(requireContext()).getString(AccountActivity.SPKEY_NAME, null);
+        String username = AccountActivity.getLoggedUsername();
         Customer customer = db.customerDAO().getCustomerByName(username);
 
         if (customer == null){
-            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), username, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -58,5 +60,12 @@ public class OrderHistoryCustomerFragment extends Fragment implements OnItemClic
         List<Order> orderList = db.orderDAO().getUsersOrders(customer.getUid());
         OrderAdapter orderAdapter = new OrderAdapter(orderList, this);
         ordersRecycler.setAdapter(orderAdapter);
+    }
+
+    @Override
+    public void onItemClick(Order order) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(OccupiedTableFragment.getBundleKey(), order);
+        CustomerActivity.getNavController().navigate(R.id.orderReadFragment, bundle);
     }
 }

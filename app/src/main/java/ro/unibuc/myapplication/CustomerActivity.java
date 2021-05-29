@@ -13,11 +13,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class CustomerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    NavController navController;
-    BottomNavigationView nav;
+    static NavController navController;
+    static BottomNavigationView nav;
 
-    public NavController getNavController() {
+    public static NavController getNavController() {
         return navController;
+    }
+
+    public static BottomNavigationView getNav() {
+        return nav;
     }
 
     @Override
@@ -27,11 +31,15 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
 
         nav = findViewById(R.id.customerNavBar);
         nav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
-
         // Initialize navController
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.CustomerFragment);
         navController = navHostFragment.getNavController();
+    }
+
+    @Override
+    public void onBackPressed(){
+        navController.popBackStack();
     }
 
     @Override

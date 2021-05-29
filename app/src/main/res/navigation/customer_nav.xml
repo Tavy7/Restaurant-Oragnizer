@@ -35,7 +35,17 @@
         android:id="@+id/CRUD_Order2"
         android:name="ro.unibuc.myapplication.Fragments.CRUDs.Order_CRUD"
         android:label="CRUD_Order"
-        tools:layout="@layout/fragment_add_order"/>
+        tools:layout="@layout/fragment_add_order">
+        <action
+            android:id="@+id/action_CRUD_Order2_to_orderHistoryCustomerFragment"
+            app:destination="@id/orderHistoryCustomerFragment" />
+        <action
+            android:id="@+id/action_CRUD_Order2_to_QRScanFragment2"
+            app:destination="@id/QRScanFragment2" />
+        <action
+            android:id="@+id/action_CRUD_Order2_to_orderReadFragment"
+            app:destination="@id/orderReadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountSettingsCustomerFragment"
         android:name="ro.unibuc.myapplication.Fragments.CustomerViews.AccountSettingsCustomerFragment"

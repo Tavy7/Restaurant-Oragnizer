@@ -40,15 +40,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final OrderAdapter.ViewHolder holder, int position) {
         final Order order = orderList.get(position);
 
-        holder.orderDetails.setText(order.getOrderDate());
+        holder.orderDetails.setText(order.getOrderDate() + " Total: " + String.valueOf(order.getTotalPrice()) );
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder ordItemList = new StringBuilder();
 
         for (Item i : order.getItems()){
-            stringBuilder.append(i.getName() + " x" + i.getQuantity() + "\n");
+            ordItemList.append(i.getName() + " x" + i.getQuantity() + "\n");
         }
 
-        holder.orderItems.setText(stringBuilder.toString());
+        holder.orderItems.setText(ordItemList.toString());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
