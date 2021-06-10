@@ -14,6 +14,8 @@ public class User implements Parcelable {
     protected int uid;
     @ColumnInfo(name="Name")
     protected String name;
+    @ColumnInfo(name = "Password")
+    protected String password;
 
     public User(String name) {
         //this.uid = uid;
@@ -62,5 +64,13 @@ public class User implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -2,20 +2,17 @@ package ro.unibuc.myapplication;
 
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
-public class CloudMessFirevase extends FirebaseInstanceIdService
+public class CloudMessFirevase extends FirebaseMessagingService
 {
-    @Override
-    public void onTokenRefresh() {
-    // Get updated InstanceID token.
-    String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-    Log.d("Token", "Refreshed token: " + refreshedToken);
+    private static final String TAG = "tagg";
 
-    // If you want to send messages to this application instance or
-    // manage this apps subscriptions on the server side, send the
-    // Instance ID token to your app server.
-    // sendRegistrationToServer(refreshedToken);
-}
+    public void onNewToken(String token) {
+        Log.d(TAG, "Refreshed token: " + token);
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // FCM registration token to your app server.
+    }
 }

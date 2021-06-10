@@ -110,7 +110,7 @@ public class OrderReadFragment extends Fragment {
                 if (EmployeeActivity.class.getSimpleName().compareTo(requireActivity().getLocalClassName()) == 0) {
                     EmployeeActivity.getNavController().popBackStack();
                 } else{
-                    CustomerActivity.getNavController().popBackStack();
+                    CustomerActivity.getNavController().navigate(R.id.homeCustomerFragment);
                 }
             }
         });

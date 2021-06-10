@@ -10,15 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Models.Customer;
-import ro.unibuc.myapplication.Models.Employee;
-
 public class AccountActivity extends AppCompatActivity {
 
     private static SharedPreferences sharedPreferences = null;
     private static final String SHARED_PREF_NAME = "AppPref";
     public static final String SPKEY_NAME = "username";
+    public static final int AT_EMP = 1;
+    public static final int AT_CUS = 2;
+
+    protected static String currentUsername;
+    protected static int currentUserType;
 
     // Returns shared prefs singleton instance
     public static synchronized SharedPreferences getSharedPreferencesInstance(Context context) {
@@ -26,38 +27,6 @@ public class AccountActivity extends AppCompatActivity {
             sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
         return sharedPreferences;
-    }
-
-    public static synchronized String getLoggedUsername(){
-        if (sharedPreferences == null){
-            return "no shared prefs instance";
-        }
-
-        return sharedPreferences.getString(AccountActivity.SPKEY_NAME, "");
-    }
-
-    public int getUserType(){
-        // Get logged username on share prefs
-        SharedPreferences sharedPreferences = getSharedPreferencesInstance(this);
-        String currentUserName = sharedPreferences.getString(AccountActivity.SPKEY_NAME, null);
-
-        if (currentUserName.equals("admin")){
-            return 1;
-        }
-
-        // Search for employee username
-        Employee emp = RestaurantDatabase.getInstance(this).
-                employeeDAO().getEmployeeByName(currentUserName);
-        if (emp != null) {
-            return 1;
-        }
-        Customer customer = RestaurantDatabase.getInstance(this).
-                customerDAO().getCustomerByName(currentUserName);
-
-        if (customer != null) {
-            return 2;
-        }
-        return 0;
     }
 
     private void gotoEmpActivity(){
@@ -77,7 +46,6 @@ public class AccountActivity extends AppCompatActivity {
 
          //Get google account
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         if (user != null){
             gotoUserActivity();
             finish();
@@ -88,7 +56,7 @@ public class AccountActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferencesInstance(this);
         String name = sharedPreferences.getString(SPKEY_NAME, null);
         if (name != null){
-            int userType = getUserType();
+            int userType = getCurrentUserType();
 
             Intent intent = null;
             if (userType == 1){
@@ -103,5 +71,21 @@ public class AccountActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    public static String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    public static void setCurrentUsername(String currentUsername) {
+        AccountActivity.currentUsername = currentUsername;
+    }
+
+    public static int getCurrentUserType() {
+        return currentUserType;
+    }
+
+    public static void setCurrentUserType(int currentUserType) {
+        AccountActivity.currentUserType = currentUserType;
     }
 }

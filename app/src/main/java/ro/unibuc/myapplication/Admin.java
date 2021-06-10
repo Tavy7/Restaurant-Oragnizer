@@ -2,16 +2,7 @@ package ro.unibuc.myapplication;
 
 import android.app.Application;
 
-import java.util.ArrayList;
-
-import ro.unibuc.myapplication.Models.Employee;
-import ro.unibuc.myapplication.Models.Schedule;
-import ro.unibuc.myapplication.Models.Table;
-
 public class Admin extends Application {
-    protected ArrayList<Employee> employees;
-    protected ArrayList<Table> tables;
-    protected ArrayList<Schedule> calendar;
     protected static final String dbName = "Restaurant-Database";
 
     private static Admin adminInstance = null;

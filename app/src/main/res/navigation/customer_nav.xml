@@ -50,7 +50,7 @@
         android:id="@+id/accountSettingsCustomerFragment"
         android:name="ro.unibuc.myapplication.Fragments.CustomerViews.AccountSettingsCustomerFragment"
         android:label="AccountSettingsCustomerFragment"
-        tools:layout="@layout/fragment_customer_account_settings"/>
+        tools:layout="@layout/fragment_user_account_settings"/>
     <fragment
         android:id="@+id/orderHistoryCustomerFragment"
         android:name="ro.unibuc.myapplication.Fragments.CustomerViews.OrderHistoryCustomerFragment"

@@ -54,6 +54,7 @@ public class LoginFragment extends Fragment {
     private static final String SPKEY_NAME = "username";
     private static final String SPKEY_PASS = "password";
     private FirebaseAuth mAuth;
+    private static final String spDefaultUsername = "no_username_found";
 
     public LoginFragment() {
         super(R.layout.fragment_login);
@@ -92,6 +93,9 @@ public class LoginFragment extends Fragment {
                 String usernameVal = username.getText().toString();
                 String passwordVal = password.getText().toString();
 
+                Passwords hashPass = new Passwords(passwordVal, usernameVal);
+                String hashedPassword = hashPass.calculateHash();
+
                 StringBuilder adminPassB = new StringBuilder();
                 adminPassB.append(ADMIN);
                 String adminPass = adminPassB.reverse().toString();
@@ -101,24 +105,25 @@ public class LoginFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(SPKEY_NAME, usernameVal);
                     editor.apply();
+                    AccountActivity.setCurrentUsername(usernameVal);
+                    AccountActivity.setCurrentUserType(AccountActivity.AT_EMP);
                     gotoMainActivity();
                     requireActivity().finish();
                     return;
                 }
 
-                // If password is default emp pass
-                if (passwordVal.equals(DEFAULT_EMP_PASSWORD)){
-                    // If default emp pass is entered
-                    // check database if username belongs
-                    // to an employee
-                    boolean ok = false;
-                    for (Employee emp : employeeList){
-                        ok = emp.getName().equals(usernameVal);
+                for (Employee emp : employeeList){
+                    boolean ok = emp.getName().equals(usernameVal);
+                    if (ok) {
+                        String passwprd = emp.getPassword();
+                        boolean passOK = hashedPassword.equals(passwprd) || passwordVal.equals(DEFAULT_EMP_PASSWORD);
+                        if (passOK){
 
-                        if (ok) {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(SPKEY_NAME, usernameVal);
                             editor.apply();
+                            AccountActivity.setCurrentUsername(usernameVal);
+                            AccountActivity.setCurrentUserType(AccountActivity.AT_EMP);
                             // If username belogns to an employee
                             // go to emp acitvity
                             gotoMainActivity();
@@ -129,25 +134,52 @@ public class LoginFragment extends Fragment {
                 }
 
                 // Verify credentials
-                String name = sharedPreferences.getString(SPKEY_NAME, "-4");
-
-                Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                String spName = sharedPreferences.getString(SPKEY_NAME, spDefaultUsername);
                 // If input username equals db username
-                if (usernameVal.equals(name)){
-
-                    Passwords hashPass = new Passwords(name, passwordVal);
-                    String hashedPassword = hashPass.calculateHash();
+                if (usernameVal.equals(spName)){
 
                     String pass = sharedPreferences.getString(SPKEY_PASS, "-20");
                     if (pass.equals(hashedPassword)){
+                        AccountActivity.setCurrentUsername(usernameVal);
+                        AccountActivity.setCurrentUserType(AccountActivity.AT_CUS);
                         // Anonymous customer login
                         Toast.makeText(getContext(), "Login succesful!", Toast.LENGTH_SHORT).show();
                         gotoMainActivity();
                     }
                 }
-                else{
-                    Toast.makeText(getContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show();
+
+                RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
+                Customer customer = db.customerDAO().getCustomerByName(usernameVal);
+                Employee employee = db.employeeDAO().getEmployeeByName(usernameVal);
+
+                // Calculate password hash
+                String dbPassword = null;
+                if (customer != null){
+                    dbPassword = customer.getPassword();
+                    AccountActivity.setCurrentUserType(AccountActivity.AT_CUS);
                 }
+
+                if (employee != null){
+                    dbPassword = employee.getPassword();
+                    AccountActivity.setCurrentUserType(AccountActivity.AT_EMP);
+                }
+
+                if (dbPassword != null && dbPassword.compareTo(hashedPassword) == 0){
+                    if (spName.compareTo(spDefaultUsername) == 0){
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(usernameVal, SPKEY_NAME);
+                        AccountActivity.setCurrentUsername(usernameVal);
+
+                        Toast.makeText(getContext(), usernameVal, Toast.LENGTH_SHORT).show();
+                        editor.apply();
+                        editor.commit();
+                    }
+
+                    gotoMainActivity();
+                    return;
+                }
+
+                Toast.makeText(getContext(), "Wrong credentials!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -175,16 +207,14 @@ public class LoginFragment extends Fragment {
     public void gotoMainActivity(){
         // End account activity
         try{
-            AccountActivity aa = ((AccountActivity)(requireActivity()));
-
-            int userType = aa.getUserType();
+            int userType = AccountActivity.getCurrentUserType();
 
             Intent intent = null;
-            if (userType == 1){
+            if (userType == AccountActivity.AT_EMP){
                 // User is an employee
                 intent = new Intent(getContext(), EmployeeActivity.class);
             }
-            else if (userType == 2 || userType == 0){
+            else if (userType == AccountActivity.AT_CUS || userType == 0){
                 // User is customer or not found
                 intent = new Intent(getContext(), CustomerActivity.class);
             }
@@ -192,6 +222,7 @@ public class LoginFragment extends Fragment {
             // Goto main activity
             startActivity(intent);
 
+            AccountActivity aa = ((AccountActivity)(requireActivity()));
             aa.finish();
         }
         catch (java.lang.ClassCastException e){
@@ -251,6 +282,10 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(requireContext(), user.getDisplayName(), Toast.LENGTH_SHORT).show();
 
                             editor.putString(AccountActivity.SPKEY_NAME, user.getDisplayName());
+
+                            AccountActivity.setCurrentUsername(user.getDisplayName());
+                            AccountActivity.setCurrentUserType(AccountActivity.AT_CUS);
+
                             editor.apply();
                             editor.commit();
 

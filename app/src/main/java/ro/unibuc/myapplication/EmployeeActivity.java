@@ -2,6 +2,7 @@ package ro.unibuc.myapplication;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Models.Employee;
+
 public class EmployeeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String EMPLOYEE_KEY = "213ds";
     static NavController navController;
     BottomNavigationView nav;
 
@@ -57,8 +62,26 @@ public class EmployeeActivity extends AppCompatActivity implements NavigationVie
                 item.setChecked(true);
                 break;
 
+            case R.id.notificationFragment:
+                Toast.makeText(this, "heeh", Toast.LENGTH_SHORT).show();
+                item.setChecked(true);
+                break;
+
             case R.id.adminFragment:
-                navController.navigate(R.id.adminFragment);
+
+                String username = AccountActivity.getCurrentUsername();
+                if (username.equals("admin")){
+                    navController.navigate(R.id.adminFragment);
+                    item.setChecked(true);
+                    break;
+                }
+
+                // Goto emp account settings
+                Employee emp = RestaurantDatabase.getInstance(this).employeeDAO().getEmployeeByName(username);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(EmployeeActivity.EMPLOYEE_KEY, emp);
+                navController.navigate(R.id.accountSettingsEmployeeFragment, bundle);
+
                 item.setChecked(true);
                 break;
         }

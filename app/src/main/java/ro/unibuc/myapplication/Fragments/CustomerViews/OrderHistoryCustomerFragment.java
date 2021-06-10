@@ -46,7 +46,7 @@ public class OrderHistoryCustomerFragment extends Fragment implements OnItemClic
         RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
 
         // GET USER
-        String username = AccountActivity.getLoggedUsername();
+        String username = AccountActivity.getCurrentUsername();
         Customer customer = db.customerDAO().getCustomerByName(username);
 
         if (customer == null){

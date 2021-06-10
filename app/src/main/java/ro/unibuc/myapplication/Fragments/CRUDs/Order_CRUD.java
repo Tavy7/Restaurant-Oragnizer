@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,11 @@ public class Order_CRUD extends Fragment {
     protected Button deleteOrder;
     protected Button scanQRBtn;
     protected Button changeViewBtn;
+    protected TextView resHourInfo;
+    protected TextView resDateInfo;
+    protected EditText reservationDate;
+    protected EditText reservationHour;
+
     AccountActivity aa;
 
     public Order_CRUD() { super(R.layout.fragment_add_order);
@@ -60,6 +66,15 @@ public class Order_CRUD extends Fragment {
         deleteOrder = view.findViewById(R.id.delete_order_btn);
         scanQRBtn = view.findViewById(R.id.scanQRButton);
         changeViewBtn = view.findViewById(R.id.changeTABLEsELECTvIEW);
+
+        reservationDate = view.findViewById(R.id.reservedDate);
+        reservationDate.setVisibility(View.GONE);
+        reservationHour = view.findViewById(R.id.reservedTime);
+        reservationHour.setVisibility(View.GONE);
+        resHourInfo = view.findViewById(R.id.resHourInfo);
+        resDateInfo = view.findViewById(R.id.resDateInfo);
+        resDateInfo.setVisibility(View.GONE);
+        resHourInfo.setVisibility(View.GONE);
 
         aa = new AccountActivity();
         Bundle bundle = this.getArguments();
@@ -136,6 +151,16 @@ public class Order_CRUD extends Fragment {
             visible = View.VISIBLE;
 
         selectTable.setVisibility(visible);
+
+        visibility = reservationDate.getVisibility();
+        visible = View.GONE;
+        if (visibility != View.VISIBLE){
+            visible = View.VISIBLE;
+        }
+
+        reservationHour.setVisibility(visible);
+        reservationDate.setVisibility(visible);
+
     }
 
     // Returns the object if the data is ok
@@ -211,6 +236,15 @@ public class Order_CRUD extends Fragment {
         Order order = new Order(boughtItems, table.getQRCodeValue(), id, orderDate, false);
         order.setTotalPrice(order.findTotal(boughtItems));
 
+        // Check for reservation
+        String date = String.valueOf(reservationDate.getText());
+        String hour = String.valueOf(reservationHour.getText());
+
+        if (date.equals("") || hour.equals("")){
+            return order;
+        }
+        // Else send notification for reservation
+
         return order;
     }
 
@@ -267,7 +301,7 @@ public class Order_CRUD extends Fragment {
                     EmployeeActivity.getNavController().navigate(R.id.tableFragment);
                 }
                 else {
-                    CustomerActivity.getNav().getMenu().getItem(1).setChecked(true);
+                    CustomerActivity.getNav().getMenu().getItem(0).setChecked(true);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(OccupiedTableFragment.getBundleKey(), order);
                     CustomerActivity.getNavController().navigate(R.id.orderReadFragment, bundle);
@@ -307,6 +341,7 @@ public class Order_CRUD extends Fragment {
                 RestaurantDatabase db = RestaurantDatabase.getInstance(view.getContext());
                 // Confilt strategy is REPLACE so is the same as update
                 int id = (int) (db.orderDAO().insertOrder(newOrder));
+                db.orderDAO().deleteOrder(order);
                 Toast.makeText(requireContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
                 // Item generated is new so it has no id
                 newOrder.setOid(id);
@@ -322,7 +357,7 @@ public class Order_CRUD extends Fragment {
                     EmployeeActivity.getNavController().navigate(R.id.tableFragment);
                 } else {
                     // Customer activity
-                    CustomerActivity.getNav().getMenu().getItem(1).setChecked(true);
+                    CustomerActivity.getNav().getMenu().getItem(0).setChecked(true);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(OccupiedTableFragment.getBundleKey(), newOrder);
                     CustomerActivity.getNavController().navigate(R.id.orderReadFragment, bundle);

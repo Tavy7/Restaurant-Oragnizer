@@ -1,5 +1,6 @@
 package ro.unibuc.myapplication;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -11,8 +12,13 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import ro.unibuc.myapplication.Dao.RestaurantDatabase;
+import ro.unibuc.myapplication.Models.Customer;
 
 public class CustomerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String CUSTOMER_KEY = "123esdsdda";
     static NavController navController;
     static BottomNavigationView nav;
 
@@ -58,7 +64,17 @@ public class CustomerActivity extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.accountSettings:
-                navController.navigate(R.id.accountSettingsCustomerFragment);
+                SharedPreferences sp = AccountActivity.getSharedPreferencesInstance(this);
+                sp.edit().clear().apply();
+
+                FirebaseAuth.getInstance().signOut();
+                String username = AccountActivity.getCurrentUsername();
+                RestaurantDatabase db = RestaurantDatabase.getInstance(this);
+                Customer customer = db.customerDAO().getCustomerByName(username);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(CUSTOMER_KEY, customer);
+
+                navController.navigate(R.id.accountSettingsCustomerFragment, bundle);
                 item.setChecked(true);
                 break;
         }

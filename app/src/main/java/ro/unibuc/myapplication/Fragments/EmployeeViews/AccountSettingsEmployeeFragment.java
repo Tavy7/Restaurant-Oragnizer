@@ -1,10 +1,11 @@
-package ro.unibuc.myapplication.Fragments.CustomerViews;
+package ro.unibuc.myapplication.Fragments.EmployeeViews;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,66 +15,62 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import ro.unibuc.myapplication.AccountActivity;
-import ro.unibuc.myapplication.CustomerActivity;
 import ro.unibuc.myapplication.Dao.RestaurantDatabase;
-import ro.unibuc.myapplication.Models.Customer;
+import ro.unibuc.myapplication.EmployeeActivity;
+import ro.unibuc.myapplication.Models.Employee;
 import ro.unibuc.myapplication.Models.Passwords;
 import ro.unibuc.myapplication.R;
 
-public class AccountSettingsCustomerFragment extends Fragment {
+public class AccountSettingsEmployeeFragment extends Fragment {
     EditText name;
-    EditText email;
-    EditText creditCard;
     EditText password;
+    TextView role;
     Button saveBtn;
     Button logoutBtn;
     SharedPreferences.Editor editor;
 
-    public AccountSettingsCustomerFragment() { super(R.layout.fragment_user_account_settings);
+    public AccountSettingsEmployeeFragment() { super(R.layout.fragment_employee_account_settings);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        name = view.findViewById(R.id.editCustomerName);
-        email = view.findViewById(R.id.editCustomerMail);
-        creditCard = view.findViewById(R.id.editCreditCard);
-        password = view.findViewById(R.id.customerPass);
-        saveBtn = view.findViewById(R.id.saveChanges);
-        logoutBtn = view.findViewById(R.id.customerLogOut);
+        name = view.findViewById(R.id.empName);
+        password = view.findViewById(R.id.empPass);
+        role = view.findViewById(R.id.empRole);
+        saveBtn = view.findViewById(R.id.empSaveChanges);
+        logoutBtn = view.findViewById(R.id.empLogOut);
         editor = (SharedPreferences.Editor)
                 AccountActivity.getSharedPreferencesInstance(requireContext()).edit();
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Customer customer = bundle.getParcelable(CustomerActivity.CUSTOMER_KEY);
-            if (customer != null) {
-                name.setText(customer.getName());
-                email.setText(customer.getEmail());
-                creditCard.setText(customer.getEmail());
+            Employee employee = bundle.getParcelable(EmployeeActivity.EMPLOYEE_KEY);
+            if (employee != null) {
+                name.setText(employee.getName());
+                role.setText(employee.getRole());
 
                 saveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String nameVal = name.getText().toString();
-                        String emailVal = email.getText().toString();
-                        String creditCardVal = creditCard.getText().toString();
                         String passwordVal = password.getText().toString();
 
                         editor.putString(AccountActivity.SPKEY_NAME, nameVal);
                         AccountActivity.setCurrentUsername(nameVal);
 
-                        Customer newCustomer = new Customer(nameVal, creditCardVal, customer.getOrders(), emailVal);
-                        newCustomer.setPassword(customer.getPassword());
+                        Employee newEmp = new Employee(nameVal, employee.getRole());
+                        newEmp.setPassword(employee.getPassword());
+                        newEmp.setUid(employee.getUid());
                         if (!passwordVal.equals("") && passwordVal.length() > 5){
-                            Passwords passwords = new Passwords(passwordVal, newCustomer.getName());
+                            Passwords passwords = new Passwords(passwordVal, newEmp.getName());
                             String newPass = passwords.calculateHash();
-                            newCustomer.setPassword(newPass);
+                            newEmp.setPassword(newPass);
                         }
 
-                        newCustomer.setUid(customer.getUid());
-                        RestaurantDatabase.getInstance(requireContext()).customerDAO().updateCustomer(newCustomer);
+
+                        RestaurantDatabase.getInstance(requireContext()).employeeDAO().insertEmployee(newEmp);
 
                     }
                 });

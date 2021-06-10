@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_tableFragment_to_occupiedTableFragment"
             app:destination="@id/occupiedTableFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_accountSettingsEmployeeFragment"
+            app:destination="@id/accountSettingsEmployeeFragment" />
     </fragment>
 
     <fragment
@@ -193,4 +196,9 @@
             android:id="@+id/action_orderReadFragment2_to_CRUD_Order"
             app:destination="@id/CRUD_Order" />
     </fragment>
+    <fragment
+        android:id="@+id/accountSettingsEmployeeFragment"
+        android:name="ro.unibuc.myapplication.Fragments.EmployeeViews.AccountSettingsEmployeeFragment"
+        android:label="AccountSettingsEmployeeFragment"
+        tools:layout="@layout/fragment_employee_account_settings"/>
 </navigation>

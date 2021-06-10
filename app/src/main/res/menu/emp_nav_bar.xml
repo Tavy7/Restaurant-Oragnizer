@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:title="@string/tables"
         android:id="@+id/tableFragment"
         android:enabled="true"
         android:icon="@drawable/tablesicon"/>
+    <item
+        android:title="Notifications"
+        android:id="@+id/notificationFragment"
+        android:enabled="true"
+        android:icon="@drawable/bell"
+        tools:ignore="HardcodedText" />
     <item
         android:title="@string/schedules"
         android:id="@+id/calendarFragment"

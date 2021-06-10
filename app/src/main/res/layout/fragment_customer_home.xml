@@ -33,11 +33,11 @@
         app:layout_constraintTop_toBottomOf="@+id/userHomeGreet" />
 
     <Button
-        android:id="@+id/scanQRBtn"
+        android:id="@+id/orderNow"
         android:layout_width="151dp"
         android:layout_height="71dp"
         android:layout_marginTop="40dp"
-        android:text="@string/scan_table_qr"
+        android:text="@string/create_order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userHomeDesc" />

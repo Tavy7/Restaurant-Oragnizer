@@ -77,4 +77,9 @@
     <string name="channel_name">chanelname</string>
     <string name="no_order_available_for_this_table">No order available for this table</string>
     <string name="no_schedules_on_this_date">No schedules on this date.</string>
+    <string name="create_order">Order now</string>
+    <string name="order_for_later">Order for later</string>
+    <string name="scanqr">ScanQR</string>
+    <string name="reservation_date">Reservation date</string>
+    <string name="employee_name2">Employee name</string>
 </resources>

@@ -60,22 +60,48 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(getContext(), "Field cannot be empty!", Toast.LENGTH_SHORT).show();
 
                 }else {
+                    // Only customers should register as employees should have
+                    // account generated from database
+
+                    // Search username in database
+                    RestaurantDatabase db = RestaurantDatabase.getInstance(requireContext());
+
+                    Customer customer = db.customerDAO().getCustomerByName(userVal);
+                    Passwords hashPass = new Passwords(passVal, userVal);
+                    String hashedPassword = hashPass.calculateHash();
+
+                    if (customer != null){
+                        // If username is found in database
+                        String password = customer.getPassword();
+                        if (password != null)
+                            if (password.equals(passVal)){
+                            // If old password is the same as input password
+                            Toast.makeText(requireContext(), "Welcome back " + userVal, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            // Else
+                            Toast.makeText(requireContext(), "Username not available", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    // If user does not exist then create a new user
+                    if (customer == null){
+                        customer = new Customer(userVal, "", new ArrayList<>(), "");
+                        customer.setPassword(hashedPassword);
+                    }
+
+                    // Update shared prefs
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(SPKEY_NAME, userVal);
-
-                    Passwords hashPass = new Passwords(userVal, passVal);
-                    String hashedPassword = hashPass.calculateHash();
+                    AccountActivity.setCurrentUsername(userVal);
+                    AccountActivity.setCurrentUserType(AccountActivity.AT_CUS);
 
                     editor.putString(SPKEY_PASS, hashedPassword);
                     editor.apply();
                     editor.commit();
 
-                    // Only customers should register as employees should have
-                    // account generated from database
-                    Customer customer = new Customer(userVal, "", new ArrayList<>(), "");
-                    RestaurantDatabase.getInstance(requireContext())
-                            .customerDAO().insertCustomer(customer);
-
+                    // Update database
+                    db.customerDAO().insertCustomer(customer);
                     Toast.makeText(getContext(), "User registred!", Toast.LENGTH_SHORT).show();
                     gotoMainActivity();
 
@@ -87,16 +113,15 @@ public class RegisterFragment extends Fragment {
     public void gotoMainActivity(){
         // End account activity
         try{
-            AccountActivity aa = ((AccountActivity)(requireActivity()));
 
-            int userType = aa.getUserType();
+            int userType = AccountActivity.getCurrentUserType();
 
             Intent intent = null;
-            if (userType == 1){
+            if (userType == AccountActivity.AT_EMP){
                 // User is an employee
                 intent = new Intent(getContext(), EmployeeActivity.class);
             }
-            else if (userType == 2 || userType == 0){
+            else if (userType == AccountActivity.AT_CUS || userType == 0){
                 // User is customer or not found
                 intent = new Intent(getContext(), CustomerActivity.class);
             }
@@ -104,6 +129,7 @@ public class RegisterFragment extends Fragment {
             // Goto main activity
             startActivity(intent);
 
+            AccountActivity aa = ((AccountActivity)(requireActivity()));
             aa.finish();
         }
         catch (java.lang.ClassCastException e){

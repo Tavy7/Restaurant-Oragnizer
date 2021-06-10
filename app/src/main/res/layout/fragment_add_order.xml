@@ -1,122 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="600dp"
+    android:layout_width="match_parent">
 
-    <LinearLayout
-        android:id="@+id/selectTableContainer"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/selectTableRecycler"
+        <LinearLayout
+            android:id="@+id/selectTableContainer"
             android:layout_width="match_parent"
-            android:layout_height="94dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectTableRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tableNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_weight="1"
-            android:text="@string/no_number"
-            android:textSize="30sp" />
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tableNumber"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:text="@string/no_number"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/scanQRButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scanqr" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/selectItemsContainer"
+            android:layout_width="300dp"
+            android:layout_height="336dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectTableContainer"
+            app:layout_goneMarginTop="30dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderItemsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/scanQRButton"
+            android:id="@+id/save_order_btn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/add_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectItemsContainer" />
+
+        <Button
+            android:id="@+id/delete_order_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ScanQR" />
+            android:layout_marginTop="28dp"
+            android:background="@android:color/holo_red_light"
+            android:text="@string/delete_item"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/save_order_btn" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_items"
+            app:layout_constraintBottom_toTopOf="@+id/selectItemsContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.152"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectTableContainer"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <LinearLayout
-        android:id="@+id/selectItemsContainer"
-        android:layout_width="300dp"
-        android:layout_height="336dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectTableContainer"
-        app:layout_goneMarginTop="30dp">
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_table_text"
+            app:layout_constraintBottom_toTopOf="@+id/selectTableContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.203"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.761" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/orderItemsRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
+        <Button
+            android:id="@+id/changeTABLEsELECTvIEW"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/order_for_later"
+            app:layout_constraintEnd_toStartOf="@+id/save_order_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectItemsContainer" />
 
-    <Button
-        android:id="@+id/save_order_btn"
-        android:layout_width="204dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/add_item"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectItemsContainer" />
+        <EditText
+            android:id="@+id/reservedDate"
+            android:layout_width="167dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:hint="@string/reservation_date"
+            android:inputType="date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/delete_order_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@android:color/holo_red_light"
-        android:text="@string/delete_item"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_order_btn" />
+        <EditText
+            android:id="@+id/reservedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Reservation hour"
+            android:inputType="time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/reservedDate"
+            app:layout_constraintTop_toBottomOf="@+id/changeTABLEsELECTvIEW"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_items"
-        app:layout_constraintBottom_toTopOf="@+id/selectItemsContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectTableContainer"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/resDateInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/reservation_date"
+            app:layout_constraintBottom_toTopOf="@+id/reservedDate"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_table_text"
-        app:layout_constraintBottom_toTopOf="@+id/selectTableContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.213"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/resHourInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="108dp"
+            android:text="Reservation Hour"
+            app:layout_constraintBottom_toTopOf="@+id/reservedTime"
+            app:layout_constraintStart_toEndOf="@+id/resDateInfo"
+            app:layout_constraintTop_toBottomOf="@+id/changeTABLEsELECTvIEW"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/changeTABLEsELECTvIEW"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
-        android:layout_weight="1"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_order_btn"
-        app:layout_constraintVertical_bias="0.201" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
